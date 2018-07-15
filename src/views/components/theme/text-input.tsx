@@ -1,19 +1,36 @@
 import React from 'react';
 import { View, StyleSheet, TextInput as Input } from 'react-native';
-import { Text } from './index';
 import theme from '../../../assets/styles/theme';
+import Color from 'color';
+import Label from './label';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
+const palette = Color(theme.colors.backgroundPrimary);
 export default class TextInput extends React.Component<any, any> {
+  renderIcon = () => {
+    const { icon, color } = this.props;
+    if (icon) {
+      return (
+        <View style={styles.iconContainer}>
+          <Icon name={icon} color={color || palette.darken(0.2).toString()} size={14} />
+        </View>
+      );
+    }
+  }
   render() {
-    const { label, style } = this.props;
+    const { label, style, padLeft, ...rest } = this.props;
     return (
       <View style={styles.container}>
-        {label && <Text style={styles.label}>{label.toUpperCase()}</Text>}
-        <Input
-          {...this.props}
-          style={[styles.input, style]}
-        />
+        {label && <Label>{label.toUpperCase()}</Label>}
+        <View style={styles.inputContainer}>
+          {this.renderIcon()}
+          {padLeft && <View flex={1} />}
+          <Input
+            {...rest}
+            style={[styles.input, style]}
+          />
+        </View>
       </View>
     );
   }
@@ -21,14 +38,26 @@ export default class TextInput extends React.Component<any, any> {
 
 const styles = StyleSheet.create({
   label: {
-    marginBottom: 10
+    marginBottom: 15
   },
   container: {
     width: '100%',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    paddingBottom: 5,
     borderBottomWidth: 2,
-    borderBottomColor: theme.colors.textColor,
+    borderBottomColor: Color(theme.colors.textColor).lighten(0.5),
   },
   input: {
+    flex: 10,
+    fontFamily: theme.fonts.primary,
     color: theme.colors.textColor
-  }
+  },
+  iconContainer: {
+    flex: 1,
+    paddingHorizontal: 10
+  },
 });

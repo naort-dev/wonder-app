@@ -6,10 +6,10 @@ import SwipeViewSlide from './swipeview-slide';
 import Theme from '../../../assets/styles/theme';
 
 interface Props {
-  children?: any,
-  config?: SwipeViewConfig,
-  onSkip: Function,
-  onComplete: Function
+  children?: any;
+  config?: SwipeViewConfig;
+  onSkip: Function;
+  onComplete: Function;
 }
 
 interface State {

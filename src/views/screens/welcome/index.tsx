@@ -1,16 +1,20 @@
 import React from 'react';
 import { View, Button, StyleSheet, Image } from 'react-native';
-import { Text, RoundedButton } from '../../components/theme';
+import { Text, RoundedButton, PrimaryButton } from '../../components/theme';
 import theme from '../../../assets/styles/theme';
 import Screen from '../../components/screen';
 import Images, { Logo } from '../../../assets/images';
 import TextButton from '../../components/theme/text-button';
 
 interface Props {
-  navigation: any
+  navigation: any;
 }
 
 export default class Welcome extends React.Component<Props> {
+  static navigationOptions = {
+    header: null
+  }
+
   render() {
     const { navigation } = this.props;
     return (
@@ -22,14 +26,10 @@ export default class Welcome extends React.Component<Props> {
         </View>
         <View flex={1} style={styles.body}>
           <View style={{ width: '100%' }}>
-            <RoundedButton
+            <PrimaryButton
               icon="envelope-o"
-              colors={[theme.colors.cottonCandyBlue, theme.colors.cottonCandyPink]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
               title="CREATE ACCOUNT"
-              color='#FFF'
-              onPress={() => navigation.navigate('Login')}
+              onPress={() => navigation.navigate('Register1')}
               fullWidth
             />
           </View>

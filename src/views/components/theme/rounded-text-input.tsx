@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, TextInput as Input } from 'react-native';
-import { Text } from './index';
+import { Text } from '.';
 import theme from '../../../assets/styles/theme';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Color from 'color';
@@ -10,12 +10,15 @@ import LinearGradient from 'react-native-linear-gradient';
 const palette = Color(theme.colors.backgroundPrimary);
 
 interface PasswordProps {
-  secureTextEntry?: boolean
-  autoCapitalize?: 'none' | 'sentences' | 'words' | undefined
-  autoCorrect?: boolean
+  secureTextEntry?: boolean;
+  autoCapitalize?: 'none' | 'sentences' | 'words' | undefined;
+  autoCorrect?: boolean;
 }
 
 export default class RoundedTextInput extends React.Component<any, any> {
+  static defaultProps = {
+    padLeft: false
+  }
 
   renderIcon = () => {
     const { icon, color } = this.props;
@@ -37,6 +40,7 @@ export default class RoundedTextInput extends React.Component<any, any> {
       end,
       color,
       colors,
+      padLeft,
       ...rest
     } = this.props;
 
@@ -67,6 +71,7 @@ export default class RoundedTextInput extends React.Component<any, any> {
           style={styles.container}
         >
           {this.renderIcon()}
+          {padLeft && <View flex={1} />}
           {input}
         </LinearGradient>
       );
@@ -75,6 +80,7 @@ export default class RoundedTextInput extends React.Component<any, any> {
     return (
       <View style={styles.container}>
         {this.renderIcon()}
+        {padLeft && <View flex={1} />}
         {input}
       </View>
     );
@@ -94,9 +100,12 @@ const styles = StyleSheet.create({
     backgroundColor: palette.toString()
   },
   iconContainer: {
+    flex: 1,
     paddingHorizontal: 10
   },
   input: {
+    fontFamily: theme.fonts.primary,
+    flex: 10,
     color: palette.darken(0.2).toString()
   }
 });

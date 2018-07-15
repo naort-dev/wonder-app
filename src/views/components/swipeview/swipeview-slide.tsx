@@ -5,10 +5,10 @@ import styles, { DEVICE_WIDTH } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 interface Props {
-  containerStyle?: object,
-  title?: string
-  children: any,
-  backgroundImage: any
+  containerStyle?: object;
+  title?: string;
+  children: any;
+  backgroundImage: any;
 }
 
 export default class SwipeViewSlide extends React.Component<Props> {

@@ -18,6 +18,7 @@ export default class ShadowBox extends React.Component<Props> {
 
 const styles = StyleSheet.create({
   container: {
+    width: '100%',
     borderRadius: 10,
     padding: 20,
     backgroundColor: '#FFF',
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
       width: 0,
       height: 5
     },
-    shadowColor: 'black',
+    shadowColor: '#383838',
     shadowOpacity: 0.4,
   }
 });

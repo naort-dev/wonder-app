@@ -1,8 +1,12 @@
 import React from 'react';
-import ReactNative from 'react-native';
-import Theme from '../../../assets/styles/theme';
+import { Text as NativeText, TextProps, StyleSheet } from 'react-native';
+import Theme from '../../../../assets/styles/theme';
 
-export default class Text extends React.Component<any, any> {
+export interface Props extends TextProps {
+  color?: string;
+}
+
+export default class Text extends React.Component<Props, any> {
   static defaultProps = {
     style: {},
     color: Theme.colors.textColor,
@@ -17,19 +21,19 @@ export default class Text extends React.Component<any, any> {
     } = this.props;
 
     return (
-      <ReactNative.Text
+      <NativeText
         {...rest}
         style={[styles.text, { color }, style]}
       >
         {children}
-      </ReactNative.Text>
+      </NativeText>
     );
   }
 }
 
-const styles = ReactNative.StyleSheet.create({
+const styles = StyleSheet.create({
   text: {
     color: Theme.colors.textColor,
-    fontFamily: 'Poppins'
+    fontFamily: Theme.fonts.primary
   }
 })

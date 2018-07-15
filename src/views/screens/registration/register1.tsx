@@ -1,51 +1,85 @@
 import React from 'react';
-import { View, Text, StyleSheet, Platform, Button } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { TextInput } from '../../components/theme';
-import ShadowBox from '../../components/theme/shadow-box';
+import { View, Button, StyleSheet, Image } from 'react-native';
+import { Text, RoundedButton, RoundedTextInput, PrimaryButton } from '../../components/theme';
+import theme from '../../../assets/styles/theme';
+import Screen from '../../components/screen';
+import Images, { Logo } from '../../../assets/images';
+import TextButton from '../../components/theme/text-button';
+import Theme from '../../../assets/styles/theme';
 
 interface Props {
-  navigation: any
+  navigation: any;
 }
 
-interface State {
+export default class Register1 extends React.Component<Props> {
 
-}
-
-export default class Register1 extends React.Component<Props, State> {
+  static navigationOptions = {
+    title: 'CREATE ACCOUNT',
+    ...Theme.NavBar.transparent
+  }
 
   render() {
     const { navigation } = this.props;
-
     return (
-      <View style={styles.container}>
-        <ShadowBox>
-          <Text style={styles.welcome}>Onboarding 1</Text>
-          <TextInput label="Education" />
-          <Button
-            title="Go to Onboarding"
-            onPress={() => navigation.goBack()}
-          />
-        </ShadowBox>
-      </View >
+      <Screen style={{ backgroundColor: '#FFF' }}>
+        <View style={styles.header}>
+          <Image style={{ width: '80%' }} source={Logo.DARK} resizeMode="contain" />
+        </View>
+        <View style={styles.body}>
+          <View style={{ width: '100%' }}>
+            <RoundedTextInput
+              icon="user"
+              placeholder="First Name"
+              onPress={() => { }}
+              fullWidth
+            />
+          </View>
+          <View style={{ marginTop: 10, width: '100%' }}>
+            <RoundedTextInput
+              icon="user"
+              placeholder="Last Name"
+              onPress={() => { }}
+              fullWidth
+            />
+          </View>
+          <View style={{ marginTop: 10, width: '100%' }}>
+            <RoundedTextInput
+              icon="envelope-o"
+              placeholder="Email"
+              onPress={() => { }}
+              fullWidth
+            />
+          </View>
+          <View style={{ marginTop: 10, width: '100%' }}>
+            <RoundedTextInput
+              icon="phone"
+              placeholder="Mobile Number"
+              onPress={() => { }}
+              fullWidth
+            />
+          </View>
+          <View style={{ marginTop: 10, width: '50%' }}>
+            <PrimaryButton
+              title="Next"
+              onPress={() => navigation.navigate('Register2')}
+            />
+          </View>
+        </View>
+      </Screen>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  header: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  body: {
+    flex: 2,
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 20
+  }
 });

@@ -8,7 +8,7 @@ import Assets from '../../../assets/images';
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
 interface Props {
-  navigation: any
+  navigation: any;
 }
 
 const data = [
@@ -34,8 +34,8 @@ export default class Onboarding extends React.Component<Props> {
     return (
       <View style={styles.container}>
         <SwipeView
-          onComplete={() => navigation.navigate('Authenticate')}
-          onSkip={() => navigation.navigate('Authenticate')}
+          onComplete={() => navigation.navigate('Register')}
+          onSkip={() => navigation.navigate('Register')}
         >
           <SwipeView.Slide
             backgroundImage={Assets.ONBOARDING_1}

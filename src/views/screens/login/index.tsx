@@ -1,59 +1,69 @@
 import React from 'react';
-import { View, Text, StyleSheet, Platform, Button } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { RoundedTextInput } from '../../components/theme';
-import ShadowBox from '../../components/theme/shadow-box';
+import { View, Button, StyleSheet, Image } from 'react-native';
+import { Text, RoundedButton, RoundedTextInput, PrimaryButton } from '../../components/theme';
 import theme from '../../../assets/styles/theme';
+import Screen from '../../components/screen';
+import Images, { Logo } from '../../../assets/images';
+import TextButton from '../../components/theme/text-button';
 
 interface Props {
-  navigation: any
+  navigation: any;
 }
 
-interface State {
-
-}
-
-export default class Login extends React.Component<Props, State> {
-
+export default class Login extends React.Component<Props> {
   render() {
     const { navigation } = this.props;
-
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Onboarding 1</Text>
-        <RoundedTextInput
-          icon="envelope-o"
-          placeholder="Email"
-        />
-        <RoundedTextInput
-          icon="lock"
-          placeholder="Password"
-          type="password"
-        />
-        <Button
-          title="Go to Onboarding"
-          onPress={() => navigation.goBack()}
-        />
-      </View >
+      <Screen style={{ backgroundColor: '#FFF' }}>
+        <View flex={1} style={styles.header}>
+          <Image style={{ width: '80%' }} source={Logo.DARK} resizeMode="contain" />
+        </View>
+        <View flex={1} style={styles.body}>
+          <View style={{ width: '100%' }}>
+            <RoundedTextInput
+              icon="envelope-o"
+              placeholder="Email"
+              onPress={() => { }}
+              fullWidth
+            />
+          </View>
+          <View style={{ marginTop: 10, width: '100%' }}>
+            <RoundedTextInput
+              icon="lock"
+              placeholder="Password"
+              onPress={() => { }}
+              fullWidth
+            />
+          </View>
+          <View style={{ marginTop: 10, width: '50%' }}>
+            <PrimaryButton
+              title="Login"
+              onPress={() => { }}
+            />
+          </View>
+          <View style={{ marginTop: 25 }}>
+            <Text>Need an account?</Text>
+            <TextButton
+              style={{ textAlign: 'center', color: theme.colors.primaryLight }}
+              text="Register"
+              onPress={() => navigation.goBack()}
+            />
+          </View>
+        </View>
+      </Screen>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#FFF',
-    flex: 1,
+  header: {
     justifyContent: 'center',
     alignItems: 'center'
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  body: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 20
+  }
 });

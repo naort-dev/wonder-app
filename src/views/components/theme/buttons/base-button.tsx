@@ -1,17 +1,34 @@
 import React from 'react';
-import { View, StyleSheet, TextInput as Input, TouchableOpacity } from 'react-native';
-import { Text } from './index';
-import theme from '../../../assets/styles/theme';
+import { View, StyleSheet, TextInput as Input, TouchableOpacity, StyleProp } from 'react-native';
+import { Text } from '..';
+import theme from '../../../../assets/styles/theme';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Color from 'color';
 import LinearGradient from 'react-native-linear-gradient';
+import GradientPoint from '../../../../types/gradient-point';
+import TouchableOpacityOnPress from '../../../../types/touchable-on-press';
 
 
 const palette = Color(theme.colors.backgroundPrimary);
 
+export interface BaseButtonProps {
+  rounded?: boolean;
+  icon?: string;
+  color?: string;
+  colors?: any;
+  start?: GradientPoint;
+  end?: GradientPoint;
+  style?: StyleProp<any>;
+  fullWidth?: boolean;
+  iconColor?: string;
+  title: string;
+  onPress: TouchableOpacityOnPress;
+  disabled?: boolean;
+}
 
-export default class RoundedButton extends React.Component<any, any> {
+export default class BaseButton extends React.Component<Partial<BaseButtonProps>, any> {
   static defaultProps = {
+    rounded: false,
     iconColor: undefined,
     colors: [],
     start: undefined,
@@ -33,6 +50,8 @@ export default class RoundedButton extends React.Component<any, any> {
 
   render() {
     const {
+      rounded,
+      disabled,
       style,
       start,
       end,
@@ -45,20 +64,30 @@ export default class RoundedButton extends React.Component<any, any> {
       ...rest
     } = this.props;
 
+    const renderedStyles: any = {};
 
+    if (fullWidth) {
+      renderedStyles['width'] = '100%';
+    }
+
+    if (rounded) {
+      renderedStyles['borderRadius'] = 30;
+    }
 
     return (
       <TouchableOpacity
+        disabled={disabled}
         onPress={onPress}
-        style={[styles.btnContainer, { width: fullWidth ? '100%' : 'auto' }]}
+        style={[styles.btnContainer, renderedStyles, style]}
+        {...rest}
       >
         <LinearGradient
           start={start}
           end={end}
           colors={colors}
-          style={styles.container}
+          style={[styles.container, renderedStyles]}
         >
-          {this.renderIcon()}
+          {icon && this.renderIcon()}
           <View style={styles.txtContainer}>
             <Text color={color} style={styles.title}>{title}</Text>
           </View>
@@ -74,15 +103,13 @@ const styles = StyleSheet.create({
     elevation: 1,
     flex: 0,
     backgroundColor: palette.toString(),
-    borderRadius: 30,
   },
   container: {
     flex: 0,
-    borderRadius: 30,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 15,
+    padding: 10,
   },
   txtContainer: {
     flex: 10,

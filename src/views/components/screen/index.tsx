@@ -1,25 +1,41 @@
 import React from 'react';
-import { View, ImageBackground, StyleSheet } from 'react-native';
+import { View, ImageBackground, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import GradientPoint from '../../../types/GradientPoint';
+import GradientPoint from '../../../types/gradient-point';
 
 interface Props {
-  children?: any,
-  backgroundImage?: any,
-  backgroundGradient?: string[],
-  gradientStart?: GradientPoint,
-  gradientEnd?: GradientPoint,
-  style?: any
+  children?: any;
+  backgroundImage?: any;
+  backgroundGradient?: string[];
+  gradientStart?: GradientPoint;
+  gradientEnd?: GradientPoint;
+  style?: StyleProp<ViewStyle>;
+  horizontalPadding?: number;
 }
 
 class Screen extends React.Component<Props> {
   render() {
-    const { children, backgroundImage, backgroundGradient, gradientEnd, gradientStart, style } = this.props;
+    const {
+      children,
+      backgroundImage,
+      backgroundGradient,
+      gradientEnd,
+      gradientStart,
+      style,
+      horizontalPadding
+    } = this.props;
+
+    const renderedStyles: any = {};
+
+    if (horizontalPadding) {
+      renderedStyles.paddingHorizontal = horizontalPadding;
+    }
+
     if (backgroundImage) {
       return (
         <ImageBackground
           source={backgroundImage}
-          style={[styles.container, style]}
+          style={[styles.container, style, renderedStyles]}
         >
           {children}
         </ImageBackground>
@@ -30,6 +46,7 @@ class Screen extends React.Component<Props> {
           colors={backgroundGradient}
           start={gradientStart}
           end={gradientEnd}
+          style={[styles.container, style, renderedStyles]}
         >
           {children}
         </LinearGradient>
@@ -37,7 +54,7 @@ class Screen extends React.Component<Props> {
     }
 
     return (
-      <View>
+      <View style={[styles.container, style, renderedStyles]}>
         {children}
       </View>
     )
@@ -46,7 +63,10 @@ class Screen extends React.Component<Props> {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#FFF',
+    flexDirection: 'column',
+    justifyContent: 'flex-start'
   }
 });
 

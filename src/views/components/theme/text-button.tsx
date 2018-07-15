@@ -1,12 +1,12 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet } from "react-native";
-import { Text } from './index';
+import { TouchableOpacity, StyleSheet, StyleProp } from "react-native";
+import { Text } from '.';
 
 interface Props {
-  text: string,
-  color?: string,
-  onPress?: any,
-  style?: any
+  text: string;
+  color?: string;
+  onPress?: any;
+  style?: StyleProp<any>;
 }
 
 export default class TextButton extends React.Component<Props> {
