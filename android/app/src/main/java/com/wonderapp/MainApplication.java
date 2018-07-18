@@ -2,6 +2,7 @@ package com.wonderapp;
 
 import android.app.Application;
 
+import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactApplication;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -30,7 +31,8 @@ public class MainApplication extends Application implements ReactApplication {
             new LinearGradientPackage(),
             new VectorIconsPackage(),
             new RNVersionNumberPackage(),
-            new RNDeviceInfo()
+            new RNDeviceInfo(),
+            new MapsPackage()
       );
     }
 
