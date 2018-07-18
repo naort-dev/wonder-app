@@ -11,6 +11,7 @@ export { default as ProfileView } from './profile/profile-view';
 export { default as ProfileEdit } from './profile/profile-edit';
 export { default as ProfileNotifications } from './profile/profile-notifications';
 export { default as ProfileFilters } from './profile/profile-filters';
+export { default as ProfileCamera } from './profile/profile-camera';
 
 // Profile Sub Tabs
 export { default as UpcomingAppointments } from './profile/upcoming-appointments';

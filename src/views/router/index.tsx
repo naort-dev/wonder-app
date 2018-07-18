@@ -25,6 +25,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import UserNavigator from './user-navigator';
 import theme from '../../assets/styles/theme';
 
+// navigationOptions: {
+// ...theme.NavBar.transparent
+// }
+
 const RegistrationNavigator = createStackNavigator({
   Welcome: {
     screen: Welcome
@@ -36,16 +40,32 @@ const RegistrationNavigator = createStackNavigator({
     }
   },
   Register1: {
-    screen: Register1
+    screen: Register1,
+    navigationOptions: {
+      title: 'CREATE ACCOUNT',
+      ...theme.NavBar.transparent
+    }
   },
   Register2: {
-    screen: Register2
+    screen: Register2,
+    navigationOptions: {
+      title: 'CREATE ACCOUNT',
+      ...theme.NavBar.transparent
+    }
   },
   Register3: {
-    screen: Register3
+    screen: Register3,
+    navigationOptions: {
+      title: 'CREATE ACCOUNT',
+      ...theme.NavBar.transparent
+    }
   },
   Register4: {
-    screen: Register4
+    screen: Register4,
+    navigationOptions: {
+      title: 'PICK WONDERS',
+      ...theme.NavBar.transparent
+    }
   }
 }, {
     initialRouteName: 'Welcome'

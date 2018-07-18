@@ -16,11 +16,6 @@ interface State {
 
 export default class Register2 extends React.Component<Props, State> {
 
-  static navigationOptions = {
-    title: 'CREATE ACCOUNT',
-    ...Theme.NavBar.transparent
-  }
-
   onDateChange = (date: Date) => {
     alert(date)
   }

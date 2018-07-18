@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Button, StyleSheet, Image } from 'react-native';
-import { Text, RoundedButton, RoundedTextInput, PrimaryButton } from '../../components/theme';
+import { Text, RoundedTextInput, PrimaryButton } from '../../components/theme';
 import theme from '../../../assets/styles/theme';
 import Screen from '../../components/screen';
 import Images, { Logo } from '../../../assets/images';
@@ -12,12 +12,6 @@ interface Props {
 }
 
 export default class Register1 extends React.Component<Props> {
-
-  static navigationOptions = {
-    title: 'CREATE ACCOUNT',
-    ...Theme.NavBar.transparent
-  }
-
   render() {
     const { navigation } = this.props;
     return (

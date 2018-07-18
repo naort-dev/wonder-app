@@ -15,8 +15,7 @@ import {
   ProfileFilters,
   UpcomingAppointments,
   PastAppointments,
-
-  ChatList
+  ProfileCamera
 } from '../screens';
 
 import TabIcon from '../components/tabs/secondary-tab-icon';
@@ -43,32 +42,33 @@ const ProfileNavigator = createStackNavigator({
   ProfileEdit: {
     screen: ProfileEdit,
     navigationOptions: {
-      title: 'Profile'
+      title: 'Profile',
+      ...theme.NavBar.transparent
     }
   },
   ProfileNotifications: {
     screen: ProfileNotifications,
     navigationOptions: {
-      title: 'Notifications'
+      title: 'Notifications',
+      ...theme.NavBar.transparent
     }
   },
   ProfileFilters: {
     screen: ProfileFilters,
     navigationOptions: {
-      title: 'Filters'
+      title: 'Filters',
+      ...theme.NavBar.transparent
+    }
+  },
+  ProfileCamera: {
+    screen: ProfileCamera,
+    navigationOptions: {
+      title: 'Profile Picture',
+      ...theme.NavBar.transparent
     }
   }
-}, {
-    // headerMode: 'none'
-    navigationOptions: {
-      headerTintColor: theme.colors.textColor,
-      headerStyle: {
-        backgroundColor: '#FFF',
-        borderBottomWidth: 0,
-        borderBottomColor: '#FFF'
-      }
-    }
-  });
+},
+  {});
 
 const UserNavigator = createMaterialTopTabNavigator({
   Profile: {

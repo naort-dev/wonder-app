@@ -32,11 +32,6 @@ const mapDispatch = (dispatch: Dispatch) => ({
 
 class Register4 extends React.Component<Props, State> {
 
-  static navigationOptions = {
-    title: 'PICK WONDERS',
-    ...Theme.NavBar.transparent
-  }
-
   static defaultProps = {
     topics: []
   }

@@ -15,6 +15,7 @@ const transparentNavigationStyles = {
   },
   headerTintColor: '#8E8EAA',
   headerTitleStyle: {
+    fontSize: 14,
     fontFamily: 'Poppins',
     fontWeight: 'normal',
     color: '#8E8EAA'

@@ -44,7 +44,7 @@ class ProfileViewScreen extends React.Component<Props> {
           <View style={styles.col}>
             <ElevatedButton
               title="Photos"
-              onPress={() => { }}
+              onPress={this.goTo('ProfileCamera')}
             />
           </View>
           <View style={styles.col}>

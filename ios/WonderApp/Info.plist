@@ -94,10 +94,12 @@
 		<string>Poppins-ThinItalic.ttf</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>Access your camera to upload for your profile</string>
+	<string>Use your camera to take your profile pictures</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Access your photos to upload for your profile</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Access your camera mic to upload for your profile</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Access your photos to upload for your profile</string>
 </dict>
 </plist>
