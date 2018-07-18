@@ -1,5 +1,5 @@
 /**
- *
+ * User Model
  */
 export default interface User {
   first_name?: string;
@@ -9,7 +9,7 @@ export default interface User {
   location?: string;
   occupation?: string;
   school?: string;
-  gender: string;
+  gender?: 'male' | 'female';
   about?: string;
   distance_of_interest_min?: number;
   distance_of_interest_max?: number;
@@ -23,7 +23,7 @@ export default interface User {
   show_fibbers?: boolean;
   show_location?: boolean;
   military_time?: boolean;
-  distance_unit: string
+  distance_unit?: 'km' | 'mi';
   apn_new_matches?: boolean;
   apn_new_messages?: boolean;
   apn_message_likes?: boolean;

@@ -8,7 +8,8 @@ Reactotron
   }) // controls connection & communication settings
   .useReactNative() // add all built-in react native plugins
   .use(reactotronRedux())
-  // .use(sagaPlugin())
+  .use(sagaPlugin())
+  .connect({ enabled: __DEV__ });
 
 // setTimeout(() => {
 //   Reactotron.connect({enabled: __DEV__})

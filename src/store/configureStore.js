@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducers';
 import rootSaga from './sagas';
+import Reactotron from 'reactotron-react-native';
 
 
 const persistConfig = {
@@ -13,19 +14,16 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const sagaMiddleware = createSagaMiddleware();
-
 const middlewares = [sagaMiddleware];
-
-
 
 
 export default (initialState) => {
   // create store and persistor per normal...
-  const store = createStore(
-    persistedReducer,
+  const makeStore = __DEV__ ? Reactotron.createStore : createStore;
+
+  const store = makeStore(persistedReducer,
     initialState,
-    compose(applyMiddleware(...middlewares))
-  );
+    compose(applyMiddleware(...middlewares)))
 
   const persistor = persistStore(store);
 

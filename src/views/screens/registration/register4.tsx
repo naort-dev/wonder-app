@@ -7,10 +7,14 @@ import ShadowBox from '../../components/theme/shadow-box';
 import Screen from '../../components/screen';
 import Theme from '../../../assets/styles/theme';
 import Topic from '../../../types/topic';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { getTopics } from '../../../store/sagas/topics';
 
 interface Props {
   navigation: any;
   topics: Topic[];
+  getAllTopics: Function;
 }
 
 interface State {
@@ -18,21 +22,15 @@ interface State {
   selected: Topic[];
 }
 
-const testTopics: Topic[] = [
-  { name: 'Hiking', keywords: ['mountain', 'active'] },
-  { name: 'Biking', keywords: ['bike', 'active'] },
-  { name: 'Running', keywords: ['active', 'run'] },
-  { name: 'Drinks', keywords: ['active', 'alcohol', 'beer', 'wine', 'booze'] },
-  { name: 'Tennis', keywords: ['active'] },
-  { name: 'Beach', keywords: ['active'] },
-  { name: 'Dog', keywords: [] },
-  { name: 'Cat', keywords: [] },
-  { name: 'Bird', keywords: [] },
-  { name: 'Sleeping', keywords: [] },
-  { name: 'Talking', keywords: [] },
-  { name: 'Dancing', keywords: [] },
-]
-export default class Register4 extends React.Component<Props, State> {
+const mapState = (state: any) => ({
+  topics: state.wonder.topics
+});
+
+const mapDispatch = (dispatch: Dispatch) => ({
+  getAllTopics: () => dispatch(getTopics())
+});
+
+class Register4 extends React.Component<Props, State> {
 
   static navigationOptions = {
     title: 'PICK WONDERS',
@@ -40,12 +38,16 @@ export default class Register4 extends React.Component<Props, State> {
   }
 
   static defaultProps = {
-    topics: testTopics
+    topics: []
   }
 
   state = {
     search: '',
     selected: []
+  }
+
+  componentWillMount() {
+    this.props.getAllTopics();
   }
 
   onSearchTextChange = (text: string) => {
@@ -121,6 +123,8 @@ export default class Register4 extends React.Component<Props, State> {
     );
   }
 }
+
+export default connect(mapState, mapDispatch)(Register4);
 
 const styles = StyleSheet.create({
   welcome: {

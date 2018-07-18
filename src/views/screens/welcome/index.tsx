@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Button, StyleSheet, Image } from 'react-native';
-import { Text, RoundedButton, PrimaryButton } from '../../components/theme';
+import { View, StyleSheet, Image } from 'react-native';
+import { Text, Button, PrimaryButton } from '../../components/theme';
 import theme from '../../../assets/styles/theme';
 import Screen from '../../components/screen';
 import Images, { Logo } from '../../../assets/images';
@@ -34,7 +34,8 @@ export default class Welcome extends React.Component<Props> {
             />
           </View>
           <View style={{ marginTop: 10, width: '100%' }}>
-            <RoundedButton
+            <Button
+              rounded
               color="#3D90F0"
               icon="facebook"
               title="LOGIN WITH FACEBOOK"
@@ -43,7 +44,8 @@ export default class Welcome extends React.Component<Props> {
             />
           </View>
           <View style={{ marginTop: 10, width: '100%' }}>
-            <RoundedButton
+            <Button
+              rounded
               iconColor={theme.colors.primaryLight}
               icon="google"
               title="LOGIN WITH GOOGLE"

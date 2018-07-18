@@ -38,7 +38,7 @@ export default class Login extends React.Component<Props> {
           <View style={{ marginTop: 10, width: '50%' }}>
             <PrimaryButton
               title="Login"
-              onPress={() => { }}
+              onPress={() => navigation.navigate('Main')}
             />
           </View>
           <View style={{ marginTop: 25 }}>

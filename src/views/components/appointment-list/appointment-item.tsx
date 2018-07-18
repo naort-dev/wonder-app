@@ -13,9 +13,9 @@ class AppointmentItem extends React.Component<Props> {
     const { item } = this.props;
     const { name, users, event_at } = item;
     const now = moment();
-    if (event_at.isSameOrAfter(now)) {
+    if (moment(event_at).isSameOrAfter(now)) {
       return (
-        <Title>{name} at <Strong>{event_at.format('h:mma')}</Strong> with {users[0].first_name}</Title>
+        <Title>{name} at <Strong>{moment(event_at).format('h:mma')}</Strong> with {users[0].first_name}</Title>
       )
     }
     return (
@@ -31,7 +31,7 @@ class AppointmentItem extends React.Component<Props> {
         </View>
         <View style={styles.contentContainer}>
           {this.renderTitle()}
-          <SubTitle>{item.event_at.format('Do, MMMM YYYY')}</SubTitle>
+          <SubTitle>{moment(item.event_at).format('Do, MMMM YYYY')}</SubTitle>
           <SmallText>{item.location}</SmallText>
         </View>
       </TouchableOpacity>

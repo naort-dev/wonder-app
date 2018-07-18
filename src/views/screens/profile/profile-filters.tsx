@@ -5,14 +5,18 @@ import { View, StyleSheet, ScrollView, Slider } from 'react-native';
 import theme from '../../../assets/styles/theme';
 import RangeSlider from 'react-native-range-slider';
 
-class ProfileFiltersScreen extends React.Component {
+interface Props {
+  navigation: object
+}
+
+class ProfileFiltersScreen extends React.Component<Props> {
   render() {
     const { navigation } = this.props;
     return (
       <Screen>
         <ScrollView style={{ paddingHorizontal: 20 }}>
           <View>
-            <SubHeader>Filters</SubHeader>
+            <SubHeader>Device Settings</SubHeader>
           </View>
           <View style={styles.row}>
             <Text>My Location</Text>
