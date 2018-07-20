@@ -1,7 +1,10 @@
 const colors = {
+  white: '#FFF',
+  black: '#000',
   primary: '#F68E56',
   primaryLight: '#F9AD81',
-  secondary: '#B2B2C0',
+  // primaryLight: '#FDE0C1',
+  secondary: 'rgb(255, 238, 75)',
   backgroundPrimary: '#ECECEC',
   textColor: '#8E8EAA',
   cottonCandyPink: '#E7A4CA',
@@ -10,15 +13,19 @@ const colors = {
 
 const transparentNavigationStyles = {
   headerStyle: {
-    backgroundColor: '#FFF',
-    borderBottomWidth: 0
+    backgroundColor: colors.white,
+    borderBottomWidth: 0,
+    elevation: 0
   },
-  headerTintColor: '#8E8EAA',
+  headerTintColor: colors.textColor,
   headerTitleStyle: {
     fontSize: 14,
     fontFamily: 'Poppins',
     fontWeight: 'normal',
-    color: '#8E8EAA'
+    color: colors.textColor,
+    // textAlign: "center",
+    // flex: 1,
+
   },
   headerBackTitle: null
 }

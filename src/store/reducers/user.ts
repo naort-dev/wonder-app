@@ -1,13 +1,15 @@
 import { handleActions } from 'redux-actions';
 
-export type State = {
+export type UserState = {
   readonly email?: string;
   readonly uid?: string;
+  readonly token?: string;
 }
 
-export const initialState: State = {
+export const initialState: UserState = {
   email: undefined,
-  uid: undefined
+  uid: undefined,
+  token: undefined
 }
 
 export default handleActions({
