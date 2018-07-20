@@ -7,12 +7,13 @@ import ShadowBox from '../../components/theme/shadow-box';
 import Screen from '../../components/screen';
 import Theme from '../../../assets/styles/theme';
 import Topic from '../../../types/topic';
+import { NavigationScreenProp, NavigationParams } from 'react-navigation';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { getTopics } from '../../../store/sagas/topics';
 
 interface Props {
-  navigation: any;
+  navigation: NavigationScreenProp<any, NavigationParams>;
   topics: Topic[];
   getAllTopics: Function;
 }

@@ -4,12 +4,13 @@ import styles, { DEVICE_WIDTH } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SwipeViewSlide from './swipeview-slide';
 import Theme from '../../../assets/styles/theme';
+import TouchableOpacityOnPress from '../../../types/touchable-on-press';
 
 interface Props {
   children?: any;
   config?: SwipeViewConfig;
-  onSkip: Function;
-  onComplete: Function;
+  onSkip: TouchableOpacityOnPress;
+  onComplete: TouchableOpacityOnPress;
 }
 
 interface State {
@@ -64,7 +65,7 @@ export default class SwipeView extends React.Component<Props, State> {
 
     const dots = React.Children.map(children, (child, i) => (
       <View key={i} style={styles.dot}>
-        <Icon name="circle" size={8} color={currentIndex === i ? Theme.colors.primary : Theme.colors.secondary} />
+        <Icon name="circle" size={8} color={currentIndex === i ? Theme.colors.primary : Theme.colors.textColor} />
       </View>
     ));
 

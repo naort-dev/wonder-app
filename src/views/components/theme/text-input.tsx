@@ -1,13 +1,21 @@
 import React from 'react';
-import { View, StyleSheet, TextInput as Input } from 'react-native';
+import { View, StyleSheet, TextInput as Input, TextInputProps } from 'react-native';
 import theme from '../../../assets/styles/theme';
 import Color from 'color';
 import Label from './label';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import ErrorHint from './text/error-hint';
 
+interface Props extends TextInputProps {
+  icon?: string;
+  color?: string;
+  errorHint?: string;
+  label?: string;
+  padLeft?: boolean;
+}
 
 const palette = Color(theme.colors.backgroundPrimary);
-export default class TextInput extends React.Component<any, any> {
+export default class TextInput extends React.Component<Props> {
   renderIcon = () => {
     const { icon, color } = this.props;
     if (icon) {
@@ -18,6 +26,14 @@ export default class TextInput extends React.Component<any, any> {
       );
     }
   }
+
+  renderErrorHint = () => {
+    const { errorHint } = this.props;
+    // if (errorHint) {
+    return (<ErrorHint>{errorHint}</ErrorHint>);
+    // }
+  }
+
   render() {
     const { label, style, padLeft, ...rest } = this.props;
     return (
@@ -27,21 +43,32 @@ export default class TextInput extends React.Component<any, any> {
           {this.renderIcon()}
           {padLeft && <View flex={1} />}
           <Input
+            underlineColorAndroid="transparent"
             {...rest}
             style={[styles.input, style]}
           />
         </View>
+        {this.renderErrorHint()}
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  label: {
-    marginBottom: 15
-  },
   container: {
     width: '100%',
+  },
+  errorHintContainer: {
+    borderColor: 'red',
+    borderWidth: 2,
+  },
+  errorHintText: {
+    color: 'red',
+    fontSize: 9,
+    marginLeft: 20
+  },
+  label: {
+    marginBottom: 15
   },
   inputContainer: {
     flexDirection: 'row',

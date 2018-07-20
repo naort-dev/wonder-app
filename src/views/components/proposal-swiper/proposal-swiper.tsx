@@ -5,7 +5,7 @@ import { View, StyleSheet } from 'react-native';
 import Proposal from '../../../types/proposal';
 
 interface Props {
-  proposals: Proposal[]
+  proposals: Proposal[];
 }
 
 class ProposalSwiper extends React.Component<Props> {

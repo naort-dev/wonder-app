@@ -2,13 +2,12 @@ import React from 'react';
 import { View, StyleSheet, Dimensions, Button } from 'react-native';
 import { Text } from '../../components/theme';
 import SwipeView from '../../components/swipeview';
-
 import Assets from '../../../assets/images';
-
+import { NavigationScreenProp, NavigationParams } from 'react-navigation';
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
 interface Props {
-  navigation: any;
+  navigation: NavigationScreenProp<any, NavigationParams>;
 }
 
 const data = [
@@ -82,12 +81,12 @@ const styles = StyleSheet.create({
   body: {
     textAlign: 'center',
     color: '#000',
-    lineHeight: 18
+    lineHeight: 24
   },
   halfCircleFooter: {
     width: '100%',
-    borderTopLeftRadius: DEVICE_HEIGHT * 0.4,
-    borderTopRightRadius: DEVICE_HEIGHT * 0.4,
+    // borderTopLeftRadius: DEVICE_HEIGHT * 0.4,
+    // borderTopRightRadius: DEVICE_HEIGHT * 0.4,
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     height: DEVICE_HEIGHT * 0.4,
     paddingTop: 55,

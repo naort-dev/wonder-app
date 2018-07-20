@@ -25,10 +25,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import UserNavigator from './user-navigator';
 import theme from '../../assets/styles/theme';
 
-// navigationOptions: {
-// ...theme.NavBar.transparent
-// }
-
 const RegistrationNavigator = createStackNavigator({
   Welcome: {
     screen: Welcome
@@ -36,7 +32,8 @@ const RegistrationNavigator = createStackNavigator({
   Login: {
     screen: Login,
     navigationOptions: {
-      header: null
+      title: 'LOGIN',
+      ...theme.NavBar.transparent
     }
   },
   Register1: {
@@ -102,7 +99,7 @@ const ChatNavigator = createStackNavigator({
     headerMode: 'none'
   });
 
-const AuthenticatedNavigator = createBottomTabNavigator({
+const AuthenticatedNavigator = createMaterialTopTabNavigator({
   User: {
     screen: UserNavigator,
     navigationOptions: {
@@ -123,19 +120,21 @@ const AuthenticatedNavigator = createBottomTabNavigator({
 }, {
     swipeEnabled: false,
     tabBarOptions: {
+      allowFontScaling: false,
       showLabel: false,
       showIcon: true,
       style: {
-        // paddingTop: Platform.select({ ios: 20, android: 0 }),
-        backgroundColor: '#FFF',
-        borderBottomWidth: 0,
-        borderBottomColor: '#FFF'
+        elevation: 0,
+        paddingTop: Platform.select({ ios: 20, android: 0 }),
+        backgroundColor: theme.colors.white,
+        borderBottomWidth: 1,
+        borderBottomColor: theme.colors.secondary
       },
       indicatorStyle: {
-        backgroundColor: '#FFF'
+        backgroundColor: theme.colors.white
       },
-      activeTintColor: theme.colors.primary,
-      inactiveTintColor: 'gray',
+      activeTintColor: theme.colors.primaryLight,
+      inactiveTintColor: theme.colors.textColor,
     },
     initialRouteName: 'Home'
   });

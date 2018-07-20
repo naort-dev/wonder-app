@@ -3,9 +3,10 @@ import { View, StyleSheet } from 'react-native';
 import Screen from '../../components/screen';
 import ElevatedButton from '../../components/theme/elevated-button';
 import { PrimaryButton, Text, Button, Title } from '../../components/theme';
+import { NavigationScreenProp, NavigationParams } from 'react-navigation';
 
 interface Props {
-  navigation: any;
+  navigation: NavigationScreenProp<any, NavigationParams>;
 }
 
 class ProfileViewScreen extends React.Component<Props> {
@@ -13,14 +14,14 @@ class ProfileViewScreen extends React.Component<Props> {
     header: null
   }
 
-  goTo = (key: string) => {
+  goTo = (key: string, params?: any) => {
     const { navigation } = this.props;
     return () => navigation.navigate(key);
   }
 
   render() {
     return (
-      <Screen horizontalPadding={20}>
+      <Screen horizontalPadding={10}>
         <View style={styles.row}>
           <View style={[styles.col, styles.heading]}>
             <Title style={{ textAlign: 'center' }}>{'Ben Condon'}</Title>
@@ -29,12 +30,15 @@ class ProfileViewScreen extends React.Component<Props> {
         <View style={styles.row}>
           <View style={styles.col}>
             <ElevatedButton
-              title="Filters"
+              fullWidth
+              icon="user"
+              title="Me"
               onPress={this.goTo('ProfileFilters')}
             />
           </View>
           <View style={styles.col}>
             <ElevatedButton
+              icon="heart"
               title="Activities"
               onPress={() => { }}
             />
@@ -43,26 +47,30 @@ class ProfileViewScreen extends React.Component<Props> {
         <View style={styles.row}>
           <View style={styles.col}>
             <ElevatedButton
+              icon="image"
               title="Photos"
-              onPress={this.goTo('ProfileCamera')}
+              onPress={this.goTo('ProfileEdit', { media: 'camera', front: true })}
             />
           </View>
           <View style={styles.col}>
             <ElevatedButton
+              icon="envelope-o"
               title="Contact"
-              onPress={() => { }}
+              onPress={this.goTo('Feedback')}
             />
           </View>
         </View>
         <View style={styles.row}>
           <View style={styles.col}>
             <ElevatedButton
-              title="Notifications"
-              onPress={this.goTo('ProfileNotifications')}
+              icon="gear"
+              title="Settings"
+              onPress={this.goTo('ProfilePreferences')}
             />
           </View>
           <View style={styles.col}>
             <ElevatedButton
+              icon="question"
               title="FAQ"
               onPress={() => { }}
             />
@@ -81,7 +89,7 @@ class ProfileViewScreen extends React.Component<Props> {
             <Button rounded title="Logout" />
           </View>
           <View style={styles.col}>
-            <Button rounded title="Delete Account" />
+            <Button rounded title="Deactivate" />
           </View>
         </View>
       </Screen>

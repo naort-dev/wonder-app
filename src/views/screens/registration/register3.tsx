@@ -6,9 +6,10 @@ import ShadowBox from '../../components/theme/shadow-box';
 import Screen from '../../components/screen';
 import Theme from '../../../assets/styles/theme';
 import { MediaGrid, MediaGridItem } from '../../components/theme/media-grid';
+import { NavigationScreenProp, NavigationParams } from 'react-navigation';
 
 interface Props {
-  navigation: any;
+  navigation: NavigationScreenProp<any, NavigationParams>;
 }
 
 interface State {

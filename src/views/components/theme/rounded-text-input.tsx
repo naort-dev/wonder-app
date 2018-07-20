@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, TextInput as Input } from 'react-native';
+import { View, StyleSheet, TextInput as Input, TextInputProps } from 'react-native';
 import { Text } from '.';
 import theme from '../../../assets/styles/theme';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Color from 'color';
 import LinearGradient from 'react-native-linear-gradient';
+import GradientPoint from '../../../types/gradient-point';
+import ErrorHint from './text/error-hint';
 
 
 const palette = Color(theme.colors.backgroundPrimary);
@@ -15,9 +17,23 @@ interface PasswordProps {
   autoCorrect?: boolean;
 }
 
-export default class RoundedTextInput extends React.Component<any, any> {
+interface RoundedTextInputProps extends TextInputProps {
+  errorHint?: string;
+  type?: string;
+  label?: string;
+  icon?: string;
+  color?: string;
+  fullWidth?: boolean;
+  colors?: string[];
+  padLeft?: boolean;
+  // start?: GradientPoint;
+  // end?: GradientPoint;
+}
+
+export default class RoundedTextInput extends React.Component<RoundedTextInputProps, any> {
   static defaultProps = {
-    padLeft: false
+    padLeft: false,
+    start: undefined
   }
 
   renderIcon = () => {
@@ -31,8 +47,16 @@ export default class RoundedTextInput extends React.Component<any, any> {
     }
   }
 
+  renderErrorHint = () => {
+    const { errorHint } = this.props;
+    // if (errorHint) {
+    return (<ErrorHint style={{ marginLeft: 20 }}>{errorHint}</ErrorHint>);
+    // }
+  }
+
   render() {
     const {
+      errorHint,
       type,
       label,
       style,
@@ -53,6 +77,7 @@ export default class RoundedTextInput extends React.Component<any, any> {
 
     const input = (
       <Input
+        underlineColorAndroid="transparent"
         placeholderTextColor={color}
         secureTextEntry={passwordProps.secureTextEntry}
         autoCapitalize={passwordProps.autoCapitalize}
@@ -64,24 +89,30 @@ export default class RoundedTextInput extends React.Component<any, any> {
 
     if (colors) {
       return (
-        <LinearGradient
-          start={start}
-          end={end}
-          colors={colors}
-          style={styles.container}
-        >
-          {this.renderIcon()}
-          {padLeft && <View flex={1} />}
-          {input}
-        </LinearGradient>
+        <View>
+          <LinearGradient
+            start={start}
+            end={end}
+            colors={colors}
+            style={[styles.container]}
+          >
+            {this.renderIcon()}
+            {padLeft && <View flex={1} />}
+            {input}
+          </LinearGradient>
+          {this.renderErrorHint()}
+        </View>
       );
     }
 
     return (
-      <View style={styles.container}>
-        {this.renderIcon()}
-        {padLeft && <View flex={1} />}
-        {input}
+      <View>
+        <View style={styles.container}>
+          {this.renderIcon()}
+          {padLeft && <View flex={1} />}
+          {input}
+        </View>
+        {this.renderErrorHint()}
       </View>
     );
   }
@@ -95,17 +126,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 30,
-    padding: 15,
     width: '100%',
     backgroundColor: palette.toString()
   },
   iconContainer: {
     flex: 1,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   input: {
     fontFamily: theme.fonts.primary,
     flex: 10,
-    color: palette.darken(0.2).toString()
+    color: palette.darken(0.2).toString(),
+    height: 44
   }
 });

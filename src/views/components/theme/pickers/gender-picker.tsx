@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Label } from '..';
 import theme from '../../../../assets/styles/theme';
+import Gender from '../../../../types/gender';
 
 interface OptionProps {
   option: string;
@@ -31,23 +32,25 @@ interface Props {
 }
 
 interface State {
-  selected: string;
+  selected: Gender;
 }
 
-const GENDERS = ['male', 'female'];
+export const GENDERS = [Gender.male, Gender.female];
 export default class GenderPicker extends React.Component<Props, State> {
   static defaultProps = {
     onChange: undefined
   }
 
-  constructor(props: any) {
+  static Genders = GENDERS;
+
+  constructor(props: Props) {
     super(props);
     this.state = {
       selected: GENDERS[0]
     };
   }
 
-  select = (gender: string) => {
+  select = (gender: Gender) => {
     const { selected } = this.state;
     const { onChange } = this.props;
     if (selected !== gender) {
@@ -90,6 +93,6 @@ const styles = StyleSheet.create({
     // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 10
+    paddingVertical: 5
   }
 })

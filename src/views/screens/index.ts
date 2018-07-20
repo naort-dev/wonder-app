@@ -9,9 +9,11 @@ export { default as Register4 } from './registration/register4';
 // Profile Views
 export { default as ProfileView } from './profile/profile-view';
 export { default as ProfileEdit } from './profile/profile-edit';
-export { default as ProfileNotifications } from './profile/profile-notifications';
-export { default as ProfileFilters } from './profile/profile-filters';
+export { default as ProfilePreferences } from './profile/profile-preferences';
+
+// Camera and Video
 export { default as ProfileCamera } from './profile/profile-camera';
+export { default as ProfileVideo } from './profile/profile-video';
 
 // Profile Sub Tabs
 export { default as UpcomingAppointments } from './profile/upcoming-appointments';
@@ -24,3 +26,5 @@ export { default as ChatList } from './chat/chat-list';
 export { default as ProposalView } from './proposal/proposal-view';
 export { default as ActivityMap } from './activity/activity-map';
 
+// System Wide
+export { default as Feedback } from './system/feedback';

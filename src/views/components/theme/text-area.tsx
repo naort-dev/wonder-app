@@ -21,6 +21,7 @@ export default class TextArea extends React.Component<Props> {
           placeholder={placeholder}
           onChangeText={onChangeText}
           numberOfLines={4}
+          underlineColorAndroid="transparent"
           {...rest}
         />
       </View>

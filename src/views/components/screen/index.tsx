@@ -14,6 +14,10 @@ interface Props {
 }
 
 class Screen extends React.Component<Props> {
+
+  static defaultProps = {
+    gradientStart: undefined
+  }
   render() {
     const {
       children,

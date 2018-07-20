@@ -5,9 +5,10 @@ import theme from '../../../assets/styles/theme';
 import Screen from '../../components/screen';
 import Images, { Logo } from '../../../assets/images';
 import TextButton from '../../components/theme/text-button';
+import { NavigationScreenProp, NavigationParams } from 'react-navigation';
 
 interface Props {
-  navigation: any;
+  navigation: NavigationScreenProp<any, NavigationParams>;
 }
 
 export default class Welcome extends React.Component<Props> {

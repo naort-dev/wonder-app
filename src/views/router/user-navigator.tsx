@@ -11,11 +11,12 @@ import {
   Login,
   ProfileView,
   ProfileEdit,
-  ProfileNotifications,
-  ProfileFilters,
+  ProfilePreferences,
   UpcomingAppointments,
   PastAppointments,
-  ProfileCamera
+  ProfileCamera,
+  ProfileVideo,
+  Feedback
 } from '../screens';
 
 import TabIcon from '../components/tabs/secondary-tab-icon';
@@ -46,17 +47,10 @@ const ProfileNavigator = createStackNavigator({
       ...theme.NavBar.transparent
     }
   },
-  ProfileNotifications: {
-    screen: ProfileNotifications,
+  ProfilePreferences: {
+    screen: ProfilePreferences,
     navigationOptions: {
-      title: 'Notifications',
-      ...theme.NavBar.transparent
-    }
-  },
-  ProfileFilters: {
-    screen: ProfileFilters,
-    navigationOptions: {
-      title: 'Filters',
+      title: 'Preferences',
       ...theme.NavBar.transparent
     }
   },
@@ -64,6 +58,20 @@ const ProfileNavigator = createStackNavigator({
     screen: ProfileCamera,
     navigationOptions: {
       title: 'Profile Picture',
+      ...theme.NavBar.transparent
+    }
+  },
+  ProfileVideo: {
+    screen: ProfileVideo,
+    navigationOptions: {
+      title: 'Profile Picture',
+      ...theme.NavBar.transparent
+    }
+  },
+  Feedback: {
+    screen: Feedback,
+    navigationOptions: {
+      title: 'Contact Us',
       ...theme.NavBar.transparent
     }
   }
@@ -87,15 +95,16 @@ const UserNavigator = createMaterialTopTabNavigator({
     swipeEnabled: false,
     tabBarPosition: 'top',
     tabBarOptions: {
+      allowFontScaling: false,
       style: {
-        paddingTop: Platform.select({ ios: 20, android: 0 }),
-        backgroundColor: '#FFF'
+        backgroundColor: '#FFF',
+        elevation: 0
       },
       indicatorStyle: {
-        backgroundColor: theme.colors.primary,
+        backgroundColor: theme.colors.primaryLight,
       },
-      activeTintColor: theme.colors.primary,
-      inactiveTintColor: 'gray',
+      activeTintColor: theme.colors.primaryLight,
+      inactiveTintColor: theme.colors.textColor,
     },
   })
 

@@ -3,10 +3,12 @@ import { StyleSheet, View, ImageBackground, Image, TouchableOpacity } from 'reac
 import LinearGradient from 'react-native-linear-gradient';
 import theme from '../../../../assets/styles/theme';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import TouchableOpacityOnPress from '../../../../types/touchable-on-press';
 
 interface Props {
   source?: string;
   featured?: boolean;
+  onPress?: TouchableOpacityOnPress;
 }
 
 export default class MediaGridItem extends React.Component<Props> {
@@ -16,10 +18,10 @@ export default class MediaGridItem extends React.Component<Props> {
   }
 
   render() {
-    const { source } = this.props;
+    const { source, onPress } = this.props;
     if (!source) {
       return (
-        <TouchableOpacity>
+         <TouchableOpacity onPress={onPress}>
           <LinearGradient
             style={styles.container}
             start={{ x: 0, y: 0.5 }}

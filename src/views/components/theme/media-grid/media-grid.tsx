@@ -29,6 +29,7 @@ export default class MediaGrid extends React.Component<Props> {
 
     return (
       <LinearGradient
+        start={{ x: 0, y: 0 }}
         style={styles.featuredContainer}
         colors={[theme.colors.primary, theme.colors.primaryLight]}
       >

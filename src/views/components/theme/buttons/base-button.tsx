@@ -74,27 +74,45 @@ export default class BaseButton extends React.Component<Partial<BaseButtonProps>
       renderedStyles['borderRadius'] = 30;
     }
 
+    if (colors.length) {
+      return (
+        <TouchableOpacity
+          disabled={disabled}
+          onPress={onPress}
+          style={[styles.btnContainer, renderedStyles]}
+          {...rest}
+        >
+          <LinearGradient
+            start={start}
+            end={end}
+            colors={colors}
+            style={[styles.container, renderedStyles, style]}
+          >
+            {icon && this.renderIcon()}
+            <View style={styles.txtContainer}>
+              <Text color={color} style={styles.title}>{title}</Text>
+            </View>
+            {icon && <View flex={1} />}
+          </LinearGradient>
+        </TouchableOpacity>
+      );
+    }
+
     return (
       <TouchableOpacity
         disabled={disabled}
         onPress={onPress}
-        style={[styles.btnContainer, renderedStyles, style]}
+        style={[styles.btnContainer, styles.container, renderedStyles, style]}
         {...rest}
       >
-        <LinearGradient
-          start={start}
-          end={end}
-          colors={colors}
-          style={[styles.container, renderedStyles]}
-        >
-          {icon && this.renderIcon()}
-          <View style={styles.txtContainer}>
-            <Text color={color} style={styles.title}>{title}</Text>
-          </View>
-          {icon && <View flex={1} />}
-        </LinearGradient>
+        {icon && this.renderIcon()}
+        <View style={styles.txtContainer}>
+          <Text color={color} style={styles.title}>{title}</Text>
+        </View>
+        {icon && <View flex={1} />}
       </TouchableOpacity>
     );
+
   }
 }
 
@@ -109,15 +127,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 10,
+    padding: 15,
   },
   txtContainer: {
-    flex: 10,
+    flex: 7,
     justifyContent: 'center',
   },
   iconContainer: {
-    flex: 1,
-    paddingHorizontal: 10,
+    width: 40,
+    paddingHorizontal: 5,
     justifyContent: 'center',
     alignItems: 'center'
   },

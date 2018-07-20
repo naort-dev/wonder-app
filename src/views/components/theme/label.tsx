@@ -4,9 +4,8 @@ import { StyleSheet } from 'react-native';
 import Color from 'color';
 import theme from '../../../assets/styles/theme';
 
-
 export default class Label extends React.Component {
-  render() {
+ public render() {
     const { children } = this.props;
     return (
       <Text style={styles.label}>{children}</Text>
@@ -16,7 +15,7 @@ export default class Label extends React.Component {
 
 const styles = StyleSheet.create({
   label: {
-    marginTop: 15,
+    marginTop: 10,
     marginBottom: 5,
     fontSize: 11
   },

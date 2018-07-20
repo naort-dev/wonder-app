@@ -6,7 +6,7 @@ import { Text } from '../../components/theme';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../../assets/styles/theme';
 
-class ProfileCameraScreen extends React.Component {
+class ProfileVideoScreen extends React.Component {
   camera?: RNCamera | null;
 
   // takePicture = () => {
@@ -19,15 +19,13 @@ class ProfileCameraScreen extends React.Component {
   // };
 
   render() {
-    const { navigation } = this.props;
-    const direction = navigation.getParam('front', false) ? RNCamera.Constants.Type.front : RNCamera.Constants.Type.back
     return (
       <Screen>
         <RNCamera
           ref={ref => { this.camera = ref; }}
           style={styles.preview}
-          type={direction}
-          flashMode={RNCamera.Constants.FlashMode.auto}
+          type={RNCamera.Constants.Type.back}
+          flashMode={RNCamera.Constants.FlashMode.on}
           permissionDialogTitle={'Permission to use camera'}
           permissionDialogMessage={'We need your permission to use your camera phone'}
         />
@@ -44,7 +42,7 @@ class ProfileCameraScreen extends React.Component {
   }
 }
 
-export default ProfileCameraScreen;
+export default ProfileVideoScreen;
 
 const styles = StyleSheet.create({
   container: {

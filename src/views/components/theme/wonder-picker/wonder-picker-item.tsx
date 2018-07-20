@@ -34,7 +34,7 @@ export default class WonderPickerItem extends React.Component<Props> {
 
 const styles = StyleSheet.create({
   container: {
-    elevation: 1,
+    elevation: 3,
     shadowColor: '#383838',
     shadowOpacity: 0.2,
     shadowOffset: {
@@ -45,8 +45,6 @@ const styles = StyleSheet.create({
     height: 70,
     width: 70,
     borderRadius: 35,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#FFF'
   },
   selectedContainer: {
@@ -56,11 +54,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
   },
   btn: {
+    borderRadius: 35,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   label: {
-    fontSize: 9
+    fontSize: 8
   }
 });

@@ -1,6 +1,7 @@
 // Buttons
 export { default as Button } from './buttons/base-button';
 export { default as PrimaryButton } from './buttons/primary-button';
+export { default as TextButton } from './text-button';
 
 // Input Components
 export { default as TextInput } from './text-input';

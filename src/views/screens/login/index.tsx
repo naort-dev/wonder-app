@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Button, StyleSheet, Image } from 'react-native';
-import { Text, RoundedButton, RoundedTextInput, PrimaryButton } from '../../components/theme';
+import { Text, RoundedTextInput, PrimaryButton } from '../../components/theme';
 import theme from '../../../assets/styles/theme';
 import Screen from '../../components/screen';
 import Images, { Logo } from '../../../assets/images';
 import TextButton from '../../components/theme/text-button';
+import { NavigationScreenProp, NavigationParams } from 'react-navigation';
 
 interface Props {
-  navigation: any;
+  navigation: NavigationScreenProp<any, NavigationParams>;
 }
 
 export default class Login extends React.Component<Props> {
