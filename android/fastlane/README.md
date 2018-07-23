@@ -35,7 +35,7 @@ Deploy a new version to the Google Play
 ```
 fastlane android upload_to_hockeyapp
 ```
-
+Upload an APK to HockeyApp
 
 ----
 
