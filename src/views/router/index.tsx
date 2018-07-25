@@ -3,11 +3,11 @@ import { Platform } from 'react-native';
 import {
   createStackNavigator,
   createMaterialTopTabNavigator,
-  createTabNavigator,
-  createBottomTabNavigator,
+  createSwitchNavigator,
 } from 'react-navigation';
 
 import {
+  AppLoading,
   Onboarding,
   Login,
   Welcome,
@@ -23,61 +23,14 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import UserNavigator from './user-navigator';
+import RegistrationNavigator from './registration-navigator';
 import theme from '../../assets/styles/theme';
-
-const RegistrationNavigator = createStackNavigator({
-  Welcome: {
-    screen: Welcome
-  },
-  Login: {
-    screen: Login,
-    navigationOptions: {
-      title: 'LOGIN',
-      ...theme.NavBar.transparent
-    }
-  },
-  Register1: {
-    screen: Register1,
-    navigationOptions: {
-      title: 'CREATE ACCOUNT',
-      ...theme.NavBar.transparent
-    }
-  },
-  Register2: {
-    screen: Register2,
-    navigationOptions: {
-      title: 'CREATE ACCOUNT',
-      ...theme.NavBar.transparent
-    }
-  },
-  Register3: {
-    screen: Register3,
-    navigationOptions: {
-      title: 'CREATE ACCOUNT',
-      ...theme.NavBar.transparent
-    }
-  },
-  Register4: {
-    screen: Register4,
-    navigationOptions: {
-      title: 'PICK WONDERS',
-      ...theme.NavBar.transparent
-    }
-  }
-}, {
-    initialRouteName: 'Welcome'
-  });
 
 // Manages Onboarding and Registration
 const OnboardingNavigator = createStackNavigator({
-  Onboarding: {
-    screen: Onboarding
-  },
-  Register: {
-    screen: RegistrationNavigator
-  }
+  Onboarding: { screen: Onboarding },
+  Register: { screen: RegistrationNavigator }
 }, { headerMode: 'none' });
-
 
 // Manages the Matches and Scheduling flow
 const HomeNavigator = createStackNavigator({
@@ -88,7 +41,8 @@ const HomeNavigator = createStackNavigator({
     screen: ProposalView
   }
 }, {
-    headerMode: 'none'
+    headerMode: 'none',
+    initialRouteName: 'Proposal'
   });
 
 const ChatNavigator = createStackNavigator({
@@ -136,15 +90,17 @@ const AuthenticatedNavigator = createMaterialTopTabNavigator({
       activeTintColor: theme.colors.primaryLight,
       inactiveTintColor: theme.colors.textColor,
     },
-    initialRouteName: 'Home'
+    initialRouteName: 'User'
   });
 
-const MainNavigator = createStackNavigator({
+const MainNavigator = createSwitchNavigator({
+  AppLoading: {
+    screen: AppLoading
+  },
   onboarding: OnboardingNavigator,
   Main: AuthenticatedNavigator
 }, {
-    initialRouteName: 'onboarding',
-    headerMode: 'none'
+    initialRouteName: 'AppLoading',
   });
 
 export default MainNavigator;

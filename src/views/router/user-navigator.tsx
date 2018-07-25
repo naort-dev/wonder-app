@@ -25,7 +25,7 @@ import theme from '../../assets/styles/theme';
 // import SecondaryTabIcon from '../components/tab/secondary-tab-icon';
 
 function hideTabsForNestedRoutes({ navigation }: { navigation: NavigationScreenProp<NavigationRoute> }) {
-  if (navigation.state.index === 1) {
+  if (navigation.state.index >= 1) {
     return {
       tabBarVisible: false,
     };
@@ -57,14 +57,13 @@ const ProfileNavigator = createStackNavigator({
   ProfileCamera: {
     screen: ProfileCamera,
     navigationOptions: {
-      title: 'Profile Picture',
-      ...theme.NavBar.transparent
+      header: null
     }
   },
   ProfileVideo: {
     screen: ProfileVideo,
     navigationOptions: {
-      title: 'Profile Picture',
+      title: 'Profile Selfie',
       ...theme.NavBar.transparent
     }
   },
