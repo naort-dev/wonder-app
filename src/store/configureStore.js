@@ -27,6 +27,8 @@ export default (initialState) => {
 
   const persistor = persistStore(store);
 
+  // persistor.purge();
+
 
 
   if (module.hot) {

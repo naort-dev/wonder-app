@@ -5,9 +5,8 @@ import axios from 'axios';
 import { persistTopics } from '../reducers/wonder';
 import api from '../../services/api';
 
-
 export const GET_TOPICS = 'GET_TOPICS';
-export const getTopics = createAction(GET_TOPICS)
+export const getTopics = createAction(GET_TOPICS);
 export function* getTopicsSaga(action: Action) {
   try {
     const response = yield call(api, {

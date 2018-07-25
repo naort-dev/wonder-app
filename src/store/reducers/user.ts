@@ -1,18 +1,31 @@
-import { handleActions } from 'redux-actions';
+import { handleActions, createAction } from 'redux-actions';
+import User from '../../types/user';
+import { UserAuth } from '../../types/user-credentials';
 
-export type UserState = {
-  readonly email?: string;
-  readonly uid?: string;
-  readonly token?: string;
+export interface UserState {
+  readonly profile: User;
+  readonly auth: UserAuth;
 }
 
 export const initialState: UserState = {
-  email: undefined,
-  uid: undefined,
-  token: undefined
-}
+  profile: {},
+  auth: {
+    token: null,
+    uid: null,
+  }
+};
 
 export default handleActions({
-  PERSIST_USER: (state, action) =>
-    initialState,
+  PERSIST_AUTH: (state: UserState, action) => ({
+    ...state,
+    auth: {
+      token: action.payload.token || initialState.auth.token,
+      uid: (action.payload.payload && action.payload.payload.sub) || initialState.auth.uid
+    },
+  }),
+  PERSIST_USER: (state: UserState, action) => ({
+    ...state,
+    profile: action.payload || initialState.profile
+  }),
+  LOGOUT_USER: () => initialState
 }, initialState);
