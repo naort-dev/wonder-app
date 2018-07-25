@@ -101,5 +101,7 @@
 	<string>Access your camera mic to upload for your profile</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Access your photos to upload for your profile</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Use your location to find matches and activities near you</string>
 </dict>
 </plist>
