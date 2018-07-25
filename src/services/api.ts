@@ -11,14 +11,14 @@ const wonderApi = axios.create({
 });
 
 const api = (opts: AxiosRequestConfig, userState?: UserState) => {
-  if (userState && userState.token) {
+  if (userState && userState.auth && userState.auth.token) {
     opts.headers = {
       ...opts.headers,
-      'Authorization': userState.token
-    }
+      Authorization: `Bearer ${userState.auth.token}`
+    };
   }
 
-  return wonderApi(opts)
-}
+  return wonderApi(opts);
+};
 
 export default api;
