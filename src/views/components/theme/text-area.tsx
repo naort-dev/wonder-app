@@ -1,22 +1,20 @@
 import React from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, TextInputProps } from 'react-native';
 import Label from './label';
 import theme from '../../../assets/styles/theme';
 
-interface Props {
+interface Props extends TextInputProps {
   label?: string;
-  placeholder?: string;
-  onChangeText?: any
 }
 
 export default class TextArea extends React.Component<Props> {
   render() {
-    const { label, placeholder, onChangeText, ...rest } = this.props;
+    const { label, placeholder, onChangeText, style, ...rest } = this.props;
     return (
       <View style={styles.container}>
         {label && <Label>{label}</Label>}
         <TextInput
-          style={styles.input}
+          style={[styles.input, style]}
           multiline
           placeholder={placeholder}
           onChangeText={onChangeText}
@@ -34,6 +32,7 @@ const styles = StyleSheet.create({
 
   },
   input: {
+    maxHeight: 100,
     borderRadius: 5,
     fontFamily: theme.fonts.primary,
     borderWidth: 1,

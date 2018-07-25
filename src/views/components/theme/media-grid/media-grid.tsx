@@ -1,14 +1,16 @@
 import React from 'react';
-import { StyleSheet, View, Image, ImageSourcePropType } from 'react-native';
+import { StyleSheet, View, Image, ImageSourcePropType, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import theme from '../../../../assets/styles/theme';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MediaGridItem from './media-grid-item';
+import TouchableOpacityOnPress from '../../../../types/touchable-on-press';
 
 interface Props {
-  featured?: ImageSourcePropType
+  featured?: ImageSourcePropType;
   items?: any;
-  images?: ImageSourcePropType[]
+  images?: ImageSourcePropType[];
+  onNewPicture?: TouchableOpacityOnPress;
 }
 
 export default class MediaGrid extends React.Component<Props> {
@@ -17,7 +19,7 @@ export default class MediaGrid extends React.Component<Props> {
   }
 
   renderFeatured = () => {
-    const { featured } = this.props;
+    const { featured, onNewPicture } = this.props;
 
     if (featured) {
       return (
@@ -33,9 +35,11 @@ export default class MediaGrid extends React.Component<Props> {
         style={styles.featuredContainer}
         colors={[theme.colors.primary, theme.colors.primaryLight]}
       >
-        <Icon name="plus" size={16} color="#FFF" />
+        <TouchableOpacity onPress={onNewPicture}>
+          <Icon name="plus" size={16} color="#FFF" />
+        </TouchableOpacity>
       </LinearGradient>
-    )
+    );
   }
 
   render() {

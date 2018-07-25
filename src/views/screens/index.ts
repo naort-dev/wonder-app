@@ -1,3 +1,4 @@
+export { default as AppLoading } from './app-loading';
 export { default as Onboarding } from './onboarding';
 export { default as Welcome } from './welcome';
 export { default as Login } from './login';

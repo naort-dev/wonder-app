@@ -3,7 +3,10 @@ import { View, StyleSheet, Dimensions, Button } from 'react-native';
 import { Text } from '../../components/theme';
 import SwipeView from '../../components/swipeview';
 import Assets from '../../../assets/images';
-import { NavigationScreenProp, NavigationParams } from 'react-navigation';
+import { NavigationScreenProp, NavigationParams, NavigationActions, StackActions } from 'react-navigation';
+import { connect } from 'react-redux';
+import WonderAppState from '../../../types/wonder-app-state';
+import { Dispatch } from 'redux';
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 
 interface Props {
@@ -23,9 +26,13 @@ const data = [
     title: '3',
     body: 'View and schedule activities with your Wonder matches!',
   }
-]
+];
 
-export default class Onboarding extends React.Component<Props> {
+const mapState = (state: WonderAppState) => ({});
+
+const mapDispatch = (dispatch: Dispatch) => ({});
+
+class Onboarding extends React.Component<Props> {
 
   render() {
     const { navigation } = this.props;
@@ -65,6 +72,8 @@ export default class Onboarding extends React.Component<Props> {
     );
   }
 }
+
+export default connect(mapState, mapDispatch)(Onboarding);
 
 const styles = StyleSheet.create({
   container: {

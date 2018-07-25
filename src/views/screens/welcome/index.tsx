@@ -12,9 +12,6 @@ interface Props {
 }
 
 export default class Welcome extends React.Component<Props> {
-  static navigationOptions = {
-    header: null
-  }
 
   render() {
     const { navigation } = this.props;
@@ -30,7 +27,7 @@ export default class Welcome extends React.Component<Props> {
             <PrimaryButton
               icon="envelope-o"
               title="CREATE ACCOUNT"
-              onPress={() => navigation.navigate('Register1')}
+              onPress={() => navigation.navigate('Register3')}
               fullWidth
             />
           </View>

@@ -11,6 +11,7 @@ import { NavigationScreenProp, NavigationParams } from 'react-navigation';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { getTopics } from '../../../store/sagas/topics';
+import WonderAppState from '../../../types/wonder-app-state';
 
 interface Props {
   navigation: NavigationScreenProp<any, NavigationParams>;
@@ -23,7 +24,7 @@ interface State {
   selected: Topic[];
 }
 
-const mapState = (state: any) => ({
+const mapState = (state: WonderAppState) => ({
   topics: state.wonder.topics
 });
 
@@ -35,12 +36,12 @@ class Register4 extends React.Component<Props, State> {
 
   static defaultProps = {
     topics: []
-  }
+  };
 
   state = {
     search: '',
     selected: []
-  }
+  };
 
   componentWillMount() {
     this.props.getAllTopics();

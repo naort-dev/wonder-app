@@ -1,15 +1,17 @@
 import React from "react";
-import { View, Button, StyleSheet, Image, Alert } from "react-native";
-import { Text, RoundedTextInput, PrimaryButton } from "../../components/theme";
-import theme from "../../../assets/styles/theme";
+import { View, StyleSheet, Image } from "react-native";
+import { RoundedTextInput, PrimaryButton } from "../../components/theme";
 import Screen from "../../components/screen";
-import Images, { Logo } from "../../../assets/images";
-import TextButton from "../../components/theme/text-button";
-import Theme from "../../../assets/styles/theme";
+import { Logo } from "../../../assets/images";
 import { NavigationScreenProp, NavigationParams } from "react-navigation";
 import validator from "validator";
+import { connect } from 'react-redux';
+import { Dispatch } from "redux";
+import WonderAppState from "../../../types/wonder-app-state";
+import { persistRegistrationInfo } from "../../../store/reducers/registration";
 
 interface Props {
+  onSave: Function;
   navigation: NavigationScreenProp<any, NavigationParams>;
 }
 
@@ -28,7 +30,15 @@ interface StateErrors {
   phone?: string;
 }
 
-export default class Register1 extends React.Component<Props, State> {
+const mapState = (state: WonderAppState) => ({
+
+});
+
+const mapDispatch = (dispatch: Dispatch) => ({
+  onSave: (data: State) => dispatch(persistRegistrationInfo(data))
+});
+
+class Register1 extends React.Component<Props, State> {
 
   public state: State = {
     first_name: "",
@@ -50,6 +60,7 @@ export default class Register1 extends React.Component<Props, State> {
           <View style={{ width: "100%" }}>
             <RoundedTextInput
               autoCorrect={false}
+              autoCapitalize="words"
               errorHint={errors.first_name}
               icon="user"
               placeholder="First Name"
@@ -61,6 +72,7 @@ export default class Register1 extends React.Component<Props, State> {
           <View style={{ marginTop: 10, width: "100%" }}>
             <RoundedTextInput
               autoCorrect={false}
+              autoCapitalize="words"
               errorHint={errors.last_name}
               icon="user"
               placeholder="Last Name"
@@ -106,7 +118,7 @@ export default class Register1 extends React.Component<Props, State> {
 
   private validate = () => {
     const errors: StateErrors = {};
-    const { navigation } = this.props;
+    const { navigation, onSave } = this.props;
     const { first_name, last_name, email, phone } = this.state;
 
     if (validator.isEmpty(first_name)) {
@@ -127,9 +139,9 @@ export default class Register1 extends React.Component<Props, State> {
 
     if (Object.keys(errors).length) {
       this.setState({ errors });
-      // return;
+      return;
     }
-
+    onSave({ first_name, last_name, email, phone });
     navigation.navigate("Register2");
   }
 
@@ -145,9 +157,9 @@ export default class Register1 extends React.Component<Props, State> {
       });
     }
   }
-
-
 }
+
+export default connect(mapState, mapDispatch)(Register1);
 
 const styles = StyleSheet.create({
   body: {

@@ -6,14 +6,82 @@ import Screen from '../../components/screen';
 import Images, { Logo } from '../../../assets/images';
 import TextButton from '../../components/theme/text-button';
 import { NavigationScreenProp, NavigationParams } from 'react-navigation';
+import { connect } from 'react-redux';
+import WonderAppState from '../../../types/wonder-app-state';
+import { Dispatch } from 'redux';
+import { loginUser } from '../../../store/sagas/user';
+import UserCredentials from '../../../types/user-credentials';
+import validator from 'validator';
+
+const mapState = (state: WonderAppState) => ({
+
+});
+
+const mapDispatch = (dispatch: Dispatch) => ({
+  onLogin: (credentials: UserCredentials) => dispatch(loginUser(credentials))
+});
 
 interface Props {
+  onLogin: Function;
   navigation: NavigationScreenProp<any, NavigationParams>;
 }
 
-export default class Login extends React.Component<Props> {
+interface State {
+  email: string;
+  password: string;
+  errors: StateErrors;
+}
+
+interface StateErrors {
+  email?: string;
+  password?: string;
+}
+
+class LoginScreen extends React.Component<Props> {
+
+  state: State = {
+    email: '',
+    password: '',
+    errors: {}
+  };
+
+  private onChangeText = (key: string) => {
+    const { errors } = this.state;
+    return (text: string) => {
+      this.setState({
+        [key]: text,
+        errors: {
+          ...errors,
+          [key]: undefined
+        }
+      });
+    };
+  }
+
+  private submit = () => {
+    const errors: StateErrors = {};
+    const { email, password } = this.state;
+    const { onLogin, navigation } = this.props;
+
+    if (!validator.isEmail(email)) {
+      errors.email = 'Please enter a valid email';
+    }
+
+    if (validator.isEmpty(password)) {
+      errors.password = 'Please enter your password';
+    }
+
+    if (Object.keys(errors).length) {
+      this.setState({ errors });
+      return;
+    }
+
+    onLogin({ email, password, onSuccess: () => navigation.navigate('Main') });
+  }
+
   render() {
     const { navigation } = this.props;
+    const { errors } = this.state;
     return (
       <Screen style={{ backgroundColor: '#FFF' }}>
         <View flex={1} style={styles.header}>
@@ -22,24 +90,31 @@ export default class Login extends React.Component<Props> {
         <View flex={1} style={styles.body}>
           <View style={{ width: '100%' }}>
             <RoundedTextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              errorHint={errors.email}
               icon="envelope-o"
               placeholder="Email"
-              onPress={() => { }}
+              onChangeText={this.onChangeText('email')}
               fullWidth
             />
           </View>
           <View style={{ marginTop: 10, width: '100%' }}>
             <RoundedTextInput
+              type="password"
+              autoCapitalize="none"
+              autoCorrect={false}
+              errorHint={errors.password}
               icon="lock"
               placeholder="Password"
-              onPress={() => { }}
+              onChangeText={this.onChangeText('password')}
               fullWidth
             />
           </View>
           <View style={{ marginTop: 10, width: '50%' }}>
             <PrimaryButton
               title="Login"
-              onPress={() => navigation.navigate('Main')}
+              onPress={this.submit}
             />
           </View>
           <View style={{ marginTop: 25 }}>
@@ -56,13 +131,15 @@ export default class Login extends React.Component<Props> {
   }
 }
 
+export default connect(mapState, mapDispatch)(LoginScreen)
+
 const styles = StyleSheet.create({
   header: {
     justifyContent: 'center',
     alignItems: 'center'
   },
   body: {
-    flex: 1,
+    flex: 2,
     flexDirection: 'column',
     alignItems: 'center',
     padding: 20

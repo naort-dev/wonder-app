@@ -1,46 +1,103 @@
 import React from 'react';
 import { RNCamera } from 'react-native-camera';
 import Screen from '../../components/screen';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Text } from '../../components/theme';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { StyleSheet, View, Image } from 'react-native';
+import { Text, PrimaryButton } from '../../components/theme';
 import theme from '../../../assets/styles/theme';
+import CameraModal from '../../components/modals/camera-modal';
+import { NavigationScreenProp, NavigationParams } from '../../../../node_modules/@types/react-navigation';
+import CameraData from '../../../types/camera-data';
 
-class ProfileCameraScreen extends React.Component {
-  camera?: RNCamera | null;
+interface Props {
+  navigation: NavigationScreenProp<any, NavigationParams>;
+}
 
-  // takePicture = () => {
-  //   if (this.camera) {
-  //     const options = { quality: 0.5, base64: true };
-  //     this.camera.takePictureAsync(options).then(data => {
-  //       console.log(data.uri);
-  //     })
-  //   }
-  // };
+interface State {
+  modalOpen: boolean;
+  imageData: CameraData | null;
+}
 
+class ProfileCameraScreen extends React.Component<Props, State> {
+  state = {
+    imageData: null,
+    modalOpen: false
+  };
+
+  openModal = () => this.setState({ modalOpen: true });
+  closeModal = () => this.setState({ modalOpen: false });
+
+  onImageTaken = (data: CameraData) => this.setState({ imageData: data }, this.closeModal);
+
+  clear = () => this.setState({ imageData: null });
+  save = () => {
+    const { imageData } = this.props;
+  }
+
+  renderContent = () => {
+    const { imageData, modalOpen } = this.state;
+    if (imageData) {
+      return (
+        <View flex={1} >
+          <View style={[styles.container, { padding: 0 }]}>
+            <Image
+              source={{ uri: imageData.uri }}
+              style={{ flex: 1 }}
+            />
+          </View>
+          <View>
+            <PrimaryButton
+              rounded={false}
+              title="DELETE"
+              onPress={this.clear}
+            />
+            <PrimaryButton
+              rounded={false}
+              title="RETAKE"
+              onPress={this.openModal}
+            />
+            <PrimaryButton
+              rounded={false}
+              title="SAVE"
+              onPress={this.save}
+            />
+          </View>
+        </View>
+      );
+    }
+    return (
+      <View flex={1}>
+        <View style={styles.container}>
+          <Text>
+            Take a selfie to express who you are.
+            Your profile images are displayed for other
+            people who match your interests
+        </Text>
+        </View>
+        <PrimaryButton
+          rounded={false}
+          title="Open Camera"
+          onPress={this.openModal}
+        />
+      </View>
+    );
+  }
   render() {
     const { navigation } = this.props;
-    const direction = navigation.getParam('front', false) ? RNCamera.Constants.Type.front : RNCamera.Constants.Type.back
+    const { modalOpen } = this.state;
     return (
       <Screen>
-        <RNCamera
-          ref={ref => { this.camera = ref; }}
-          style={styles.preview}
-          type={direction}
-          flashMode={RNCamera.Constants.FlashMode.auto}
-          permissionDialogTitle={'Permission to use camera'}
-          permissionDialogMessage={'We need your permission to use your camera phone'}
+        {this.renderContent()}
+        <CameraModal
+          onRequestClose={this.closeModal}
+          onSuccess={this.onImageTaken}
+          animationType="slide"
+          transparent={false}
+          onCancel={this.closeModal}
+          direction="front"
+          visible={modalOpen}
         />
-        <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-          <TouchableOpacity
-            // onPress={this.takePicture}
-            style={styles.capture}
-          >
-            <Icon name="camera" color="#FFF" size={24} />
-          </TouchableOpacity>
-        </View>
       </Screen>
-    )
+    );
   }
 }
 
@@ -50,7 +107,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'black'
+    padding: 20
   },
   preview: {
     flex: 1,

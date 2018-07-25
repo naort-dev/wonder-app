@@ -1,16 +1,19 @@
 import React from 'react';
-import { View, StyleSheet, Platform, Button } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, StyleSheet } from 'react-native';
 import { TextInput, Text, GenderPicker, PrimaryButton, DatePicker } from '../../components/theme';
 import ShadowBox from '../../components/theme/shadow-box';
 import Screen from '../../components/screen';
-import Theme from '../../../assets/styles/theme';
 import { NavigationScreenProp, NavigationParams } from 'react-navigation';
 import Gender from '../../../types/gender';
 import moment from 'moment-timezone';
 import validator from 'validator';
+import { connect } from 'react-redux';
+import WonderAppState from '../../../types/wonder-app-state';
+import { Dispatch } from 'redux';
+import { persistRegistrationInfo } from '../../../store/reducers/registration';
 
 interface Props {
+  onSave: Function;
   navigation: NavigationScreenProp<any, NavigationParams>;
 }
 
@@ -29,11 +32,18 @@ interface State {
   errors: StateErrors;
 }
 
-export default class Register2 extends React.Component<Props, State> {
+const mapState = (state: WonderAppState) => ({});
+const mapDispatch = (dispatch: Dispatch) => ({
+  onSave: (data: State) => dispatch(persistRegistrationInfo(data))
+});
 
-  public state: State = {
+class Register2 extends React.Component<Props, State> {
+
+  private eighteenYearsAgoToday = moment().subtract(18, 'years').startOf('day');
+
+  state: State = {
     gender: Gender.male,
-    birthdate: new Date(),
+    birthdate: this.eighteenYearsAgoToday.toDate(),
     education: '',
     occupation: '',
     errors: {}
@@ -41,29 +51,35 @@ export default class Register2 extends React.Component<Props, State> {
 
   public render() {
     const { navigation } = this.props;
-    const { errors } = this.state;
+    const { errors, birthdate } = this.state;
 
     return (
       <Screen horizontalPadding={20}>
         <ShadowBox>
           <Text style={styles.welcome}>Tell us a little more about yourself</Text>
-          <GenderPicker onChange={(gender: Gender) => alert(gender)} />
+          <GenderPicker onChange={(gender: Gender) => this.onChangeText('gender')(gender)} />
           <DatePicker
             errorHint={errors.birthdate}
             label="BIRTHDAY"
             placeholder="Select Date"
             onChange={this.onDateChange}
-            initialDate={this.eighteenYearsAgoToday.toDate()}
+            initialDate={birthdate}
             minDate={new Date('1950-01-01')}
             maxDate={this.eighteenYearsAgoToday.toDate()}
           />
           <TextInput
             label="EDUCATION"
             errorHint={errors.education}
+            autoCorrect={false}
+            autoCapitalize="words"
+            onChangeText={this.onChangeText('education')}
           />
           <TextInput
             label="OCCUPATION"
             errorHint={errors.occupation}
+            autoCorrect={false}
+            autoCapitalize="words"
+            onChangeText={this.onChangeText('occupation')}
           />
           <View style={{ marginTop: 10 }}>
             <PrimaryButton
@@ -75,8 +91,6 @@ export default class Register2 extends React.Component<Props, State> {
       </Screen>
     );
   }
-
-  private eighteenYearsAgoToday = moment().subtract(18, 'years').startOf('day');
 
   private onDateChange = (date: Date) => {
     this.setState({ birthdate: date });
@@ -97,7 +111,7 @@ export default class Register2 extends React.Component<Props, State> {
 
   private validate = () => {
     const errors: StateErrors = {};
-    const { navigation } = this.props;
+    const { navigation, onSave } = this.props;
     const { gender, education, occupation, birthdate } = this.state;
 
     if (GenderPicker.Genders.indexOf(gender) < 0) {
@@ -105,9 +119,9 @@ export default class Register2 extends React.Component<Props, State> {
     }
 
     if (!birthdate) {
-      errors.birthdate = "Please enter your birthday"
+      errors.birthdate = "Please enter your birthday";
     } else if (moment(birthdate).isAfter(this.eighteenYearsAgoToday)) {
-      errors.birthdate = 'You are not old enough to use this app'
+      errors.birthdate = 'You are not old enough to use this app';
     }
 
     if (validator.isEmpty(education)) {
@@ -123,11 +137,12 @@ export default class Register2 extends React.Component<Props, State> {
       return;
     }
 
+    onSave({ gender, education, occupation, birthdate });
     navigation.navigate('Register3');
   }
-
-
 }
+
+export default connect(mapState, mapDispatch)(Register2);
 
 const styles = StyleSheet.create({
   welcome: {

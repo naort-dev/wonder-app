@@ -12,7 +12,7 @@ class ProfileEditScreen extends React.Component {
       <Screen horizontalPadding={20}>
         <ShadowBox>
           <MediaGrid
-
+            onNewPicture={() => navigation.navigate('ProfileCamera')}
           />
           <TextArea
             label="About Me"
