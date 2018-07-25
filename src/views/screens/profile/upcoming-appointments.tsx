@@ -8,7 +8,7 @@ class UpcomingAppointmentsScreen extends React.Component {
     return (
       <Screen>
         <AppointmentList
-          data={mockSchedule}
+        data={mockSchedule}
         />
       </Screen>
     );
