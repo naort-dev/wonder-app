@@ -10,20 +10,24 @@ interface IconButtonProps {
   primary?: string;
   secondary?: string;
   onPress?: TouchableOpacityOnPress;
+  size: number;
 }
 
 class IconButton extends React.Component<IconButtonProps> {
   static defaultProps = {
     primary: theme.colors.primary,
-    secondary: theme.colors.primaryLight
+    secondary: theme.colors.primaryLight,
+    size: 45
   };
 
   render() {
-    const { icon, primary, secondary, circle, onPress } = this.props;
+    const { size, icon, primary, secondary, circle, onPress } = this.props;
 
     const btnStyle = {
       backgroundColor: secondary,
-      borderRadius: circle ? 25 : 3
+      borderRadius: circle ? (size / 2) : 3,
+      width: size,
+      height: size
     };
 
     return (
@@ -31,7 +35,7 @@ class IconButton extends React.Component<IconButtonProps> {
         style={[styles.btnContainer, btnStyle]}
         onPress={onPress}
       >
-        <Icon name={icon} color={primary} size={14} />
+        <Icon name={icon} color={primary} size={size * 0.4} />
       </TouchableOpacity>
     );
   }

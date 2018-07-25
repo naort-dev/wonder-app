@@ -63,7 +63,7 @@ const AuthenticatedNavigator = createMaterialTopTabNavigator({
   Home: {
     screen: HomeNavigator,
     navigationOptions: {
-      tabBarIcon: ({ tintColor }) => <Icon name="home" size={18} color={tintColor} />
+      tabBarIcon: ({ tintColor }) => <Icon name="sun-o" size={18} color={tintColor} />
     }
   },
   Chat: {

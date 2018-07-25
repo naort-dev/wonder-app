@@ -1,22 +1,64 @@
 import React from 'react';
-import { DeckSwiper } from 'native-base';
+import { DeckSwiper, Card, CardItem, Body } from 'native-base';
 import { Text, Title } from '../theme';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Proposal from '../../../types/proposal';
+import moment from 'moment-timezone';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import ProfileImage from '../../../types/profile-image';
 
 interface Props {
   proposal: Proposal | null;
   onSwipeLeft: Function;
   onSwipeRight: Function;
+  onTap?: Function;
 }
 
 class ProposalSwiper extends React.Component<Props> {
 
-  renderCard = (item: Proposal) => {
+  renderProfileImage = (images?: ProfileImage[]) => {
+    if (images && images.length) {
+      return (
+        <View style={styles.noImageContainer}>
+          <Image
+            style={{ width: '100%', height: '100%' }}
+            source={{ uri: 'https://api.getwonderapp.com' + images[0].url }}
+          />
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.noImageContainer}>
+          <Icon name="user" color="#CCC" size={100} />
+        </View>
+      );
+    }
+  }
+
+  renderCard = (proposal: Proposal) => {
+    const { onTap } = this.props;
+    const { candidate } = proposal;
+
+    const onPress = () => {
+      if (onTap) {
+        onTap(candidate);
+      }
+    };
+
     return (
-      <View style={styles.container}>
-        <Text>{JSON.stringify(item, null, 2)}</Text>
-      </View>
+      <TouchableOpacity onPress={onPress}>
+        <Card>
+          <CardItem cardBody>
+            {this.renderProfileImage(candidate.images)}
+          </CardItem>
+          <CardItem header>
+            <Body>
+              <Title>{[candidate.first_name, moment().diff(candidate.birthdate, 'years')].join(', ')}</Title>
+              <Text>{candidate.location}</Text>
+            </Body>
+          </CardItem>
+        </Card>
+      </TouchableOpacity>
     );
   }
 
@@ -25,14 +67,12 @@ class ProposalSwiper extends React.Component<Props> {
     const data = [proposal];
     if (proposal) {
       return (
-        <View style={{ flex: 1, backgroundColor: '#000' }}>
-          <DeckSwiper
-            onSwipeLeft={onSwipeLeft}
-            onSwipeRight={onSwipeRight}
-            dataSource={data}
-            renderItem={this.renderCard}
-          />
-        </View>
+        <DeckSwiper
+          onSwipeLeft={onSwipeLeft}
+          onSwipeRight={onSwipeRight}
+          dataSource={data}
+          renderItem={this.renderCard}
+        />
       );
     }
     return (
@@ -48,13 +88,12 @@ export default ProposalSwiper;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#DDD'
+
   },
   noMatchesContainer: {
     padding: 20,
     flex: 1,
-    backgroundColor: '#DDD',
+    backgroundColor: '#EEE',
     justifyContent: 'center',
     // alignItems: 'center'
   },
@@ -63,5 +102,12 @@ const styles = StyleSheet.create({
   },
   messageText: {
     textAlign: 'center'
+  },
+  noImageContainer: {
+    flex: 1,
+    height: 300,
+    backgroundColor: '#EEE',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });

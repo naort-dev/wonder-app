@@ -1,7 +1,7 @@
 import React from 'react';
 import Screen from '../../components/screen';
 import { SubHeader, Text, Toggle, PrimaryButton } from '../../components/theme';
-import { View, StyleSheet, ScrollView, Slider } from 'react-native';
+import { View, StyleSheet, ScrollView, Slider, RefreshControl } from 'react-native';
 import theme from '../../../assets/styles/theme';
 import DistanceUnit from '../../../types/distance-unit';
 import User from '../../../types/user';
@@ -9,22 +9,26 @@ import { NavigationScreenProp, NavigationParams } from 'react-navigation';
 import { connect } from 'react-redux';
 import WonderAppState from '../../../types/wonder-app-state';
 import { Dispatch } from 'redux';
-import { updateUser } from '../../../store/sagas/user';
+import { updateUser, getUser } from '../../../store/sagas/user';
 
 const mapState = (state: WonderAppState) => ({
   profile: state.user.profile
 });
 
 const mapDispatch = (dispatch: Dispatch) => ({
-  onSave: (profile: Partial<User>) => dispatch(updateUser(profile))
+  onSave: (profile: Partial<User>) => dispatch(updateUser(profile)),
+  onRefresh: () => dispatch(getUser())
 });
 
 interface Props {
   navigation: NavigationScreenProp<any, NavigationParams>;
   profile: User;
+  onSave: Function;
+  onRefresh: Function;
 }
 
 interface State {
+  isRefreshing?: boolean;
   distance_of_interest_min?: number;
   distance_of_interest_max?: number;
   age_of_interest_min?: number;
@@ -56,6 +60,7 @@ class ProfileNotificationsScreen extends React.Component<Props, State> {
   }
 
   loadProfile = (profile: User): State => ({
+    isRefreshing: false,
     distance_of_interest_min: 0,
     distance_of_interest_max: profile.distance_of_interest_max || 0,
     age_of_interest_min: profile.age_of_interest_min || 18,
@@ -100,9 +105,44 @@ class ProfileNotificationsScreen extends React.Component<Props, State> {
     };
   }
 
+  save = () => {
+    const { onSave } = this.props;
+    const {
+      distance_of_interest_min,
+      distance_of_interest_max,
+      age_of_interest_min,
+      age_of_interest_max,
+      male_interest,
+      female_interest,
+      available,
+      show_flakers,
+      show_ghosters,
+      show_fibbers,
+      show_location,
+      military_time,
+      distance_unit,
+      apn_new_matches,
+      apn_new_messages,
+      apn_message_likes,
+      apn_message_super_likes,
+      geocoding_requested
+    } = this.state;
+
+    onSave(this.state);
+  }
+
+  refresh = () => {
+    const { onRefresh } = this.props;
+    onRefresh();
+    this.setState({ isRefreshing: true }, () => {
+      setTimeout(() => this.setState({ isRefreshing: false }), 1500);
+    });
+  }
+
   render() {
     const { navigation } = this.props;
     const {
+      isRefreshing,
       distance_of_interest_min,
       distance_of_interest_max,
       age_of_interest_min,
@@ -125,7 +165,14 @@ class ProfileNotificationsScreen extends React.Component<Props, State> {
 
     return (
       <Screen>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing || false}
+              onRefresh={this.refresh}
+            />
+          }
+        >
           <View style={{ paddingHorizontal: 20, flex: 1 }}>
             <View style={styles.heading}>
               <SubHeader>Notifications</SubHeader>
@@ -268,7 +315,7 @@ class ProfileNotificationsScreen extends React.Component<Props, State> {
           <PrimaryButton
             rounded={false}
             title="Save"
-            onPress={() => navigation.goBack()}
+            onPress={this.save}
           />
         </View>
       </Screen>

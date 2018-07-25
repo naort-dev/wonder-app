@@ -22,3 +22,5 @@ export { default as SubTitle } from './text/sub-title';
 export { default as SmallText } from './text/small-text';
 export { default as Title } from './text/title';
 export { default as Strong } from './text/strong';
+
+export { default as WonderImage } from './wonder-image';
