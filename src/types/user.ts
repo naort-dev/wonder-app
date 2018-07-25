@@ -1,5 +1,8 @@
 import Gender from "./gender";
 import DistanceUnit from './distance-unit';
+import ProfileImage from "./profile-image";
+import VibeVideo from "./vibe-video";
+import Topic from "./topic";
 
 /**
  * User Model
@@ -40,4 +43,7 @@ export default interface User {
   geocoding_requested?: boolean;
   latitude?: number;
   longitude?: number;
+  images?: ProfileImage[];
+  video?: VibeVideo;
+  topics?: Topic[];
 }

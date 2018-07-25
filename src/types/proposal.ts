@@ -1,4 +1,4 @@
-import User from "./user";
+import Candidate from "./candidate";
 
 /**
  * A proposal is a user who is calculated to
@@ -8,5 +8,5 @@ export default interface Proposal {
   id: number | null;
   liked: boolean | null;
   has_match: boolean;
-  candidate: Partial<User>;
+  candidate: Candidate;
 }
