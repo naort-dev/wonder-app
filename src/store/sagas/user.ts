@@ -53,19 +53,19 @@ export function* watchLogoutUser() {
 }
 
 const GET_USER = 'GET_USER';
-const getUser = createAction(GET_USER);
+export const getUser = createAction(GET_USER);
 export function* getUserSaga(action: Action<any>) {
   try {
     const state: WonderAppState = yield select();
     const { auth } = state.user;
 
-    const response = yield call(api, {
+    const { data }: { data: User } = yield call(api, {
       method: 'GET',
       url: `/users/${auth.uid}`
     },
       state.user);
 
-    yield put(persistUser(response.data));
+    yield put(persistUser(data));
   } catch (error) {
     console.warn(error);
   } finally {
@@ -91,6 +91,8 @@ export function* updateUserSaga(action: Action<any>) {
       url: `/users/${auth.uid}`,
       data: profile
     }, state.user);
+
+    yield put(persistUser(data));
   } catch (error) {
     console.warn(error);
   } finally {

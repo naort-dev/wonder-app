@@ -67,6 +67,8 @@ export function* rateProposalSaga(action: Action<any>) {
       Alert.alert('Match', `You have matched with ${proposal.candidate.first_name}`);
       // TODO: We are matched, show the modal
     }
+
+    yield put(persistProposal(data));
   } catch (error) {
     const { response } = error;
     if (response && response.status === 422) {
