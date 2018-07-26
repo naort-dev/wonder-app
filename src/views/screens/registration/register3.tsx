@@ -66,8 +66,6 @@ class Register3 extends React.Component<Props, State> {
   }
 
   render() {
-    // const { navigation } = this.props;
-
     return (
       <Screen horizontalPadding={20}>
         <ShadowBox>

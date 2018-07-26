@@ -27,7 +27,7 @@ export default class Welcome extends React.Component<Props> {
             <PrimaryButton
               icon="envelope-o"
               title="CREATE ACCOUNT"
-              onPress={() => navigation.navigate('Register3')}
+              onPress={() => navigation.navigate('Register1')}
               fullWidth
             />
           </View>

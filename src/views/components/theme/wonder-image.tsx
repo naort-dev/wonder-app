@@ -9,10 +9,6 @@ interface Props extends Omit<ImageProps, "source"> {
 }
 
 class WonderImage extends React.Component<Props> {
-  static defaultProps = {
-    host: ''
-  };
-
   render() {
     const { uri, ...rest } = this.props;
     return (

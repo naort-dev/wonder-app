@@ -14,7 +14,7 @@ export default class ElevatedButton extends React.Component<Props> {
 
   static defaultProps = {
     start: undefined
-  }
+  };
 
   render() {
     const { onPress, title, style, start, ...rest } = this.props;

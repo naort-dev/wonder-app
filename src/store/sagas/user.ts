@@ -7,6 +7,39 @@ import User from '../../types/user';
 import UserCredentials, { UserCredentialsResponse } from '../../types/user-credentials';
 import WonderAppState from '../../types/wonder-app-state';
 import { NavigationActions } from 'react-navigation';
+import { Alert } from 'react-native';
+
+export const REGISTER_USER = 'REGISTER_USER';
+export const registerUser = createAction(REGISTER_USER);
+export function* registerUserSaga(action: Action<any>) {
+  try {
+    const state: WonderAppState = yield select();
+
+    const { data }: { data: User } = yield call(api, {
+      method: 'POST',
+      url: '/users',
+      data: {
+        ...state.registration,
+        distance_unit: 'mi',
+        location: ''
+      }
+    });
+    yield put(persistUser(data));
+    NavigatorService.navigate('Main');
+  } catch (error) {
+    if (error.response) {
+      Alert.alert('ERROR', JSON.stringify(error.response.data));
+    } else {
+      console.warn(error);
+    }
+  } finally {
+    // yield put(getUser());
+  }
+}
+
+export function* watchRegisterUser() {
+  yield takeEvery(REGISTER_USER, registerUserSaga);
+}
 
 export const LOGIN_USER = 'LOGIN_USER';
 export const loginUser = createAction(LOGIN_USER);

@@ -20,6 +20,7 @@ interface State {
   last_name: string;
   email: string;
   phone: string;
+  password: string;
   errors: StateErrors;
 }
 
@@ -28,6 +29,7 @@ interface StateErrors {
   last_name?: string;
   email?: string;
   phone?: string;
+  password?: string;
 }
 
 const mapState = (state: WonderAppState) => ({
@@ -45,12 +47,12 @@ class Register1 extends React.Component<Props, State> {
     last_name: "",
     email: "",
     phone: "",
+    password: "",
     errors: {}
   };
 
   public render() {
-    const { navigation } = this.props;
-    const { first_name, last_name, email, phone, errors } = this.state;
+    const { errors } = this.state;
     return (
       <Screen>
         <View style={styles.header}>
@@ -95,6 +97,7 @@ class Register1 extends React.Component<Props, State> {
           </View>
           <View style={{ marginTop: 10, width: "100%" }}>
             <RoundedTextInput
+              keyboardType="phone-pad"
               autoCapitalize="none"
               autoCorrect={false}
               errorHint={errors.phone}
@@ -103,6 +106,17 @@ class Register1 extends React.Component<Props, State> {
               onChangeText={this.onChangeText("phone")}
               fullWidth
               maxLength={10}
+            />
+          </View>
+          <View style={{ marginTop: 10, width: "100%" }}>
+            <RoundedTextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              errorHint={errors.password}
+              icon="lock"
+              placeholder="Password"
+              onChangeText={this.onChangeText("password")}
+              fullWidth
             />
           </View>
           <View style={{ marginTop: 10, width: "50%" }}>
@@ -119,7 +133,7 @@ class Register1 extends React.Component<Props, State> {
   private validate = () => {
     const errors: StateErrors = {};
     const { navigation, onSave } = this.props;
-    const { first_name, last_name, email, phone } = this.state;
+    const { first_name, last_name, email, phone, password } = this.state;
 
     if (validator.isEmpty(first_name)) {
       errors.first_name = "Please enter your first name";
@@ -137,11 +151,17 @@ class Register1 extends React.Component<Props, State> {
       errors.phone = "Please enter your mobile phone number";
     }
 
+    if (validator.isEmpty(password)) {
+      errors.password = "Please enter a password";
+    } else if (password && password.length < 6) {
+      errors.password = "Password must be at least 6 characters";
+    }
+
     if (Object.keys(errors).length) {
       this.setState({ errors });
       return;
     }
-    onSave({ first_name, last_name, email, phone });
+    onSave({ first_name, last_name, email, phone, password });
     navigation.navigate("Register2");
   }
 

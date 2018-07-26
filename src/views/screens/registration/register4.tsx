@@ -1,22 +1,23 @@
 import _ from 'lodash';
 import React from 'react';
-import { View, StyleSheet, Platform, Button } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Text, PrimaryButton, TextArea, TextInput, WonderPicker } from '../../components/theme';
-import ShadowBox from '../../components/theme/shadow-box';
+import { View, StyleSheet} from 'react-native';
+import { Text, PrimaryButton, TextInput, WonderPicker } from '../../components/theme';
 import Screen from '../../components/screen';
-import Theme from '../../../assets/styles/theme';
 import Topic from '../../../types/topic';
 import { NavigationScreenProp, NavigationParams } from 'react-navigation';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { getTopics } from '../../../store/sagas/topics';
 import WonderAppState from '../../../types/wonder-app-state';
+import { persistRegistrationInfo } from '../../../store/reducers/registration';
+import { registerUser } from '../../../store/sagas/user';
 
 interface Props {
   navigation: NavigationScreenProp<any, NavigationParams>;
   topics: Topic[];
   getAllTopics: Function;
+  onSave: Function;
+  onRegister: Function;
 }
 
 interface State {
@@ -29,7 +30,9 @@ const mapState = (state: WonderAppState) => ({
 });
 
 const mapDispatch = (dispatch: Dispatch) => ({
-  getAllTopics: () => dispatch(getTopics())
+  getAllTopics: () => dispatch(getTopics()),
+  onSave: (data: any) => dispatch(persistRegistrationInfo(data)),
+  onRegister: () => dispatch(registerUser())
 });
 
 class Register4 extends React.Component<Props, State> {
@@ -80,26 +83,38 @@ class Register4 extends React.Component<Props, State> {
           limit={3}
           onChangeSelected={this.onChangeSelected}
         />
-      )
+      );
     }
     return (
       <View>
-        <Text style={{ textAlign: 'center' }}>Sorry! Looks like we do not have a wonder that matches what you are looking for.</Text>
+        <Text style={{ textAlign: 'center' }}>
+          Sorry! Looks like we do not have a wonder that matches what you are looking for.
+        </Text>
       </View>
     );
   }
 
+  validate = () => {
+    const { onSave, onRegister } = this.props;
+    const { selected } = this.state;
+    if (selected.length === 3) {
+      onSave({ topic_ids: selected.map((s: Topic) => s.id) });
+      onRegister();
+    }
+  }
+
   render() {
-    const { navigation } = this.props;
     const { selected } = this.state;
     return (
       <Screen horizontalPadding={20}>
         <View style={{ paddingVertical: 15 }}>
-          <Text style={{ textAlign: 'center' }}> Please select 3 Wonders for us to find people and activities in your area.</Text>
+          <Text style={{ textAlign: 'center' }}>
+            Please select 3 Wonders for us to find people and activities in your area.
+          </Text>
         </View>
         <View style={{ paddingVertical: 15 }}>
           <TextInput
-            autoComplete={false}
+            autoCorrect={false}
             autoCapitalize="none"
             icon="search"
             placeholder="Search"
@@ -112,7 +127,7 @@ class Register4 extends React.Component<Props, State> {
             <PrimaryButton
               disabled={selected.length !== 3}
               title="Finish"
-              onPress={() => navigation.navigate('Main')}
+              onPress={this.validate}
             />
           </View>
         </View>

@@ -35,7 +35,7 @@ export default class TextInput extends React.Component<Props> {
   }
 
   render() {
-    const { label, style, padLeft, ...rest } = this.props;
+    const { autoCorrect, label, style, padLeft, ...rest } = this.props;
     return (
       <View style={styles.container}>
         {label && <Label>{label.toUpperCase()}</Label>}
@@ -43,6 +43,7 @@ export default class TextInput extends React.Component<Props> {
           {this.renderIcon()}
           {padLeft && <View flex={1} />}
           <Input
+            autoCorrect={autoCorrect}
             underlineColorAndroid="transparent"
             {...rest}
             style={[styles.input, style]}

@@ -23,7 +23,10 @@ class ProposalSwiper extends React.Component<Props> {
           <WonderImage
             style={{ width: '100%', height: '100%' }}
             uri={images[0].url}
+            resizeMode="cover"
+
           />
+          <Text>{images[0].url}</Text>
         </View>
       );
     } else {
