@@ -40,10 +40,10 @@ const styles = StyleSheet.create({
     elevation: 3,
     shadowRadius: 5,
     shadowColor: '#000',
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.4,
     shadowOffset: {
       width: 0,
-      height: 5
+      height: 3
     }
   }
 });

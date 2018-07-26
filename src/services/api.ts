@@ -21,4 +21,5 @@ const api = (opts: AxiosRequestConfig, userState?: UserState) => {
   return wonderApi(opts);
 };
 
+export { wonderApi as ApiConfig };
 export default api;

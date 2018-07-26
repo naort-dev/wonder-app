@@ -1,10 +1,10 @@
+
 import React from 'react';
 import { ImageProps, Image } from "react-native";
+import api, {ApiConfig} from '../../../services/api';
+import Omit from '../../../types/omit';
 
-import api from '../../services/api';
-
-interface Props extends ImageProps {
-  host: string;
+interface Props extends Omit<ImageProps, "source"> {
   uri: string;
 }
 
@@ -14,10 +14,10 @@ class WonderImage extends React.Component<Props> {
   };
 
   render() {
-    const { host, uri, ...rest } = this.props;
+    const { uri, ...rest } = this.props;
     return (
       <Image
-        source={{ uri: `${api.defaults.baseURL}${uri}` }}
+        source={{ uri: `${ApiConfig.defaults.baseURL}${uri}` }}
         {...rest}
       />
     );

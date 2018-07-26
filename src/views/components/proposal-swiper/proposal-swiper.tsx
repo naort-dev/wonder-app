@@ -1,6 +1,6 @@
 import React from 'react';
 import { DeckSwiper, Card, CardItem, Body } from 'native-base';
-import { Text, Title } from '../theme';
+import { Text, Title, WonderImage } from '../theme';
 import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Proposal from '../../../types/proposal';
 import moment from 'moment-timezone';
@@ -20,9 +20,9 @@ class ProposalSwiper extends React.Component<Props> {
     if (images && images.length) {
       return (
         <View style={styles.noImageContainer}>
-          <Image
+          <WonderImage
             style={{ width: '100%', height: '100%' }}
-            source={{ uri: 'https://api.getwonderapp.com' + images[0].url }}
+            uri={images[0].url}
           />
         </View>
       );

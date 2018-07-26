@@ -35,7 +35,7 @@ export default class BaseButton extends React.Component<Partial<BaseButtonProps>
     end: undefined,
     fullWidth: false,
     color: undefined
-  }
+  };
 
   renderIcon = () => {
     const { icon, color, iconColor } = this.props;
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 15,
+    padding: 10,
   },
   txtContainer: {
     flex: 7,
