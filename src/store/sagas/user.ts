@@ -8,6 +8,7 @@ import UserCredentials, { UserCredentialsResponse } from '../../types/user-crede
 import WonderAppState from '../../types/wonder-app-state';
 import { NavigationActions } from 'react-navigation';
 import { Alert } from 'react-native';
+import { resetRegistration } from '../reducers/registration';
 
 export const REGISTER_USER = 'REGISTER_USER';
 export const registerUser = createAction(REGISTER_USER);
@@ -25,6 +26,7 @@ export function* registerUserSaga(action: Action<any>) {
       }
     });
     yield put(persistUser(data));
+    yield put(resetRegistration());
     NavigatorService.navigate('Main');
   } catch (error) {
     if (error.response) {

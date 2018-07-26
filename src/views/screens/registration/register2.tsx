@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert, Geolocation } from 'react-native';
 import { TextInput, Text, GenderPicker, PrimaryButton, DatePicker } from '../../components/theme';
 import ShadowBox from '../../components/theme/shadow-box';
 import Screen from '../../components/screen';
@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import WonderAppState from '../../../types/wonder-app-state';
 import { Dispatch } from 'redux';
 import { persistRegistrationInfo } from '../../../store/reducers/registration';
+import googleMaps, { GoogleGeoLocation } from '../../../services/google-maps';
 
 interface Props {
   onSave: Function;
@@ -22,6 +23,7 @@ interface StateErrors {
   birthdate?: string;
   education?: string;
   occupation?: string;
+  location?: string;
 }
 
 interface State {
@@ -29,6 +31,8 @@ interface State {
   birthdate: Date;
   education: string;
   occupation: string;
+  location: string;
+  geolocation: GoogleGeoLocation | null;
   errors: StateErrors;
 }
 
@@ -46,48 +50,74 @@ class Register2 extends React.Component<Props, State> {
     birthdate: this.eighteenYearsAgoToday.toDate(),
     education: '',
     occupation: '',
+    location: '',
+    geolocation: null,
     errors: {}
   };
 
+  lookupLocation = async () => {
+    const { location } = this.state;
+    if (!validator.isEmpty(location) && validator.isPostalCode(location, 'US')) {
+      const geolocation: GoogleGeoLocation = await googleMaps.geocodeByZipCode(location);
+      this.setState({ geolocation });
+    } else {
+      this.setState({ geolocation: null });
+    }
+  }
+
+  formattedGeo = () => {
+    const {geolocation} = this.state;
+    if (geolocation) {
+      return ` (${geolocation.city}, ${geolocation.state})`;
+    }
+    return '';
+  }
+
   public render() {
-    const { navigation } = this.props;
-    const { errors, birthdate } = this.state;
+    const { errors, birthdate, geolocation } = this.state;
 
     return (
       <Screen horizontalPadding={20}>
-        <ShadowBox>
-          <Text style={styles.welcome}>Tell us a little more about yourself</Text>
-          <GenderPicker onChange={(gender: Gender) => this.onChangeText('gender')(gender)} />
-          <DatePicker
-            errorHint={errors.birthdate}
-            label="BIRTHDAY"
-            placeholder="Select Date"
-            onChange={this.onDateChange}
-            initialDate={birthdate}
-            minDate={new Date('1950-01-01')}
-            maxDate={this.eighteenYearsAgoToday.toDate()}
+        <Text style={styles.welcome}>Tell us a little more about yourself</Text>
+        <GenderPicker onChange={(gender: Gender) => this.onChangeText('gender')(gender)} />
+        <DatePicker
+          errorHint={errors.birthdate}
+          label="BIRTHDAY"
+          placeholder="Select Date"
+          onChange={this.onDateChange}
+          initialDate={birthdate}
+          minDate={new Date('1950-01-01')}
+          maxDate={this.eighteenYearsAgoToday.toDate()}
+        />
+        <TextInput
+          label="EDUCATION"
+          errorHint={errors.education}
+          autoCorrect={false}
+          autoCapitalize="words"
+          onChangeText={this.onChangeText('education')}
+        />
+        <TextInput
+          label="OCCUPATION"
+          errorHint={errors.occupation}
+          autoCorrect={false}
+          autoCapitalize="words"
+          onChangeText={this.onChangeText('occupation')}
+        />
+        <TextInput
+          keyboardType="number-pad"
+          label={`ZIP CODE${this.formattedGeo()}`}
+          errorHint={errors.location}
+          autoCorrect={false}
+          autoCapitalize="words"
+          onChangeText={this.onChangeText('location')}
+          onBlur={this.lookupLocation}
+        />
+        <View style={{ marginTop: 10 }}>
+          <PrimaryButton
+            title="Next"
+            onPress={this.validate}
           />
-          <TextInput
-            label="EDUCATION"
-            errorHint={errors.education}
-            autoCorrect={false}
-            autoCapitalize="words"
-            onChangeText={this.onChangeText('education')}
-          />
-          <TextInput
-            label="OCCUPATION"
-            errorHint={errors.occupation}
-            autoCorrect={false}
-            autoCapitalize="words"
-            onChangeText={this.onChangeText('occupation')}
-          />
-          <View style={{ marginTop: 10 }}>
-            <PrimaryButton
-              title="Next"
-              onPress={this.validate}
-            />
-          </View>
-        </ShadowBox>
+        </View>
       </Screen>
     );
   }
@@ -112,7 +142,7 @@ class Register2 extends React.Component<Props, State> {
   private validate = () => {
     const errors: StateErrors = {};
     const { navigation, onSave } = this.props;
-    const { gender, education, occupation, birthdate } = this.state;
+    const { gender, education, occupation, birthdate, location } = this.state;
 
     if (GenderPicker.Genders.indexOf(gender) < 0) {
       errors.gender = 'Please select a gender';
@@ -130,6 +160,12 @@ class Register2 extends React.Component<Props, State> {
 
     if (validator.isEmpty(occupation)) {
       errors.occupation = 'Please enter your occupation';
+    }
+
+    if (validator.isEmpty(location)) {
+      errors.location = 'Please enter a Postal Code';
+    } else if (!validator.isPostalCode(location, 'US')) {
+      errors.location = 'Please enter a valid Postal Code';
     }
 
     if (Object.keys(errors).length) {

@@ -184,13 +184,13 @@ export default connect(mapState, mapDispatch)(Register1);
 const styles = StyleSheet.create({
   body: {
     alignItems: "center",
-    flex: 3,
+    flex: 4,
     flexDirection: "column",
     padding: 20
   },
   header: {
-    alignItems: "center",
     flex: 1,
+    alignItems: "center",
     justifyContent: "center"
   },
 

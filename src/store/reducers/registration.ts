@@ -37,6 +37,7 @@ const defaultState: RegistrationState = {
 };
 
 export const persistRegistrationInfo = createAction('PERSIST_REGISTRATION_INFO');
+export const resetRegistration = createAction('RESET_REGISTRATION');
 
 export default handleActions({
   PERSIST_REGISTRATION_INFO: (state: RegistrationState, action: Action<any>): RegistrationState => ({
