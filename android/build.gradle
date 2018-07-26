@@ -38,6 +38,17 @@ ext {
     buildToolsVersion = "27.0.3"
     minSdkVersion = 16
     compileSdkVersion = 27
-    targetSdkVersion = 27
+    targetSdkVersion = 22
     supportLibVersion = "27.1.0"
+}
+
+subprojects {
+    afterEvaluate {project ->
+        if (project.hasProperty("android")) {
+            android {
+                compileSdkVersion 27
+                buildToolsVersion "27.0.3"
+            }
+        }
+    }
 }
