@@ -148,9 +148,18 @@ android {
 }
 
 dependencies {
+    // implementation (project(':react-native-camera')) {
+    //     exclude group: "com.google.android.gms"
+    //     exclude group: "com.android.support"
+    // }
+
     implementation (project(':react-native-camera')) {
         exclude group: "com.google.android.gms"
         exclude group: "com.android.support"
+        compile "com.android.support:exifinterface:${rootProject.ext.supportLibVersion}"
+        compile ("com.google.android.gms:play-services-vision:${rootProject.ext.googlePlayServicesVersion}") {
+            force = true
+        }
     }
 //     compile (project(':react-native-camera')) {
 //     exclude group: "com.google.android.gms"
@@ -163,8 +172,8 @@ dependencies {
         exclude group: 'com.google.android.gms', module: 'play-services-base'
         exclude group: 'com.google.android.gms', module: 'play-services-maps'
     }
-    implementation 'com.google.android.gms:play-services-base:15.0.1'
-    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation "com.google.android.gms:play-services-base:${rootProject.ext.googlePlayServicesVersion}"
+    implementation "com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}"
 
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-vector-icons')
