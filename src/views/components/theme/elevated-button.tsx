@@ -38,12 +38,12 @@ const styles = StyleSheet.create({
     width: 'auto',
     padding: 10,
     elevation: 3,
-    shadowRadius: 5,
+    shadowRadius: 3,
     shadowColor: '#000',
     shadowOpacity: 0.4,
     shadowOffset: {
       width: 0,
-      height: 3
+      height: 5
     }
   }
 });

@@ -61,9 +61,6 @@ class ProfileViewScreen extends React.Component<Props> {
               uri={this.getProfileImage()}
               size={AvatarSize.md}
             />
-            <Title style={{ textAlign: 'center', marginTop: 5 }}>
-              {[currentUser.first_name, currentUser.last_name].join(' ')}
-            </Title>
           </View>
         </View>
         <View flex={1}>
@@ -72,8 +69,8 @@ class ProfileViewScreen extends React.Component<Props> {
               <ElevatedButton
                 fullWidth
                 icon="user"
-                title="Me"
-                onPress={this.goTo('ProfileFilters')}
+                title={currentUser.first_name}
+                onPress={this.goTo('ProfileEdit')}
               />
             </View>
             <View style={styles.col}>
@@ -89,7 +86,7 @@ class ProfileViewScreen extends React.Component<Props> {
               <ElevatedButton
                 icon="image"
                 title="Photos"
-                onPress={this.goTo('ProfileEdit', { media: 'camera', front: true })}
+                onPress={this.goTo('ProfileMedia')}
               />
             </View>
             <View style={styles.col}>

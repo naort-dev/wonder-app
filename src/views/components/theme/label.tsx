@@ -17,7 +17,8 @@ const styles = StyleSheet.create({
   label: {
     marginTop: 10,
     marginBottom: 5,
-    fontSize: 11
+    fontSize: 11,
+    color: theme.colors.primaryLight
   },
   container: {
     width: '100%',

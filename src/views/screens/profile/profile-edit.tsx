@@ -1,30 +1,156 @@
 import React from 'react';
 import Screen from '../../components/screen';
-import ShadowBox from '../../components/theme/shadow-box';
-import { MediaGrid } from '../../components/theme/media-grid';
-import { TextArea, PrimaryButton } from '../../components/theme';
-import { View } from 'react-native';
+import validator from 'validator';
+import { PrimaryButton, TextInput } from '../../components/theme';
+import { View, StyleSheet } from 'react-native';
+import WonderAppState from '../../../types/wonder-app-state';
+import User from '../../../types/user';
+import { NavigationScreenProp, NavigationParams } from '../../../../node_modules/@types/react-navigation';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { updateUser } from '../../../store/sagas/user';
 
-class ProfileEditScreen extends React.Component {
+const mapState = (state: WonderAppState) => ({
+  currentUser: state.user.profile
+});
+
+const mapDispatch = (dispatch: Dispatch) => ({
+  onSave: (data: State) => dispatch(updateUser(data))
+});
+
+interface Props {
+  navigation: NavigationScreenProp<NavigationParams>;
+  currentUser: User;
+  onSave: Function;
+}
+
+interface State {
+  first_name: string;
+  last_name: string;
+  school: string;
+  occupation: string;
+  errors: StateErrors;
+}
+
+interface StateErrors {
+  first_name?: string;
+  last_name?: string;
+  school?: string;
+  occupation?: string;
+}
+
+class ProfileEditScreen extends React.Component<Props, State> {
+  state: State = {
+    first_name: this.props.currentUser.first_name,
+    last_name: this.props.currentUser.last_name,
+    school: this.props.currentUser.school,
+    occupation: this.props.currentUser.occupation,
+    errors: {}
+  };
+
+  validate = () => {
+    const errors: StateErrors = {};
+    const { onSave, navigation } = this.props;
+    const { first_name, last_name, school, occupation } = this.state;
+
+    if (validator.isEmpty(first_name)) {
+      errors.first_name = "First name is required";
+    }
+
+    if (validator.isEmpty(last_name)) {
+      errors.last_name = "Last name is required";
+    }
+
+    if (validator.isEmpty(school)) {
+      errors.school = "Please enter your education";
+    }
+
+    if (validator.isEmpty(occupation)) {
+      errors.occupation = "Please enter your occupation";
+    }
+
+    if (Object.keys(errors).length) {
+      this.setState({ errors });
+      return;
+    }
+
+    onSave({ first_name, last_name, school, occupation });
+    navigation.goBack();
+  }
+
+  onChangeText = (key: string) => {
+    return (text: string) => {
+      this.setState({
+        ...this.state,
+        [key]: text
+      });
+    };
+  }
+
   render() {
-    const { navigation } = this.props;
+    const { navigation, currentUser } = this.props;
+    const { errors } = this.state;
     return (
-      <Screen horizontalPadding={20}>
-        <ShadowBox>
-          <MediaGrid
-            onNewPicture={() => navigation.navigate('ProfileCamera')}
-          />
-          <TextArea
-            label="About Me"
-            placeholder={`Take this time to describe yourself, life experience, hobbies, and anything else that makes you wonderful.`}
-          />
-          <View style={{ marginTop: 10 }}>
-            <PrimaryButton title="DONE" onPress={() => navigation.goBack()} />
+      <Screen>
+        <View style={styles.container}>
+          <View style={styles.row}>
+            <View flex={1}>
+              <TextInput
+                label="Name"
+                defaultValue={currentUser.first_name}
+                onChangeText={this.onChangeText('first_name')}
+                errorHint={errors.first_name}
+              />
+            </View>
+            <View flex={1}>
+              <TextInput
+                label=" "
+                defaultValue={currentUser.last_name}
+                onChangeText={this.onChangeText('last_name')}
+                errorHint={errors.last_name}
+              />
+            </View>
           </View>
-        </ShadowBox>
+          <View>
+            <TextInput
+              label="Education"
+              onChangeText={this.onChangeText('education')}
+              defaultValue={currentUser.school}
+              errorHint={errors.school}
+            />
+            <TextInput
+              label="Occupaction"
+              onChangeText={this.onChangeText('occupation')}
+              defaultValue={currentUser.occupation}
+              errorHint={errors.occupation}
+            />
+            <TextInput
+              label="Zip Code"
+              disabled
+              defaultValue={currentUser.location}
+            />
+          </View>
+        </View>
+        <View>
+          <PrimaryButton
+            rounded={false}
+            title="Save"
+            onPress={this.validate}
+          />
+        </View>
       </Screen>
-    )
+    );
   }
 }
 
-export default ProfileEditScreen;
+export default connect(mapState, mapDispatch)(ProfileEditScreen);
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 20,
+    flex: 1
+  },
+  row: {
+    flexDirection: 'row'
+  }
+});

@@ -12,10 +12,15 @@ interface Props extends TextInputProps {
   errorHint?: string;
   label?: string;
   padLeft?: boolean;
+  disabled?: boolean;
 }
 
 const palette = Color(theme.colors.backgroundPrimary);
 export default class TextInput extends React.Component<Props> {
+  static defaultProps = {
+    disabled: false
+  };
+
   renderIcon = () => {
     const { icon, color } = this.props;
     if (icon) {
@@ -35,7 +40,7 @@ export default class TextInput extends React.Component<Props> {
   }
 
   render() {
-    const { autoCorrect, label, style, padLeft, ...rest } = this.props;
+    const { disabled, autoCorrect, label, style, padLeft, ...rest } = this.props;
     return (
       <View style={styles.container}>
         {label && <Label>{label.toUpperCase()}</Label>}
@@ -43,6 +48,7 @@ export default class TextInput extends React.Component<Props> {
           {this.renderIcon()}
           {padLeft && <View flex={1} />}
           <Input
+            editable={!disabled}
             autoCorrect={autoCorrect}
             underlineColorAndroid="transparent"
             {...rest}
@@ -72,20 +78,20 @@ const styles = StyleSheet.create({
     marginBottom: 15
   },
   inputContainer: {
+    height: 44,
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    paddingBottom: 5,
     borderBottomWidth: 2,
     borderBottomColor: Color(theme.colors.textColor).lighten(0.5),
   },
   input: {
     flex: 10,
     fontFamily: theme.fonts.primary,
-    color: theme.colors.textColor
+    color: theme.colors.textColor,
   },
   iconContainer: {
     flex: 1,
     paddingHorizontal: 10
-  },
+  }
 });

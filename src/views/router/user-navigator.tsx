@@ -8,9 +8,9 @@ import {
 } from 'react-navigation';
 
 import {
-  Login,
   ProfileView,
   ProfileEdit,
+  ProfileMedia,
   ProfilePreferences,
   UpcomingAppointments,
   PastAppointments,
@@ -42,6 +42,13 @@ const ProfileNavigator = createStackNavigator({
   },
   ProfileEdit: {
     screen: ProfileEdit,
+    navigationOptions: {
+      title: 'Profile',
+      ...theme.NavBar.transparent
+    }
+  },
+  ProfileMedia: {
+    screen: ProfileMedia,
     navigationOptions: {
       title: 'Profile',
       ...theme.NavBar.transparent

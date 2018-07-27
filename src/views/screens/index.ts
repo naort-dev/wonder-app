@@ -10,6 +10,7 @@ export { default as Register4 } from './registration/register4';
 // Profile Views
 export { default as ProfileView } from './profile/profile-view';
 export { default as ProfileEdit } from './profile/profile-edit';
+export { default as ProfileMedia } from './profile/profile-media';
 export { default as ProfilePreferences } from './profile/profile-preferences';
 
 // Camera and Video
