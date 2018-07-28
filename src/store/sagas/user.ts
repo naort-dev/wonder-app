@@ -124,7 +124,9 @@ export function* updateUserSaga(action: Action<any>) {
     const { data }: { data: User } = yield call(api, {
       method: 'PUT',
       url: `/users/${auth.uid}`,
-      data: profile
+      data: {
+        user: profile
+      }
     }, state.user);
 
     yield put(persistUser(data));
