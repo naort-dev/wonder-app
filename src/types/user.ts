@@ -9,7 +9,7 @@ import Topic from "./topic";
  */
 export default interface User {
   token?: string;
-  id?: string;
+  id: number;
   first_name: string;
   last_name: string;
   email: string;
@@ -19,7 +19,6 @@ export default interface User {
   school: string;
   gender: Gender;
   about?: string;
-  distance_of_interest_min?: number;
   distance_of_interest_max?: number;
   age_of_interest_min?: number;
   age_of_interest_max?: number;
@@ -29,7 +28,6 @@ export default interface User {
   show_flakers?: boolean;
   show_ghosters?: boolean;
   show_fibbers?: boolean;
-  show_location?: boolean;
   military_time?: boolean;
   distance_unit?: DistanceUnit;
   apn_new_matches?: boolean;
@@ -46,4 +44,5 @@ export default interface User {
   images?: ProfileImage[];
   video?: VibeVideo;
   topics?: Topic[];
+  topic_ids?: number[];
 }
