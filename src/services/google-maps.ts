@@ -20,13 +20,18 @@ export interface GoogleGeoLocation {
   state: string | null;
   zipcode: string | null;
   zipcode_suffix?: string | null;
+  lat?: number | null;
+  lng?: number | null;
 }
 
 const googleApi = axios.create({
   baseURL: 'https://maps.googleapis.com/maps/api'
 });
 
-function parseGoogleGeocodeResponse(response: any[]) {
+function parseGoogleGeocodeResponse(google: any) {
+
+  const { address_components: response, geometry } = google;
+
   const defaultResult: GoogleGeoLocation = {
     street: null,
     city: null,
@@ -36,7 +41,7 @@ function parseGoogleGeocodeResponse(response: any[]) {
   };
 
   if (response && response.length) {
-    return response.reduce((result: GoogleGeoLocation, item: GoogleGeocodeItem) => {
+    const location = response.reduce((result: GoogleGeoLocation, item: GoogleGeocodeItem) => {
       if (item.types.indexOf('postal_code') !== -1) {
         result.zipcode = item.long_name;
       } else if (item.types.indexOf('route') !== -1) {
@@ -51,6 +56,13 @@ function parseGoogleGeocodeResponse(response: any[]) {
       return result;
 
     }, defaultResult);
+
+    if (geometry) {
+      location.lat = geometry.location.lat;
+      location.lng = geometry.location.lng;
+    }
+
+    return location;
   }
 }
 
@@ -103,7 +115,7 @@ class GoogleMapsService {
 
         if (response.data.status === "OK") {
           const { results } = response.data;
-          return parseGoogleGeocodeResponse(results[0].address_components);
+          return parseGoogleGeocodeResponse(results[0]);
         }
       }
     } catch (error) {
