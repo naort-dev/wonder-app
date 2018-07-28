@@ -1,18 +1,20 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text } from '../theme';
 import Activity from '../../../types/activity';
 import PricingIndicator from '../pricing-indicator';
+import ActivityDetails from '../../../types/activity-details';
 
 interface Props {
-  activity: Activity;
+  activity: ActivityDetails;
+  onPress: Function;
 }
 
 class ActivityCallout extends React.Component<Props> {
   render() {
-    const { activity } = this.props;
+    const { activity, onPress } = this.props;
     return (
-      <View style={styles.container}>
+      <TouchableOpacity style={styles.container} onPress={onPress}>
         <View flex={2} />
         <View flex={3}>
           <Text style={styles.title}>{activity.name}</Text>
@@ -21,7 +23,7 @@ class ActivityCallout extends React.Component<Props> {
           <Text style={styles.address}>{activity.distance.toFixed(2)}</Text>
           <PricingIndicator rating={activity.price_level} />
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }

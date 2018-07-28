@@ -3,7 +3,7 @@ import { watchGetTopics } from './topics';
 import { watchLoginUser, watchLogoutUser, watchGetUser, watchUpdateUser, watchRegisterUser } from './user';
 import { watchGetNewProposal, watchRateProposal } from './proposal';
 import { watchCreateAppointment, watchGetAppointments } from './appointment';
-import { watchGetPartners, watchGetPartnerActivities } from './partner';
+import { watchGetPartners, watchGetPartnerActivities, watchGetActivityDetails } from './partner';
 import { watchGetConversation, watchGetConversations } from './conversations';
 
 export default function* rootSaga() {
@@ -28,6 +28,7 @@ export default function* rootSaga() {
     // Partners
     watchGetPartners(),
     watchGetPartnerActivities(),
+    watchGetActivityDetails(),
 
     // Conversation
     watchGetConversation(),

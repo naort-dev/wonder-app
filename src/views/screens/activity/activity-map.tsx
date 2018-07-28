@@ -8,8 +8,11 @@ import WonderAppState from '../../../types/wonder-app-state';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import User from '../../../types/user';
-import { getPartnerActivities } from '../../../store/sagas/partner';
+import { getPartnerActivities, getActivityDetails } from '../../../store/sagas/partner';
 import { NavigationScreenProp, NavigationParams } from '../../../../node_modules/@types/react-navigation';
+import ActivityDetailsModal from '../../components/modals/activity-details-modal';
+import ActivityDetails from '../../../types/activity-details';
+import { persistActivity } from '../../../store/reducers/chat';
 
 const GENEVA = {
   latitude: 41.8875,
@@ -18,28 +21,49 @@ const GENEVA = {
 
 const mapState = (state: WonderAppState) => ({
   currentUser: state.user.profile,
-  activities: state.chat.activities
+  activities: state.chat.activities,
+  details: state.chat.activity
 });
+
 const mapDispatch = (dispatch: Dispatch) => ({
-  onGetActivities: (id: number) => dispatch(getPartnerActivities({ id }))
+  onGetActivities: (id: number) => dispatch(getPartnerActivities({ id })),
+  onGetActivity: (id: string) => dispatch(getActivityDetails({ id })),
+  clearActivity: () => dispatch(persistActivity(null))
 });
 
 interface Props {
   navigation: NavigationScreenProp<any, NavigationParams>;
   currentUser: User;
   activities: Activity[];
+  details: ActivityDetails | null;
   onGetActivities: Function;
+  onGetActivity: Function;
+  clearActivity: Function;
 }
 
 class ActivityMapScreen extends React.Component<Props> {
   componentWillMount() {
-    const { navigation, onGetActivities } = this.props;
+    const { navigation, onGetActivities, clearActivity } = this.props;
     const partnerId: number = navigation.getParam('id', 0);
     onGetActivities(partnerId);
+    clearActivity();
+  }
+
+  componentDidMount() {
+    navigator.geolocation.requestAuthorization();
+
+    navigator.geolocation.watchPosition(
+      (position) => {
+        alert(JSON.stringify(position));
+      },
+      (error) => alert(JSON.stringify(error)),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
   }
 
   renderMarker = (activity: Activity) => {
-    const { name, latitude, longitude, location, topic } = activity;
+    const { onGetActivity } = this.props;
+    const { name, latitude, longitude, location, topic, id } = activity;
     return (
       <MarkerContainer
         key={`${name} - ${latitude},${longitude}`}
@@ -47,14 +71,17 @@ class ActivityMapScreen extends React.Component<Props> {
       >
         <Marker title={topic.name} />
         <Callout>
-          <ActivityCallout activity={activity} />
+          <ActivityCallout
+            activity={activity}
+            onPress={() => onGetActivity(id)}
+          />
         </Callout>
       </MarkerContainer>
     );
   }
 
   render() {
-    const { activities } = this.props;
+    const { activities, details, clearActivity } = this.props;
     return (
       <Screen>
         <MapView
@@ -70,6 +97,10 @@ class ActivityMapScreen extends React.Component<Props> {
         >
           {activities.map(this.renderMarker)}
         </MapView>
+        <ActivityDetailsModal
+          details={details}
+          onCancel={clearActivity}
+        />
       </Screen>
     );
   }

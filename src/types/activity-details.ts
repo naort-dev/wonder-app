@@ -1,7 +1,6 @@
 import Topic from "./topic";
 
-export default interface Activity {
-  id: string;
+interface ActivityDetails {
   name: string;
   topic: Topic;
   location: string[]; // ['415 Stevens St', 'Geneva, IL 60134']
@@ -10,3 +9,5 @@ export default interface Activity {
   distance: number;
   price_level: number;
 }
+
+export default ActivityDetails;
