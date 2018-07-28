@@ -13,6 +13,7 @@ import { NavigationScreenProp, NavigationParams } from '../../../../node_modules
 import ActivityDetailsModal from '../../components/modals/activity-details-modal';
 import ActivityDetails from '../../../types/activity-details';
 import { persistActivity } from '../../../store/reducers/chat';
+import { GeolocationReturnType, Alert } from '../../../../node_modules/@types/react-native';
 
 const GENEVA = {
   latitude: 41.8875,
@@ -41,24 +42,42 @@ interface Props {
   clearActivity: Function;
 }
 
-class ActivityMapScreen extends React.Component<Props> {
+interface State {
+  position: any;
+}
+
+class ActivityMapScreen extends React.Component<Props, State> {
+  state: State = {
+    position: {
+      lat: 0,
+      lng: 0
+    }
+  };
+
   componentWillMount() {
-    const { navigation, onGetActivities, clearActivity } = this.props;
+    const { navigation, onGetActivities, clearActivity, currentUser } = this.props;
     const partnerId: number = navigation.getParam('id', 0);
     onGetActivities(partnerId);
     clearActivity();
   }
 
   componentDidMount() {
-    navigator.geolocation.requestAuthorization();
+    // navigator.geolocation.requestAuthorization();
 
     navigator.geolocation.watchPosition(
-      (position) => {
-        alert(JSON.stringify(position));
-      },
+      this.updatePosition,
       (error) => alert(JSON.stringify(error)),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
+  }
+
+  updatePosition = (position: GeolocationReturnType) => {
+    this.setState({
+      position: {
+        lng: position.coords.longitude,
+        lat: position.coords.latitude
+      }
+    });
   }
 
   renderMarker = (activity: Activity) => {
@@ -82,24 +101,33 @@ class ActivityMapScreen extends React.Component<Props> {
 
   render() {
     const { activities, details, clearActivity } = this.props;
+    const { position } = this.state;
     return (
       <Screen>
         <MapView
           // provider={PROVIDER_GOOGLE}
           // customMapStyle={MapTheme}
           style={{ flex: 1 }}
-          initialRegion={{
-            latitude: 41.8875,
-            longitude: -88.3054,
-            latitudeDelta: 0.05,
-            longitudeDelta: 0.05,
+          // initialRegion={{
+          //   latitude: position.lat,
+          //   longitude: position.lng,
+          //   latitudeDelta: 0.05,
+          //   longitudeDelta: 0.05,
+          // }}
+          region={{
+            latitude: position.lat,
+            longitude: position.lng,
+            latitudeDelta: 0.08,
+            longitudeDelta: 0.08,
           }}
         >
           {activities.map(this.renderMarker)}
         </MapView>
         <ActivityDetailsModal
+          onRequestClose={() => clearActivity()}
           details={details}
           onCancel={clearActivity}
+          onConfirm={() => clearActivity()}
         />
       </Screen>
     );
