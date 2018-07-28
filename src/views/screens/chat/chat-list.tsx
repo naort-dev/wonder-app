@@ -2,16 +2,52 @@ import React from 'react';
 import Screen from '../../components/screen';
 import { ChatList } from '../../components/chat';
 import { Title } from '../../components/theme';
+import { NavigationScreenProp, NavigationParams } from 'react-navigation';
+import Chat from '../../../types/chat';
+import WonderAppState from '../../../types/wonder-app-state';
+import { Dispatch } from 'redux';
+import { getConversations } from '../../../store/sagas/conversations';
+import Conversation from '../../../types/conversation';
+import { connect } from 'react-redux';
 
-class ChatListScreen extends React.Component {
+interface Props {
+  navigation: NavigationScreenProp<any, NavigationParams>;
+  conversations: Conversation[];
+  onRefreshConversations: Function;
+}
+
+const mapState = (state: WonderAppState) => ({
+  currentUser: state.user.profile,
+  conversations: state.chat.conversations
+});
+
+const mapDispatch = (dispatch: Dispatch) => ({
+  onRefreshConversations: () => dispatch(getConversations())
+});
+
+class ChatListScreen extends React.Component<Props> {
+  componentWillMount() {
+    this.props.onRefreshConversations();
+  }
+
+  goToChat = (chat: Chat) => {
+    const { navigation } = this.props;
+
+    navigation.navigate('Chat', { chat });
+  }
+
   render() {
+    const { conversations } = this.props;
     return (
-      <Screen>
+      <Screen horizontalPadding={20}>
         <Title>Latest Matches</Title>
-        <ChatList />
+        <ChatList
+          chats={conversations}
+          onPressChat={this.goToChat}
+        />
       </Screen>
     );
   }
 }
 
-export default ChatListScreen;
+export default connect(mapState, mapDispatch)(ChatListScreen);

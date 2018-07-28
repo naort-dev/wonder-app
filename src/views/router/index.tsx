@@ -9,14 +9,6 @@ import {
 import {
   AppLoading,
   Onboarding,
-  Login,
-  Welcome,
-  Register1,
-  Register2,
-  Register3,
-  Register4,
-
-  ChatList,
   ProposalView,
   ActivityMap
 } from '../screens';
@@ -25,6 +17,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import UserNavigator from './user-navigator';
 import RegistrationNavigator from './registration-navigator';
 import theme from '../../assets/styles/theme';
+import ChatNavigator from './chat-navigator';
 
 // Manages Onboarding and Registration
 const OnboardingNavigator = createStackNavigator({
@@ -43,14 +36,6 @@ const HomeNavigator = createStackNavigator({
 }, {
     headerMode: 'none',
     initialRouteName: 'Proposal'
-  });
-
-const ChatNavigator = createStackNavigator({
-  ChatList: {
-    screen: ChatList
-  }
-}, {
-    headerMode: 'none'
   });
 
 const AuthenticatedNavigator = createMaterialTopTabNavigator({

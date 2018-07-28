@@ -68,6 +68,8 @@ export default class BaseButton extends React.Component<Partial<BaseButtonProps>
 
     if (fullWidth) {
       renderedStyles['width'] = '100%';
+    } else {
+      renderedStyles['width'] = 'auto';
     }
 
     if (rounded) {
@@ -76,41 +78,43 @@ export default class BaseButton extends React.Component<Partial<BaseButtonProps>
 
     if (colors.length) {
       return (
-        <TouchableOpacity
-          disabled={disabled}
-          onPress={onPress}
+        <LinearGradient
+          start={start}
+          end={end}
+          colors={colors}
           style={[styles.btnContainer, renderedStyles]}
-          {...rest}
         >
-          <LinearGradient
-            start={start}
-            end={end}
-            colors={colors}
+          <TouchableOpacity
+            disabled={disabled}
+            onPress={onPress}
             style={[styles.container, renderedStyles, style]}
+            {...rest}
           >
             {icon && this.renderIcon()}
             <View style={styles.txtContainer}>
               <Text color={color} style={styles.title}>{title}</Text>
             </View>
             {icon && <View flex={1} />}
-          </LinearGradient>
-        </TouchableOpacity>
+          </TouchableOpacity>
+        </LinearGradient>
       );
     }
 
     return (
-      <TouchableOpacity
-        disabled={disabled}
-        onPress={onPress}
-        style={[styles.btnContainer, styles.container, renderedStyles, style]}
-        {...rest}
-      >
-        {icon && this.renderIcon()}
-        <View style={styles.txtContainer}>
-          <Text color={color} style={styles.title}>{title}</Text>
-        </View>
-        {icon && <View flex={1} />}
-      </TouchableOpacity>
+      <View style={[styles.btnContainer, renderedStyles]}>
+        <TouchableOpacity
+          disabled={disabled}
+          onPress={onPress}
+          style={[styles.container, renderedStyles, style]}
+          {...rest}
+        >
+          {icon && this.renderIcon()}
+          <View style={styles.txtContainer}>
+            <Text color={color} style={styles.title}>{title}</Text>
+          </View>
+          {icon && <View flex={1} />}
+        </TouchableOpacity>
+      </View>
     );
 
   }

@@ -77,7 +77,7 @@ class ProfileViewScreen extends React.Component<Props> {
               <ElevatedButton
                 icon="heart"
                 title="Activities"
-                onPress={() => { }}
+                onPress={this.goTo('ProfileWonders')}
               />
             </View>
           </View>

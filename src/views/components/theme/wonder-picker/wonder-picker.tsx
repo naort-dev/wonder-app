@@ -10,22 +10,23 @@ interface Props {
   topics: Topic[];
   limit?: number;
   onChangeSelected?: Function;
+  initialValue?: Topic[];
 }
 
 interface State {
-  selected: Topic[]
+  selected: Topic[];
 }
 
 export default class WonderPicker extends React.Component<Props, State> {
   static defaultProps = {
     topics: []
-  }
+  };
 
   constructor(props: Props) {
     super(props);
     this.state = {
-      selected: []
-    }
+      selected: props.initialValue || []
+    };
   }
 
   onChange = (topic: Topic) => {
@@ -45,7 +46,9 @@ export default class WonderPicker extends React.Component<Props, State> {
   update = () => {
     const { selected } = this.state;
     const { onChangeSelected } = this.props;
-    onChangeSelected && onChangeSelected(selected);
+    if (onChangeSelected) {
+      onChangeSelected(selected);
+    }
   }
 
   renderRow = ({ item }: { item: any }) => {
@@ -65,7 +68,7 @@ export default class WonderPicker extends React.Component<Props, State> {
         selected={!!selected.filter((t: Topic) => t.name === topic.name).length}
         onPress={this.onChange}
       />
-    )
+    );
   }
 
   _keyExtractor = (item: any, index: any) => index.toString()

@@ -5,6 +5,7 @@ import theme from '../../../../assets/styles/theme';
 import TouchableOpacityOnPress from '../../../../types/touchable-on-press';
 
 interface IconButtonProps {
+  disabled?: boolean;
   icon: string;
   circle?: boolean;
   primary?: string;
@@ -17,11 +18,12 @@ class IconButton extends React.Component<IconButtonProps> {
   static defaultProps = {
     primary: theme.colors.primary,
     secondary: theme.colors.primaryLight,
-    size: 45
+    size: 45,
+    disabled: false
   };
 
   render() {
-    const { size, icon, primary, secondary, circle, onPress } = this.props;
+    const { size, icon, primary, secondary, circle, onPress, disabled } = this.props;
 
     const btnStyle = {
       backgroundColor: secondary,
@@ -32,6 +34,7 @@ class IconButton extends React.Component<IconButtonProps> {
 
     return (
       <TouchableOpacity
+        disabled={disabled}
         style={[styles.btnContainer, btnStyle]}
         onPress={onPress}
       >

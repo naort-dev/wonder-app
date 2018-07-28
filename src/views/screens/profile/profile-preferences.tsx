@@ -29,7 +29,6 @@ interface Props {
 
 interface State {
   isRefreshing?: boolean;
-  distance_of_interest_min?: number;
   distance_of_interest_max?: number;
   age_of_interest_min?: number;
   age_of_interest_max?: number;
@@ -39,7 +38,6 @@ interface State {
   show_flakers?: boolean;
   show_ghosters?: boolean;
   show_fibbers?: boolean;
-  show_location?: boolean;
   military_time?: boolean;
   distance_unit?: DistanceUnit;
   apn_new_matches?: boolean;
@@ -61,7 +59,6 @@ class ProfileNotificationsScreen extends React.Component<Props, State> {
 
   loadProfile = (profile: User): State => ({
     isRefreshing: false,
-    distance_of_interest_min: 0,
     distance_of_interest_max: profile.distance_of_interest_max || 0,
     age_of_interest_min: profile.age_of_interest_min || 18,
     age_of_interest_max: profile.age_of_interest_max || 24,
@@ -71,7 +68,6 @@ class ProfileNotificationsScreen extends React.Component<Props, State> {
     show_flakers: profile.show_flakers,
     show_ghosters: profile.show_ghosters,
     show_fibbers: profile.show_fibbers,
-    show_location: profile.show_location,
     military_time: profile.military_time,
     distance_unit: profile.distance_unit || DistanceUnit.miles,
     apn_new_matches: profile.apn_new_matches,
@@ -106,9 +102,8 @@ class ProfileNotificationsScreen extends React.Component<Props, State> {
   }
 
   save = () => {
-    const { onSave } = this.props;
+    const { onSave, navigation } = this.props;
     const {
-      distance_of_interest_min,
       distance_of_interest_max,
       age_of_interest_min,
       age_of_interest_max,
@@ -118,7 +113,6 @@ class ProfileNotificationsScreen extends React.Component<Props, State> {
       show_flakers,
       show_ghosters,
       show_fibbers,
-      show_location,
       military_time,
       distance_unit,
       apn_new_matches,
@@ -128,7 +122,25 @@ class ProfileNotificationsScreen extends React.Component<Props, State> {
       geocoding_requested
     } = this.state;
 
-    onSave(this.state);
+    onSave({
+      distance_of_interest_max,
+      age_of_interest_min,
+      age_of_interest_max,
+      male_interest,
+      female_interest,
+      available,
+      show_flakers,
+      show_ghosters,
+      show_fibbers,
+      military_time,
+      distance_unit,
+      apn_new_matches,
+      apn_new_messages,
+      apn_message_likes,
+      apn_message_super_likes,
+      geocoding_requested
+    });
+    navigation.goBack();
   }
 
   refresh = () => {
@@ -143,7 +155,6 @@ class ProfileNotificationsScreen extends React.Component<Props, State> {
     const { navigation } = this.props;
     const {
       isRefreshing,
-      distance_of_interest_min,
       distance_of_interest_max,
       age_of_interest_min,
       age_of_interest_max,
@@ -153,7 +164,6 @@ class ProfileNotificationsScreen extends React.Component<Props, State> {
       show_flakers,
       show_ghosters,
       show_fibbers,
-      show_location,
       military_time,
       distance_unit,
       apn_new_matches,
@@ -212,13 +222,13 @@ class ProfileNotificationsScreen extends React.Component<Props, State> {
             <View style={styles.heading}>
               <SubHeader>Settings</SubHeader>
             </View>
-            <View style={styles.row}>
+            {/* <View style={styles.row}>
               <Text>My Location</Text>
               <Toggle
                 value={show_location}
                 onValueChange={this.onBooleanChange('show_location')}
               />
-            </View>
+            </View> */}
 
             <View style={styles.row}>
               <Text>Military Time</Text>
@@ -285,7 +295,6 @@ class ProfileNotificationsScreen extends React.Component<Props, State> {
               onChange={(data) => { console.log(data); }}
             /> */}
             </View>
-
 
             <View style={styles.heading}>
               <SubHeader>Distance (mi.) - {distance_of_interest_max}</SubHeader>

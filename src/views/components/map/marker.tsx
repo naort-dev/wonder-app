@@ -1,21 +1,22 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Text } from '../theme';
+import { Text, SmallText } from '../theme';
 import theme from '../../../assets/styles/theme';
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 interface Props {
   icon?: string;
+  title: string;
 }
 
-class Marker extends React.Component {
+class Marker extends React.Component<Props> {
   render() {
     const { title } = this.props;
     return (
       <View style={styles.container}>
-        <Icon name="lock" size={12} color={theme.colors.textColor} />
+        <Icon name="map-marker" size={12} color={theme.colors.textColor} />
       </View>
-    )
+    );
   }
 }
 

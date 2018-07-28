@@ -12,6 +12,7 @@ export { default as ProfileView } from './profile/profile-view';
 export { default as ProfileEdit } from './profile/profile-edit';
 export { default as ProfileMedia } from './profile/profile-media';
 export { default as ProfilePreferences } from './profile/profile-preferences';
+export { default as ProfileWonders } from './profile/profile-wonders';
 
 // Camera and Video
 export { default as ProfileCamera } from './profile/profile-camera';
@@ -23,6 +24,7 @@ export { default as PastAppointments } from './profile/past-appointments';
 
 // Chat
 export { default as ChatList } from './chat/chat-list';
+export { default as ChatScreen } from './chat/chat';
 
 // Matching and Schedule Wonder
 export { default as ProposalView } from './proposal/proposal-view';

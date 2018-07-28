@@ -16,27 +16,30 @@ export default class WonderPickerItem extends React.Component<Props> {
   static defaultProps = {
     selected: false,
     onPress: _.noop
-  }
+  };
 
   render() {
     const { topic, selected, onPress } = this.props;
     const renderedStyles = [styles.container];
-    selected && renderedStyles.push(styles.selectedContainer);
+    if (selected) {
+      renderedStyles.push(styles.selectedContainer);
+    }
+
     return (
       <View style={renderedStyles}>
         <TouchableOpacity style={styles.btn} onPress={() => onPress && onPress(topic)}>
           <Text style={styles.label}>{_.toUpper(topic.name)}</Text>
         </TouchableOpacity>
       </View>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     elevation: 3,
-    shadowColor: '#383838',
-    shadowOpacity: 0.2,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
     shadowOffset: {
       width: 0,
       height: 0

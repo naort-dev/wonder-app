@@ -12,6 +12,7 @@ import {
   ProfileEdit,
   ProfileMedia,
   ProfilePreferences,
+  ProfileWonders,
   UpcomingAppointments,
   PastAppointments,
   ProfileCamera,
@@ -51,6 +52,13 @@ const ProfileNavigator = createStackNavigator({
     screen: ProfileMedia,
     navigationOptions: {
       title: 'Profile',
+      ...theme.NavBar.transparent
+    }
+  },
+  ProfileWonders: {
+    screen: ProfileWonders,
+    navigationOptions: {
+      title: 'Wonders',
       ...theme.NavBar.transparent
     }
   },

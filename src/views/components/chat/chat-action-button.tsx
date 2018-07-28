@@ -1,7 +1,8 @@
 import React from 'react';
-import BaseButton, { BaseButtonProps } from './base-button';
-import theme from '../../../../assets/styles/theme';
+import theme from '../../../assets/styles/theme';
 import Color from 'color';
+import { BaseButton } from '../theme';
+import { BaseButtonProps } from '../theme/buttons/base-button';
 
 function lighten(color: string, value: number) {
   return Color(color).lighten(value).toString();
@@ -9,7 +10,8 @@ function lighten(color: string, value: number) {
 
 const enabledColors = [theme.colors.cottonCandyBlue, theme.colors.cottonCandyPink];
 const disabledColors = [lighten(theme.colors.cottonCandyBlue, 0.1), lighten(theme.colors.cottonCandyPink, 0.1)];
-export default class PrimaryButton extends React.Component<BaseButtonProps> {
+
+export default class ChatActionButton extends React.Component<BaseButtonProps> {
   render() {
     const { disabled } = this.props;
     return (
@@ -19,8 +21,8 @@ export default class PrimaryButton extends React.Component<BaseButtonProps> {
         colors={disabled ? disabledColors : enabledColors}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        style={{ padding: 15 }}
         {...this.props}
+        style={{ padding: 5 }}
       />
     );
   }
