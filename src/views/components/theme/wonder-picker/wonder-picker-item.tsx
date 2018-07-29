@@ -1,10 +1,11 @@
 import _ from 'lodash';
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, GestureResponderEvent } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Text } from '@components/theme';
 import Topic from '../../../../types/topic';
 import theme from '../../../../assets/styles/theme';
 import TouchableOpacityOnPress from '../../../../types/touchable-on-press';
+import WonderImage from '../wonder-image';
 
 interface Props {
   topic: Topic;
@@ -28,6 +29,10 @@ export default class WonderPickerItem extends React.Component<Props> {
     return (
       <View style={renderedStyles}>
         <TouchableOpacity style={styles.btn} onPress={() => onPress && onPress(topic)}>
+          <WonderImage
+            style={{ height: 30, width: 30, marginBottom: 5 }}
+            uri={topic.icon}
+          />
           <Text style={styles.label}>{_.toUpper(topic.name)}</Text>
         </TouchableOpacity>
       </View>
@@ -45,9 +50,9 @@ const styles = StyleSheet.create({
       height: 0
     },
     shadowRadius: 5,
-    height: 70,
-    width: 70,
-    borderRadius: 35,
+    height: 80,
+    width: 80,
+    borderRadius: 40,
     backgroundColor: '#FFF'
   },
   selectedContainer: {

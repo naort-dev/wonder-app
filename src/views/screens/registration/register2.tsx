@@ -173,7 +173,7 @@ class Register2 extends React.Component<Props, State> {
       return;
     }
 
-    onSave({ gender, education, occupation, birthdate: birthdate.toISOString().split('T')[0] });
+    onSave({ gender, location, school: education, occupation, birthdate: birthdate.toISOString().split('T')[0] });
     navigation.navigate('Register3');
   }
 }

@@ -8,16 +8,16 @@ export interface RegistrationState {
   readonly phone: string | null;
 
   readonly gender: string | null;
-  readonly birthday: string | null;
+  readonly birthdate: string | null;
   readonly occupation: string | null;
-  readonly education: string | null;
+  readonly school: string | null;
 
   readonly about: string | null;
 
-  readonly images: any[];
-  readonly video: any;
+  // readonly images: any[];
+  // readonly video: any;
 
-  readonly topics: Topic[];
+  readonly topic_ids: number[];
 }
 
 const defaultState: RegistrationState = {
@@ -27,13 +27,13 @@ const defaultState: RegistrationState = {
   phone: null,
 
   gender: null,
-  birthday: null,
+  birthdate: null,
   occupation: null,
-  education: null,
+  school: null,
   about: null,
-  images: [],
-  video: null,
-  topics: []
+  // images: [],
+  // video: null,
+  topic_ids: []
 };
 
 export const persistRegistrationInfo = createAction('PERSIST_REGISTRATION_INFO');

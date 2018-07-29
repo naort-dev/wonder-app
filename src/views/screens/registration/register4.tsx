@@ -106,7 +106,7 @@ class Register4 extends React.Component<Props, State> {
   render() {
     const { selected } = this.state;
     return (
-      <Screen horizontalPadding={20}>
+      <Screen horizontalPadding={10}>
         <View style={{ paddingVertical: 15 }}>
           <Text style={{ textAlign: 'center' }}>
             Please select 3 Wonders for us to find people and activities in your area.

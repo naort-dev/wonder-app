@@ -119,7 +119,7 @@ class Register1 extends React.Component<Props, State> {
               fullWidth
             />
           </View>
-          <View style={{ marginTop: 10, width: "50%" }}>
+          <View style={{ marginVertical: 10, width: "50%" }}>
             <PrimaryButton
               title="Next"
               onPress={this.validate}

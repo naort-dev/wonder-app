@@ -20,9 +20,12 @@ export function* registerUserSaga(action: Action<any>) {
       method: 'POST',
       url: '/users',
       data: {
-        ...state.registration,
-        distance_unit: 'mi',
-        location: ''
+        user: {
+          ...state.registration,
+          // distance_unit: 'mi',
+          // age_of_interest_min: 18,
+          // age_of_interest_max: 24,
+        }
       }
     });
     yield put(persistUser(data));

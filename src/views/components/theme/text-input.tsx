@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     marginLeft: 20
   },
   label: {
-    marginBottom: 15
+    marginBottom: 5
   },
   inputContainer: {
     height: 44,
