@@ -57,6 +57,7 @@ class ProposalSwiper extends React.Component<Props> {
             <Body>
               <Title>{[candidate.first_name, moment().diff(candidate.birthdate, 'years')].join(', ')}</Title>
               <Text>{candidate.location}</Text>
+              <Text>{candidate.topics.map(topic => topic.name).join(', ')}</Text>
             </Body>
           </CardItem>
         </Card>

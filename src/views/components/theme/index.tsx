@@ -3,6 +3,8 @@ export { default as Button } from './buttons/base-button';
 export { default as BaseButton } from './buttons/base-button';
 export { default as IconButton } from './buttons/icon-button';
 export { default as PrimaryButton } from './buttons/primary-button';
+export { default as OutlineButton } from './buttons/outline-button';
+export { default as SecondaryButton } from './buttons/secondary-button';
 export { default as TextButton } from './text-button';
 
 // Input Components

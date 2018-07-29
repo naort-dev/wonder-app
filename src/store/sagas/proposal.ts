@@ -8,6 +8,7 @@ import UserCredentials, { UserCredentialsResponse } from '../../types/user-crede
 import WonderAppState from '../../types/wonder-app-state';
 import Proposal from '../../types/proposal';
 import { Alert } from 'react-native';
+import { persistCurrentMatch } from '../reducers/wonder';
 
 const GET_NEW_PROPOSAL = 'GET_NEW_PROPOSAL';
 export const getNewProposal = createAction(GET_NEW_PROPOSAL);
@@ -64,8 +65,8 @@ export function* rateProposalSaga(action: Action<any>) {
     }, state.user);
 
     if (data.has_match) {
-      Alert.alert('Match', `You have matched with ${proposal.candidate.first_name}`);
       // TODO: We are matched, show the modal
+      yield put(persistCurrentMatch(data));
     }
 
     yield put(persistProposal(data));

@@ -8,7 +8,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import GradientPoint from '../../../../types/gradient-point';
 import TouchableOpacityOnPress from '../../../../types/touchable-on-press';
 
-
 const palette = Color(theme.colors.backgroundPrimary);
 
 export interface BaseButtonProps {
@@ -124,7 +123,7 @@ const styles = StyleSheet.create({
   btnContainer: {
     elevation: 1,
     flex: 0,
-    backgroundColor: palette.toString(),
+    // backgroundColor: palette.toString(),
   },
   container: {
     flex: 0,

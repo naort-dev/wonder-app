@@ -9,24 +9,30 @@ import { connect } from 'react-redux';
 import { getNewProposal, rateProposal } from '../../../store/sagas/proposal';
 import User from '../../../types/user';
 import ProfileModal from '../../components/modals/profile-modal';
+import FoundMatchModal from '../../components/modals/found-match-modal';
+import { persistCurrentMatch } from '../../../store/reducers/wonder';
 
 const mapState = (state: WonderAppState) => ({
-  proposal: state.wonder.proposal
+  proposal: state.wonder.proposal,
+  currentMatch: state.wonder.currentMatch
 });
 
 const mapDispatch = (dispatch: Dispatch) => ({
   onGetNewProposal: () => dispatch(getNewProposal()),
   onLeftSwipe: (proposal: Proposal) => dispatch(rateProposal({ proposal, liked: false })),
-  onRightSwipe: (proposal: Proposal) => dispatch(rateProposal({ proposal, liked: true }))
+  onRightSwipe: (proposal: Proposal) => dispatch(rateProposal({ proposal, liked: true })),
+  onClearCurrentMatch: () => dispatch(persistCurrentMatch({}))
 });
 
 type Candidate = Partial<User>;
 
 interface Props {
   onGetNewProposal: Function;
+  onClearCurrentMatch: Function;
   onLeftSwipe: Function;
   onRightSwipe: Function;
   proposal: Proposal | null;
+  currentMatch: Proposal;
 }
 
 interface State {
@@ -49,6 +55,10 @@ class ProposalViewScreen extends React.Component<Props, State> {
     this.setState({ candidate: null });
   }
 
+  clearCurrentMatch = () => {
+    this.props.onClearCurrentMatch();
+  }
+
   componentWillMount() {
     // Get a new proposal if it has been voted for or if none exist
     if (!this.props.proposal || this.props.proposal.id) {
@@ -58,8 +68,8 @@ class ProposalViewScreen extends React.Component<Props, State> {
   }
 
   render() {
-    const { proposal, onLeftSwipe, onRightSwipe } = this.props;
-    const { candidate, isModalOpen } = this.state;
+    const { proposal, onLeftSwipe, onRightSwipe, currentMatch } = this.props;
+    const { candidate } = this.state;
     return (
       <Screen horizontalPadding={10}>
         <View style={{ flex: 1 }}>
@@ -76,6 +86,11 @@ class ProposalViewScreen extends React.Component<Props, State> {
           candidate={candidate}
           onCancel={this.clearCandidate}
           onRequestClose={this.clearCandidate}
+        />
+        <FoundMatchModal
+          onRequestClose={this.clearCurrentMatch}
+          visible={(currentMatch && currentMatch.has_match)}
+          proposal={currentMatch}
         />
       </Screen>
     );

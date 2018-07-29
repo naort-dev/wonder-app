@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Screen from '../../components/screen';
 import ElevatedButton from '../../components/theme/elevated-button';
-import { PrimaryButton, Text, Button, Title } from '../../components/theme';
+import { PrimaryButton, Text, SecondaryButton as Button, Title } from '../../components/theme';
 import { NavigationScreenProp, NavigationParams } from 'react-navigation';
 import WonderAppState from '../../../types/wonder-app-state';
 import { Dispatch } from 'redux';
