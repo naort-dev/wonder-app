@@ -6,7 +6,7 @@ export interface RegistrationState {
   readonly last_name: string | null;
   readonly email: string | null;
   readonly phone: string | null;
-
+  readonly password: string | null;
   readonly gender: string | null;
   readonly birthdate: string | null;
   readonly occupation: string | null;
@@ -25,7 +25,7 @@ const defaultState: RegistrationState = {
   last_name: null,
   email: null,
   phone: null,
-
+  password: null,
   gender: null,
   birthdate: null,
   occupation: null,

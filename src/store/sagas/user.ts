@@ -20,17 +20,12 @@ export function* registerUserSaga(action: Action<any>) {
       method: 'POST',
       url: '/users',
       data: {
-        user: {
-          ...state.registration,
-          // distance_unit: 'mi',
-          // age_of_interest_min: 18,
-          // age_of_interest_max: 24,
-        }
+        user: state.registration
       }
     });
-    yield put(persistUser(data));
-    yield put(resetRegistration());
-    NavigatorService.navigate('Main');
+
+    const { email, password } = state.registration;
+    yield put(loginUser({ email, password }));
   } catch (error) {
     if (error.response) {
       Alert.alert('ERROR', JSON.stringify(error.response.data));
@@ -64,11 +59,15 @@ export function* loginUserSaga(action: Action<UserCredentials>) {
       });
 
       yield put(persistAuth(response.data));
-      yield put(getUser());
-      NavigatorService.navigate('Main');
+      yield put(resetRegistration());
+      setTimeout(() => NavigatorService.navigate('Main'), 1500);
     }
   } catch (error) {
-    console.warn(error);
+    if (error.response) {
+      Alert.alert('API Error', JSON.stringify(error.response.data));
+    } else {
+      console.warn(error);
+    }
   } finally {
 
   }
@@ -105,7 +104,11 @@ export function* getUserSaga(action: Action<any>) {
 
     yield put(persistUser(data));
   } catch (error) {
-    console.warn(error);
+    if (error.response) {
+      Alert.alert('API Error', JSON.stringify(error.response.data));
+    } else {
+      console.warn(error);
+    }
   } finally {
 
   }
@@ -134,7 +137,11 @@ export function* updateUserSaga(action: Action<any>) {
 
     yield put(persistUser(data));
   } catch (error) {
-    console.warn(error);
+    if (error.response) {
+      Alert.alert('API Error', JSON.stringify(error.response.data));
+    } else {
+      console.warn(error);
+    }
   } finally {
 
   }

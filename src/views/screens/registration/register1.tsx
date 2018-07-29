@@ -8,10 +8,11 @@ import validator from "validator";
 import { connect } from 'react-redux';
 import { Dispatch } from "redux";
 import WonderAppState from "../../../types/wonder-app-state";
-import { persistRegistrationInfo } from "../../../store/reducers/registration";
+import { persistRegistrationInfo, resetRegistration } from "../../../store/reducers/registration";
 
 interface Props {
   onSave: Function;
+  onReset: Function;
   navigation: NavigationScreenProp<any, NavigationParams>;
 }
 
@@ -37,7 +38,8 @@ const mapState = (state: WonderAppState) => ({
 });
 
 const mapDispatch = (dispatch: Dispatch) => ({
-  onSave: (data: State) => dispatch(persistRegistrationInfo(data))
+  onSave: (data: State) => dispatch(persistRegistrationInfo(data)),
+  onReset: () => dispatch(resetRegistration())
 });
 
 class Register1 extends React.Component<Props, State> {
@@ -50,6 +52,10 @@ class Register1 extends React.Component<Props, State> {
     password: "",
     errors: {}
   };
+
+  componentWillMount() {
+    this.props.onReset();
+  }
 
   public render() {
     const { errors } = this.state;

@@ -53,6 +53,11 @@ class Avatar extends React.Component<AvatarProps> {
     if (uri) {
       return (
         <WonderImage
+          style={{
+            ...this.getContainerStyles(),
+            width: this.getDimensions(),
+            height: this.getDimensions(),
+          }}
           uri={uri}
         />
       );

@@ -26,7 +26,6 @@ class ProposalSwiper extends React.Component<Props> {
             resizeMode="cover"
 
           />
-          <Text>{images[0].url}</Text>
         </View>
       );
     } else {

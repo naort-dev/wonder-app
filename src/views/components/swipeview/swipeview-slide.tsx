@@ -34,7 +34,7 @@ export default class SwipeViewSlide extends React.Component<Props> {
           {this.renderTitle(title)}
           {children}
         </ImageBackground>
-      )
+      );
     }
 
     return (
@@ -44,6 +44,6 @@ export default class SwipeViewSlide extends React.Component<Props> {
         {this.renderTitle(title)}
         {children}
       </View>
-    )
+    );
   }
 }
