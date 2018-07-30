@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Alert, Geolocation } from 'react-native';
-import { TextInput, Text, GenderPicker, PrimaryButton, DatePicker } from '../../components/theme';
+import { TextInput, Text, GenderPicker, PrimaryButton, DatePicker, Title } from '../../components/theme';
 import ShadowBox from '../../components/theme/shadow-box';
 import Screen from '../../components/screen';
 import { NavigationScreenProp, NavigationParams } from 'react-navigation';
@@ -10,10 +10,12 @@ import validator from 'validator';
 import { connect } from 'react-redux';
 import WonderAppState from '../../../types/wonder-app-state';
 import { Dispatch } from 'redux';
-import { persistRegistrationInfo } from '../../../store/reducers/registration';
+import registration, { persistRegistrationInfo, RegistrationState } from '../../../store/reducers/registration';
 import googleMaps, { GoogleGeoLocation } from '../../../services/google-maps';
+import theme from '../../../assets/styles/theme';
 
 interface Props {
+  registration: RegistrationState;
   onSave: Function;
   navigation: NavigationScreenProp<any, NavigationParams>;
 }
@@ -36,7 +38,9 @@ interface State {
   errors: StateErrors;
 }
 
-const mapState = (state: WonderAppState) => ({});
+const mapState = (state: WonderAppState) => ({
+  registration: state.registration
+});
 const mapDispatch = (dispatch: Dispatch) => ({
   onSave: (data: State) => dispatch(persistRegistrationInfo(data))
 });
@@ -66,7 +70,7 @@ class Register2 extends React.Component<Props, State> {
   }
 
   formattedGeo = () => {
-    const {geolocation} = this.state;
+    const { geolocation } = this.state;
     if (geolocation) {
       return ` (${geolocation.city}, ${geolocation.state})`;
     }
@@ -74,10 +78,12 @@ class Register2 extends React.Component<Props, State> {
   }
 
   public render() {
-    const { errors, birthdate, geolocation } = this.state;
+    const { errors, birthdate } = this.state;
+    const { registration } = this.props;
 
     return (
       <Screen horizontalPadding={20}>
+        <Title style={{ color: theme.colors.primaryLight, textAlign: 'center' }}>Hello, {registration.first_name}</Title>
         <Text style={styles.welcome}>Tell us a little more about yourself</Text>
         <GenderPicker onChange={(gender: Gender) => this.onChangeText('gender')(gender)} />
         <DatePicker
@@ -90,6 +96,7 @@ class Register2 extends React.Component<Props, State> {
           maxDate={this.eighteenYearsAgoToday.toDate()}
         />
         <TextInput
+          onValidate={(text: string) => text && !validator.isEmpty(text)}
           label="EDUCATION"
           errorHint={errors.education}
           autoCorrect={false}
@@ -97,6 +104,7 @@ class Register2 extends React.Component<Props, State> {
           onChangeText={this.onChangeText('education')}
         />
         <TextInput
+          onValidate={(text: string) => text && !validator.isEmpty(text)}
           label="OCCUPATION"
           errorHint={errors.occupation}
           autoCorrect={false}
@@ -104,6 +112,7 @@ class Register2 extends React.Component<Props, State> {
           onChangeText={this.onChangeText('occupation')}
         />
         <TextInput
+          onValidate={(text: string) => text && validator.isPostalCode(text, 'US')}
           keyboardType="number-pad"
           label={`ZIP CODE${this.formattedGeo()}`}
           errorHint={errors.location}
@@ -118,7 +127,7 @@ class Register2 extends React.Component<Props, State> {
             onPress={this.validate}
           />
         </View>
-      </Screen>
+      </Screen >
     );
   }
 

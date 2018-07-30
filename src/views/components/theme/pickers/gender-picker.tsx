@@ -20,7 +20,7 @@ class GenderPickerOption extends React.Component<OptionProps> {
           style={styles.optionBtn}
           onPress={onPress}
         >
-          <Icon name={option} color={selected ? theme.colors.primary : theme.colors.textColor} size={48} />
+          <Icon name={option} color={selected ? theme.colors.primaryLight : theme.colors.textColor} size={48} />
         </TouchableOpacity>
       </View>
     );
@@ -36,10 +36,11 @@ interface State {
 }
 
 export const GENDERS = [Gender.male, Gender.female];
+// tslint:disable-next-line
 export default class GenderPicker extends React.Component<Props, State> {
   static defaultProps = {
     onChange: undefined
-  }
+  };
 
   static Genders = GENDERS;
 
@@ -67,7 +68,7 @@ export default class GenderPicker extends React.Component<Props, State> {
       <View>
         <Label>GENDER</Label>
         <View style={styles.buttonContainer}>
-          {GENDERS.map(gender => (
+          {GENDERS.map((gender: Gender) => (
             <GenderPickerOption
               key={gender}
               selected={gender === selected}
@@ -84,7 +85,9 @@ export default class GenderPicker extends React.Component<Props, State> {
 const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
-    width: '100%'
+    width: '75%',
+    justifyContent: 'center',
+    alignSelf: 'center'
   },
   optionContainer: {
     flex: 1

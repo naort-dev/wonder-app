@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 5,
     fontSize: 11,
-    color: theme.colors.primaryLight
+    color: theme.colors.textColor
   },
   container: {
     width: '100%',

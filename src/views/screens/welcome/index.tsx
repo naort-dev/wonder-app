@@ -27,7 +27,7 @@ export default class Welcome extends React.Component<Props> {
             <PrimaryButton
               icon="envelope-o"
               title="CREATE ACCOUNT"
-              onPress={() => navigation.navigate('Register1')}
+              onPress={() => navigation.navigate('Register3')}
               fullWidth
             />
           </View>
@@ -39,16 +39,7 @@ export default class Welcome extends React.Component<Props> {
               title="LOGIN WITH FACEBOOK"
               onPress={() => navigation.navigate('Login')}
               fullWidth
-            />
-          </View>
-          <View style={{ marginTop: 10, width: '100%' }}>
-            <Button
-              rounded
-              iconColor={theme.colors.primaryLight}
-              icon="google"
-              title="LOGIN WITH GOOGLE"
-              onPress={() => navigation.navigate('Login')}
-              fullWidth
+              style={{ backgroundColor: '#FFF' }}
             />
           </View>
           <View style={{ marginTop: 25 }}>

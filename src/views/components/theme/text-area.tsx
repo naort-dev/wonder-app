@@ -32,11 +32,11 @@ const styles = StyleSheet.create({
 
   },
   input: {
-    maxHeight: 100,
-    borderRadius: 5,
+    maxHeight: 150,
+    borderRadius: 10,
     fontFamily: theme.fonts.primary,
     borderWidth: 1,
-    borderColor: theme.colors.textColor,
+    borderColor: 'rgb(223,223,231)',
     padding: 10
   }
 });

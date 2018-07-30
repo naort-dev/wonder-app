@@ -13,12 +13,22 @@ interface Props extends TextInputProps {
   label?: string;
   padLeft?: boolean;
   disabled?: boolean;
+  onValidate?: Function;
 }
 
+interface State {
+  text?: string;
+}
+
+
 const palette = Color(theme.colors.backgroundPrimary);
-export default class TextInput extends React.Component<Props> {
+export default class TextInput extends React.Component<Props, State> {
   static defaultProps = {
     disabled: false
+  };
+
+  state = {
+    text: undefined
   };
 
   renderIcon = () => {
@@ -39,6 +49,25 @@ export default class TextInput extends React.Component<Props> {
     // }
   }
 
+  validate = () => {
+    const { onValidate } = this.props;
+    const { text } = this.state;
+    const valid = onValidate && onValidate(text);
+    return (
+      <View style={styles.iconContainer}>
+        <Icon color={valid ? 'green' : 'transparent'} size={14} name="check" />
+      </View>
+    );
+  }
+
+  onTextChange = (text: string) => {
+    const { onChangeText } = this.props;
+    this.setState({ text });
+    if (onChangeText) {
+      onChangeText(text);
+    }
+  }
+
   render() {
     const { disabled, autoCorrect, label, style, padLeft, ...rest } = this.props;
     return (
@@ -53,7 +82,9 @@ export default class TextInput extends React.Component<Props> {
             underlineColorAndroid="transparent"
             {...rest}
             style={[styles.input, style]}
+            onChangeText={this.onTextChange}
           />
+          {this.validate()}
         </View>
         {this.renderErrorHint()}
       </View>
@@ -87,7 +118,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 10,
     fontFamily: theme.fonts.primary,
-    color: theme.colors.textColor,
+    color: theme.colors.black,
   },
   iconContainer: {
     flex: 1,

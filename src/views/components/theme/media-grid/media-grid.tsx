@@ -11,12 +11,16 @@ interface Props {
   items?: any;
   images?: ImageSourcePropType[];
   onNewPicture?: TouchableOpacityOnPress;
+  gutter: number;
+  width: number;
 }
+
 
 export default class MediaGrid extends React.Component<Props> {
   static defaultProps = {
-
-  }
+    gutter: 5,
+    width: 200,
+  };
 
   renderFeatured = () => {
     const { featured, onNewPicture } = this.props;
@@ -42,26 +46,60 @@ export default class MediaGrid extends React.Component<Props> {
     );
   }
 
+  calcGridSpace = (span: number) => {
+    const { gutter, width } = this.props;
+    const base = ((width / 3) - (2 * gutter)) * span;
+
+    let result = base;
+    if (span > 1) {
+      result += (span * gutter);
+    }
+
+    return result;
+  }
+
   render() {
-    const { featured } = this.props;
+    const { featured, gutter } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.row}>
-          {this.renderFeatured()}
-          <View style={styles.column}>
-            <MediaGridItem />
-            <MediaGridItem />
+          <View style={[styles.column]}>
+            <MediaGridItem
+              featured
+              size={this.calcGridSpace(2)}
+              gutter={gutter}
+            />
+          </View>
+          <View style={[styles.column]}>
+            <MediaGridItem
+              size={this.calcGridSpace(1)}
+              gutter={gutter}
+            />
+            <MediaGridItem
+              size={this.calcGridSpace(1)}
+              gutter={gutter}
+            />
           </View>
         </View>
         <View style={styles.row}>
           <View style={styles.column}>
-            <MediaGridItem />
+            <MediaGridItem
+              size={this.calcGridSpace(1)}
+              gutter={gutter}
+            />
           </View>
           <View style={styles.column}>
-            <MediaGridItem />
+            <MediaGridItem
+              size={this.calcGridSpace(1)}
+              gutter={gutter}
+            />
           </View>
           <View style={styles.column}>
-            <MediaGridItem />
+            <MediaGridItem
+              video
+              size={this.calcGridSpace(1)}
+              gutter={gutter}
+            />
           </View>
         </View>
       </View>
@@ -72,12 +110,10 @@ export default class MediaGrid extends React.Component<Props> {
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingBottom: 4
+    justifyContent: 'space-between'
   },
   column: {
     flexDirection: 'column',
-    justifyContent: 'space-between'
   },
   container: {
 

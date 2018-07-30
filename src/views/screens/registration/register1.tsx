@@ -67,6 +67,7 @@ class Register1 extends React.Component<Props, State> {
         <View style={styles.body}>
           <View style={{ width: "100%" }}>
             <RoundedTextInput
+              onValidate={(text: string) => text && !validator.isEmpty(text)}
               autoCorrect={false}
               autoCapitalize="words"
               errorHint={errors.first_name}
@@ -79,6 +80,7 @@ class Register1 extends React.Component<Props, State> {
           </View>
           <View style={{ marginTop: 10, width: "100%" }}>
             <RoundedTextInput
+              onValidate={(text: string) => text && !validator.isEmpty(text)}
               autoCorrect={false}
               autoCapitalize="words"
               errorHint={errors.last_name}
@@ -91,6 +93,7 @@ class Register1 extends React.Component<Props, State> {
           </View>
           <View style={{ marginTop: 10, width: "100%" }}>
             <RoundedTextInput
+              onValidate={(text: string) => text && validator.isEmail(text)}
               autoCapitalize="none"
               autoCorrect={false}
               errorHint={errors.email}
@@ -103,6 +106,7 @@ class Register1 extends React.Component<Props, State> {
           </View>
           <View style={{ marginTop: 10, width: "100%" }}>
             <RoundedTextInput
+              onValidate={(text: string) => text && validator.isMobilePhone(text, "en-US")}
               keyboardType="phone-pad"
               autoCapitalize="none"
               autoCorrect={false}
@@ -116,6 +120,7 @@ class Register1 extends React.Component<Props, State> {
           </View>
           <View style={{ marginTop: 10, width: "100%" }}>
             <RoundedTextInput
+              onValidate={(text: string) => text && text.length > 5}
               autoCapitalize="none"
               autoCorrect={false}
               errorHint={errors.password}
@@ -125,7 +130,7 @@ class Register1 extends React.Component<Props, State> {
               fullWidth
             />
           </View>
-          <View style={{ marginVertical: 10, width: "50%" }}>
+          <View style={{ paddingVertical: 10, width: "50%" }}>
             <PrimaryButton
               title="Next"
               onPress={this.validate}
@@ -190,7 +195,7 @@ export default connect(mapState, mapDispatch)(Register1);
 const styles = StyleSheet.create({
   body: {
     alignItems: "center",
-    flex: 4,
+    flex: 6,
     flexDirection: "column",
     padding: 20
   },

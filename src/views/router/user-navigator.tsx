@@ -51,8 +51,7 @@ const ProfileNavigator = createStackNavigator({
   ProfileMedia: {
     screen: ProfileMedia,
     navigationOptions: {
-      title: 'Profile',
-      ...theme.NavBar.transparent
+      header: null
     }
   },
   ProfileWonders: {

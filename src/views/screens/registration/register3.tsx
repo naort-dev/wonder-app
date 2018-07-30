@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from "redux";
 import WonderAppState from "../../../types/wonder-app-state";
 import { persistRegistrationInfo } from "../../../store/reducers/registration";
+import { Device } from '../../../assets/styles/theme';
 
 interface Props {
   navigation: NavigationScreenProp<any, NavigationParams>;
@@ -68,21 +69,19 @@ class Register3 extends React.Component<Props, State> {
   render() {
     return (
       <Screen horizontalPadding={20}>
-        <ShadowBox>
-          <MediaGrid
-
-          />
-          <TextArea
-            style={{ height: 100 }}
-            label="About Me"
-            onChangeText={this.onAboutChangeText('about')}
-            // tslint:disable-next-line
-            placeholder={'Take this time to describe yourself, life experience, hobbies, and anything else that makes you wonderful.'}
-          />
-          <View style={{ marginTop: 10 }}>
-            <PrimaryButton title="Next" onPress={this.validate} />
-          </View>
-        </ShadowBox>
+        <MediaGrid
+          width={Device.WIDTH - 40}
+          gutter={2}
+        />
+        <TextArea
+          label="About Me"
+          onChangeText={this.onAboutChangeText('about')}
+          // tslint:disable-next-line
+          placeholder={'Take this time to describe yourself, life experience, hobbies, and anything else that makes you wonderful.'}
+        />
+        <View style={{ marginTop: 10 }}>
+          <PrimaryButton title="Next" onPress={this.validate} />
+        </View>
       </Screen>
     );
   }

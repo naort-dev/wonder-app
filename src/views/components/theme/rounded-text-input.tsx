@@ -26,15 +26,24 @@ interface RoundedTextInputProps extends TextInputProps {
   fullWidth?: boolean;
   colors?: string[];
   padLeft?: boolean;
+  onValidate?: Function;
   // start?: GradientPoint;
   // end?: GradientPoint;
 }
 
-export default class RoundedTextInput extends React.Component<RoundedTextInputProps, any> {
+interface State {
+  text?: string;
+}
+
+export default class RoundedTextInput extends React.Component<RoundedTextInputProps, State> {
   static defaultProps = {
     padLeft: false,
     start: undefined
-  }
+  };
+
+  state = {
+    text: undefined
+  };
 
   renderIcon = () => {
     const { icon, color } = this.props;
@@ -52,6 +61,25 @@ export default class RoundedTextInput extends React.Component<RoundedTextInputPr
     // if (errorHint) {
     return (<ErrorHint style={{ marginLeft: 20 }}>{errorHint}</ErrorHint>);
     // }
+  }
+
+  validate = () => {
+    const { onValidate } = this.props;
+    const { text } = this.state;
+    const valid = onValidate && onValidate(text);
+    return (
+      <View style={styles.iconContainer}>
+        <Icon color={valid ? 'green' : styles.container.backgroundColor} size={14} name="check" />
+      </View>
+    );
+  }
+
+  onTextChange = (text: string) => {
+    const { onChangeText } = this.props;
+    this.setState({ text });
+    if (onChangeText) {
+      onChangeText(text);
+    }
   }
 
   render() {
@@ -84,6 +112,7 @@ export default class RoundedTextInput extends React.Component<RoundedTextInputPr
         autoCorrect={passwordProps.autoCorrect}
         style={[styles.input, style]}
         {...rest}
+        onChangeText={this.onTextChange}
       />
     );
 
@@ -99,6 +128,7 @@ export default class RoundedTextInput extends React.Component<RoundedTextInputPr
             {this.renderIcon()}
             {padLeft && <View flex={1} />}
             {input}
+            {this.validate()}
           </LinearGradient>
           {this.renderErrorHint()}
         </View>
@@ -111,6 +141,7 @@ export default class RoundedTextInput extends React.Component<RoundedTextInputPr
           {this.renderIcon()}
           {padLeft && <View flex={1} />}
           {input}
+          {this.validate()}
         </View>
         {this.renderErrorHint()}
       </View>
@@ -138,7 +169,7 @@ const styles = StyleSheet.create({
   input: {
     fontFamily: theme.fonts.primary,
     flex: 10,
-    color: palette.darken(0.2).toString(),
+    color: theme.colors.black,
     height: 44
   }
 });

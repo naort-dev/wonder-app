@@ -11,8 +11,10 @@ import User from '../../../types/user';
 import ProfileModal from '../../components/modals/profile-modal';
 import FoundMatchModal from '../../components/modals/found-match-modal';
 import { persistCurrentMatch } from '../../../store/reducers/wonder';
+import { NavigationScreenProp, NavigationParams } from '../../../../node_modules/@types/react-navigation';
 
 const mapState = (state: WonderAppState) => ({
+  currentUser: state.user.profile,
   proposal: state.wonder.proposal,
   currentMatch: state.wonder.currentMatch
 });
@@ -27,11 +29,13 @@ const mapDispatch = (dispatch: Dispatch) => ({
 type Candidate = Partial<User>;
 
 interface Props {
+  navigation: NavigationScreenProp<any, NavigationParams>;
   onGetNewProposal: Function;
   onClearCurrentMatch: Function;
   onLeftSwipe: Function;
   onRightSwipe: Function;
   proposal: Proposal | null;
+  currentUser: User;
   currentMatch: Proposal;
 }
 
@@ -47,6 +51,14 @@ class ProposalViewScreen extends React.Component<Props, State> {
     isModalOpen: false
   };
 
+  componentWillMount() {
+    // Get a new proposal if it has been voted for or if none exist
+    if (!this.props.proposal || this.props.proposal.id) {
+      this.props.onGetNewProposal();
+      this.setCandidate(null);
+    }
+  }
+
   setCandidate = (candidate?: Candidate | null) => {
     this.setState({ candidate });
   }
@@ -59,16 +71,13 @@ class ProposalViewScreen extends React.Component<Props, State> {
     this.props.onClearCurrentMatch();
   }
 
-  componentWillMount() {
-    // Get a new proposal if it has been voted for or if none exist
-    if (!this.props.proposal || this.props.proposal.id) {
-      this.props.onGetNewProposal();
-      this.setCandidate(null);
-    }
+  goToChat = (proposal: Proposal) => {
+    const { navigation } = this.props;
+
   }
 
   render() {
-    const { proposal, onLeftSwipe, onRightSwipe, currentMatch } = this.props;
+    const { proposal, onLeftSwipe, onRightSwipe, currentMatch, currentUser } = this.props;
     const { candidate } = this.state;
     return (
       <Screen horizontalPadding={10}>
@@ -88,8 +97,10 @@ class ProposalViewScreen extends React.Component<Props, State> {
           onRequestClose={this.clearCandidate}
         />
         <FoundMatchModal
+          currentUser={currentUser}
+          onSuccess={this.goToChat}
           onRequestClose={this.clearCurrentMatch}
-          visible={(currentMatch && currentMatch.has_match)}
+          visible={!!(currentMatch && currentMatch.has_match)}
           proposal={currentMatch}
         />
       </Screen>

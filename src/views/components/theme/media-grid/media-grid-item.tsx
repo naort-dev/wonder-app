@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, ImageBackground, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, ImageBackground, Image, TouchableOpacity, StyleProp } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import theme from '../../../../assets/styles/theme';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TouchableOpacityOnPress from '../../../../types/touchable-on-press';
 
@@ -9,26 +8,43 @@ interface Props {
   source?: string;
   featured?: boolean;
   onPress?: TouchableOpacityOnPress;
+  size?: number;
+  gutter: number;
+  video?: boolean;
 }
 
 export default class MediaGridItem extends React.Component<Props> {
   static defaultProps = {
     source: undefined,
-    featured: false
+    featured: false,
+    size: 75,
+    gutter: 0,
+    video: false
+  };
+
+  renderContainerStyles = () => {
+    const { size, gutter } = this.props;
+    return {
+      width: size,
+      height: size,
+      margin: gutter
+    };
   }
 
   render() {
-    const { source, onPress } = this.props;
+    const { source, onPress, size, video } = this.props;
+    const containerStyles = [styles.container, this.renderContainerStyles()];
+
     if (!source) {
       return (
-         <TouchableOpacity onPress={onPress}>
+        <TouchableOpacity onPress={onPress}>
           <LinearGradient
-            style={styles.container}
+            style={containerStyles}
             start={{ x: 0, y: 0.5 }}
             end={{ x: 1, y: 0.5 }}
             colors={['#FFF799', '#FFC3A0']}
           >
-            <Icon name="plus" size={16} color="#FFF" />
+            <Icon name={video ? 'video-camera' : 'plus'} size={size ? (size / 5) : 16} color="#FFF" />
           </LinearGradient>
         </TouchableOpacity >
       );
@@ -48,7 +64,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
     backgroundColor: '#DDD',
-    height: 75,
-    width: 75
   }
 });

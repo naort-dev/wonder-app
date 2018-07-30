@@ -1,3 +1,5 @@
+import { Dimensions } from 'react-native';
+
 const colors = {
   white: '#FFF',
   black: '#000',
@@ -28,7 +30,16 @@ const transparentNavigationStyles = {
 
   },
   headerBackTitle: null
-}
+};
+
+const { width, height, scale, fontScale } = Dimensions.get('window');
+
+export const Device = {
+  WIDTH: width,
+  HEIGHT: height,
+  SCALE: scale,
+  FONT_SCALE: fontScale
+};
 
 export default {
   colors,
