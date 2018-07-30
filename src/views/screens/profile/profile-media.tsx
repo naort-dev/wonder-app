@@ -20,7 +20,7 @@ class ProfileMediaScreen extends React.Component {
             />
             <TextArea
               label="About Me"
-              placeholder={`Take this time to describe yourself, life experience, hobbies, and anything else that makes you wonderful.`}
+              placeholder="Take this time to describe yourself, life experience, hobbies, and anything else that makes you wonderful..."
             />
             <View style={{ marginTop: 10 }}>
               <PrimaryButton title="DONE" onPress={() => navigation.goBack()} />

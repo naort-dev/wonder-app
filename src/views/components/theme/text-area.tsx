@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
 
   },
   input: {
+    textAlignVertical: "top",
     maxHeight: 150,
     borderRadius: 10,
     fontFamily: theme.fonts.primary,

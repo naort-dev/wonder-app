@@ -27,7 +27,7 @@ export default class Welcome extends React.Component<Props> {
             <PrimaryButton
               icon="envelope-o"
               title="CREATE ACCOUNT"
-              onPress={() => navigation.navigate('Register3')}
+              onPress={() => navigation.navigate('Register1')}
               fullWidth
             />
           </View>
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
     padding: 20
   }
 });

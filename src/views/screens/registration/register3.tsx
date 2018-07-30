@@ -77,7 +77,7 @@ class Register3 extends React.Component<Props, State> {
           label="About Me"
           onChangeText={this.onAboutChangeText('about')}
           // tslint:disable-next-line
-          placeholder={'Take this time to describe yourself, life experience, hobbies, and anything else that makes you wonderful.'}
+          placeholder={'Take this time to describe yourself, life experience, hobbies, and anything else that makes you wonderful...'}
         />
         <View style={{ marginTop: 10 }}>
           <PrimaryButton title="Next" onPress={this.validate} />
