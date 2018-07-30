@@ -16,20 +16,48 @@
 default_platform(:android)
 
 platform :android do
+  before_all do
+    ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
+  end
+
   desc "Runs all the tests"
   lane :test do
     gradle(task: "test")
   end
 
   desc "Submit a new Beta Build to Hockeyapp Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
+  lane :beta do |options|
 
-    hockey(
-      api_token: "fdd4cf6da60c4122ac8351d834f5ba3c",
-      apk: "./app/build/outputs/apk/release/app-release.apk",
-      notes: "New Beta Release"
-    )
+    unless options[:notes].empty?
+      gradle(task: "clean assembleRelease")
+
+      hockey(
+        api_token: "fdd4cf6da60c4122ac8351d834f5ba3c",
+        apk: "./app/build/outputs/apk/release/app-release.apk",
+        notes: options[:notes]
+      )
+
+      slack(
+        message: "New Beta Available on HockeyApp",
+        channel: "#dev-ops",  # Optional, by default will post to the default channel configured for the POST URL.
+        success: true,        # Optional, defaults to true.
+        payload: {  # Optional, lets you specify any number of your own Slack attachments.
+          "Build Date" => Time.new.to_s,
+          "Built by" => "Miguel",
+        },
+        # default_payloads: [:git_branch, :git_author], # Optional, lets you specify a whitelist of default payloads to include. Pass an empty array to suppress all the default payloads.
+        #       # Don't add this key, or pass nil, if you want all the default payloads. The available default payloads are: `lane`, `test_result`, `git_branch`, `git_author`, `last_git_commit_message`, `last_git_commit_hash`.
+        # attachment_properties: { # Optional, lets you specify any other properties available for attachments in the slack API (see https://api.slack.com/docs/attachments).
+        #      # This hash is deep merged with the existing properties set using the other properties above. This allows your own fields properties to be appended to the existing fields that were created using the `payload` property for instance.
+        #   thumb_url: "http://example.com/path/to/thumb.png",
+        #   fields: [{
+        #     title: "My Field",
+        #     value: "My Value",
+        #     short: true
+        #   }]
+        # }
+      )
+    end
 
     # sh "your_script.sh"
     # You can also use other beta testing services here
