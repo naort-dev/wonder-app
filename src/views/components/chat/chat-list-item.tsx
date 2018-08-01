@@ -12,6 +12,19 @@ interface ChatListItemProps {
 }
 
 class ChatListItem extends React.Component<ChatListItemProps> {
+  static defaultProps = {
+    chat: {
+      messages: []
+    }
+  };
+
+  renderRecentMessage = () => {
+    const { chat } = this.props;
+    if (chat && chat.last_message) {
+      return <SmallText>{chat.last_message}</SmallText>;
+    }
+    return <SmallText>No Messages</SmallText>;
+  }
 
   render() {
     const { chat, onPress } = this.props;
@@ -25,7 +38,7 @@ class ChatListItem extends React.Component<ChatListItemProps> {
         </View>
         <View flex={10} style={styles.textContainer}>
           <Title style={{ color: '#000' }}>{chat.partner.first_name}</Title>
-          <SmallText>{chat.messages[0] || 'No Messages'}</SmallText>
+          {this.renderRecentMessage()}
         </View>
       </TouchableOpacity>
     );

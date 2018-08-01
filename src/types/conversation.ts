@@ -4,7 +4,7 @@ import User from "./user";
 interface Conversation {
   id: number;
   partner: Partial<User>;
-  messages: any[];
+  last_message: string | null;
 }
 
 export default Conversation;
