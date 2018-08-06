@@ -38,6 +38,7 @@ platform :android do
       )
 
       slack(
+        pretext: "Android Beta Build",
         message: options[:notes],
         channel: "#dev-ops",  # Optional, by default will post to the default channel configured for the POST URL.
         success: true,        # Optional, defaults to true.

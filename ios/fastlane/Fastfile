@@ -47,6 +47,7 @@ platform :ios do
 
   lane :notify_slack do |options|
     slack(
+      pretext: "iOS Beta Build",
       message: options[:notes],
       channel: "#dev-ops",  # Optional, by default will post to the default channel configured for the POST URL.
       success: true,        # Optional, defaults to true.
