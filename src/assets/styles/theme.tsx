@@ -4,7 +4,7 @@ const colors = {
   white: '#FFF',
   black: '#000',
   primary: '#F68E56',
-  primaryLight: '#F9AD81',
+  primaryLight: 'rgb(251, 223, 194)', //'#F9AD81',
   // primaryLight: '#FDE0C1',
   secondary: 'rgb(255, 238, 75)',
   backgroundPrimary: '#ECECEC',
