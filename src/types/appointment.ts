@@ -8,19 +8,22 @@ export interface AppoinmentUser extends Partial<User> {
 }
 
 export default interface Appointment {
-  name: string;
+  name: string; // Activity name
   location: string;
   latitude?: number;
   longitude?: number;
-
-  topic: Topic;
   event_at: Date;
-
+  topic: Topic;
   owner: AppoinmentUser;
   users: AppoinmentUser[];
   demerits?: string[];
 
-  aasm_state: 'created' | 'negotiating' | 'confirmed' | 'cancelled';
+  state: 'created' | 'negotiating' | 'confirmed' | 'cancelled';
   invited_at: Date;
   confirmed_at: Date;
+}
+
+export interface DecoratedAppointment extends Appointment {
+  me: AppoinmentUser;
+  match?: AppoinmentUser;
 }

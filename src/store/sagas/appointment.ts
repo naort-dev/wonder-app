@@ -4,6 +4,7 @@ import api from '../../services/api';
 import WonderAppState from '../../types/wonder-app-state';
 import { Alert } from 'react-native';
 import Appointment from '../../types/appointment';
+import { persistAppointments } from '../reducers/wonder';
 
 export const GET_APPOINTMENTS = 'GET_APPOINTMENTS';
 export const getAppointments = createAction(GET_APPOINTMENTS);
@@ -16,6 +17,7 @@ export function* getAppointmentsSaga(action: Action<any>) {
       url: '/appointments'
     }, state.user);
 
+    yield put(persistAppointments(data));
     // yield put(persistUser(data));
     // yield put(resetRegistration());
   } catch (error) {
