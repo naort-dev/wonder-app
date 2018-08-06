@@ -45,7 +45,7 @@ export default class Welcome extends React.Component<Props> {
           <View style={{ marginTop: 25 }}>
             <Text>Already have an account?</Text>
             <TextButton
-              style={{ textAlign: 'center', color: theme.colors.primaryLight }}
+              style={{ textAlign: 'center', color: theme.colors.primary }}
               text="Sign In"
               onPress={() => navigation.navigate('Login')}
             />
