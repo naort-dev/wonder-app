@@ -12,10 +12,10 @@ const persistConfig = {
   storage,
 }
 
+
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const sagaMiddleware = createSagaMiddleware();
 const middlewares = [sagaMiddleware];
-
 
 export default (initialState) => {
   // create store and persistor per normal...
@@ -27,9 +27,8 @@ export default (initialState) => {
 
   const persistor = persistStore(store);
 
+  // Uncomment next line to dev purge the store.
   // persistor.purge();
-
-
 
   if (module.hot) {
     module.hot.accept(() => {
