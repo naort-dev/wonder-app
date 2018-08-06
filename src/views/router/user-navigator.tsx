@@ -114,11 +114,11 @@ const UserNavigator = createMaterialTopTabNavigator({
         elevation: 0
       },
       indicatorStyle: {
-        backgroundColor: theme.colors.primaryLight,
+        backgroundColor: theme.colors.primary,
       },
-      activeTintColor: theme.colors.primaryLight,
+      activeTintColor: theme.colors.primary,
       inactiveTintColor: theme.colors.textColor,
     },
-  })
+  });
 
 export default UserNavigator;
