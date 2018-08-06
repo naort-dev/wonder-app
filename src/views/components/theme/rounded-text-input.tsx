@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import { View, StyleSheet, TextInput as Input, TextInputProps } from 'react-native';
 import { Text } from '.';
@@ -8,7 +9,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import GradientPoint from '../../../types/gradient-point';
 import ErrorHint from './text/error-hint';
 
-
 const palette = Color(theme.colors.backgroundPrimary);
 
 interface PasswordProps {
@@ -18,6 +18,7 @@ interface PasswordProps {
 }
 
 interface RoundedTextInputProps extends TextInputProps {
+  getRef?: any;
   errorHint?: string;
   type?: string;
   label?: string;
@@ -36,9 +37,12 @@ interface State {
 }
 
 export default class RoundedTextInput extends React.Component<RoundedTextInputProps, State> {
+  innerRef: any = null;
+
   static defaultProps = {
     padLeft: false,
-    start: undefined
+    start: undefined,
+    getRef: _.noop
   };
 
   state = {
@@ -93,6 +97,7 @@ export default class RoundedTextInput extends React.Component<RoundedTextInputPr
       color,
       colors,
       padLeft,
+      getRef,
       ...rest
     } = this.props;
 
@@ -105,6 +110,7 @@ export default class RoundedTextInput extends React.Component<RoundedTextInputPr
 
     const input = (
       <Input
+        ref={getRef}
         underlineColorAndroid="transparent"
         placeholderTextColor={color}
         secureTextEntry={passwordProps.secureTextEntry}

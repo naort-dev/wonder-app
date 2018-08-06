@@ -39,6 +39,8 @@ interface StateErrors {
 
 class LoginScreen extends React.Component<Props> {
 
+  inputs: any = {};
+
   state: State = {
     email: '',
     password: '',
@@ -79,6 +81,14 @@ class LoginScreen extends React.Component<Props> {
     onLogin({ email, password, onSuccess: () => navigation.navigate('Main') });
   }
 
+  focusOn = (key: string) => {
+    return () => {
+      if (this.inputs[key]) {
+        this.inputs[key].focus();
+      }
+    };
+  }
+
   render() {
     const { navigation } = this.props;
     const { errors } = this.state;
@@ -90,6 +100,9 @@ class LoginScreen extends React.Component<Props> {
         <View flex={1} style={styles.body}>
           <View style={{ width: '100%' }}>
             <RoundedTextInput
+              returnKeyType="next"
+              getRef={(input) => { this.inputs.email = input; }}
+              onSubmitEditing={this.focusOn('password')}
               autoCapitalize="none"
               autoCorrect={false}
               errorHint={errors.email}
@@ -101,6 +114,8 @@ class LoginScreen extends React.Component<Props> {
           </View>
           <View style={{ marginTop: 10, width: '100%' }}>
             <RoundedTextInput
+              returnKeyType="done"
+              getRef={(input) => { this.inputs.password = input; }}
               type="password"
               autoCapitalize="none"
               autoCorrect={false}

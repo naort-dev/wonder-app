@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import { View, StyleSheet, TextInput as Input, TextInputProps } from 'react-native';
 import theme from '../../../assets/styles/theme';
@@ -7,6 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ErrorHint from './text/error-hint';
 
 interface Props extends TextInputProps {
+  getRef?: any;
   icon?: string;
   color?: string;
   errorHint?: string;
@@ -20,11 +22,11 @@ interface State {
   text?: string;
 }
 
-
 const palette = Color(theme.colors.backgroundPrimary);
 export default class TextInput extends React.Component<Props, State> {
   static defaultProps = {
-    disabled: false
+    disabled: false,
+    getRef: _.noop
   };
 
   state = {
@@ -69,7 +71,7 @@ export default class TextInput extends React.Component<Props, State> {
   }
 
   render() {
-    const { disabled, autoCorrect, label, style, padLeft, ...rest } = this.props;
+    const { disabled, autoCorrect, label, style, padLeft, getRef, ...rest } = this.props;
     return (
       <View style={styles.container}>
         {label && <Label>{label.toUpperCase()}</Label>}
@@ -77,6 +79,7 @@ export default class TextInput extends React.Component<Props, State> {
           {this.renderIcon()}
           {padLeft && <View flex={1} />}
           <Input
+            ref={getRef}
             editable={!disabled}
             autoCorrect={autoCorrect}
             underlineColorAndroid="transparent"

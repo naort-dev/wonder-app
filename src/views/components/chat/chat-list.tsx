@@ -43,6 +43,7 @@ class ChatList extends React.Component<ChatListProps> {
     if (!chats || chats.length) {
       return (
         <FlatList
+          showsVerticalScrollIndicator={false}
           data={chats || []}
           keyExtractor={this.keyExtractor}
           renderItem={this.renderItem}

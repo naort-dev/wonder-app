@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, KeyboardAvoidingView } from "react-native";
 import { RoundedTextInput, PrimaryButton } from "../../components/theme";
 import Screen from "../../components/screen";
 import { Logo } from "../../../assets/images";
@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from "redux";
 import WonderAppState from "../../../types/wonder-app-state";
 import { persistRegistrationInfo, resetRegistration } from "../../../store/reducers/registration";
+import { KeyboardDismissView } from "../../components/keyboard-dismiss-view";
 
 interface Props {
   onSave: Function;
@@ -43,8 +44,15 @@ const mapDispatch = (dispatch: Dispatch) => ({
 });
 
 class Register1 extends React.Component<Props, State> {
+  inputs: any = {
+    first_name: null,
+    last_name: null,
+    email: null,
+    phone: null,
+    password: null
+  };
 
-  public state: State = {
+  state: State = {
     first_name: "",
     last_name: "",
     email: "",
@@ -57,87 +65,115 @@ class Register1 extends React.Component<Props, State> {
     this.props.onReset();
   }
 
-  public render() {
+  focusNext = (key: string) => () => {
+    if (this.inputs[key]) {
+      this.inputs[key].focus();
+    }
+  }
+
+  render() {
     const { errors } = this.state;
     return (
       <Screen>
-        <View style={styles.header}>
-          <Image style={{ width: "80%" }} source={Logo.DARK} resizeMode="contain" />
-        </View>
-        <View style={styles.body}>
-          <View style={{ width: "100%" }}>
-            <RoundedTextInput
-              onValidate={(text: string) => text && !validator.isEmpty(text)}
-              autoCorrect={false}
-              autoCapitalize="words"
-              errorHint={errors.first_name}
-              icon="user"
-              placeholder="First Name"
-              onChangeText={this.onChangeText("first_name")}
-              fullWidth
-              maxLength={50}
-            />
-          </View>
-          <View style={{ marginTop: 10, width: "100%" }}>
-            <RoundedTextInput
-              onValidate={(text: string) => text && !validator.isEmpty(text)}
-              autoCorrect={false}
-              autoCapitalize="words"
-              errorHint={errors.last_name}
-              icon="user"
-              placeholder="Last Name"
-              onChangeText={this.onChangeText("last_name")}
-              fullWidth
-              maxLength={50}
-            />
-          </View>
-          <View style={{ marginTop: 10, width: "100%" }}>
-            <RoundedTextInput
-              onValidate={(text: string) => text && validator.isEmail(text)}
-              autoCapitalize="none"
-              autoCorrect={false}
-              errorHint={errors.email}
-              icon="envelope-o"
-              placeholder="Email"
-              onChangeText={this.onChangeText("email")}
-              fullWidth
-              maxLength={50}
-            />
-          </View>
-          <View style={{ marginTop: 10, width: "100%" }}>
-            <RoundedTextInput
-              onValidate={(text: string) => text && validator.isMobilePhone(text, "en-US")}
-              keyboardType="phone-pad"
-              autoCapitalize="none"
-              autoCorrect={false}
-              errorHint={errors.phone}
-              icon="phone"
-              placeholder="Mobile Number"
-              onChangeText={this.onChangeText("phone")}
-              fullWidth
-              maxLength={10}
-            />
-          </View>
-          <View style={{ marginTop: 10, width: "100%" }}>
-            <RoundedTextInput
-              onValidate={(text: string) => text && text.length > 5}
-              autoCapitalize="none"
-              autoCorrect={false}
-              errorHint={errors.password}
-              icon="lock"
-              placeholder="Password"
-              onChangeText={this.onChangeText("password")}
-              fullWidth
-            />
-          </View>
-          <View style={{ paddingVertical: 10, width: "50%" }}>
+        <KeyboardAvoidingView
+          behavior="position"
+          contentContainerStyle={{ flex: 1 }}
+          // style={styles.body}
+          style={{ flex: 1, justifyContent: 'space-between' }}
+        >
+          <KeyboardDismissView style={{ flex: 1 }}>
+            <View style={styles.header}>
+              <Image style={{ width: "80%" }} source={Logo.DARK} resizeMode="contain" />
+            </View>
+            <View style={styles.body}>
+              <View style={{ width: "100%" }}>
+                <RoundedTextInput
+                  getRef={(input) => { this.inputs.first_name = input; }}
+                  onSubmitEditing={this.focusNext('last_name')}
+                  returnKeyType="next"
+                  onValidate={(text: string) => text && !validator.isEmpty(text)}
+                  autoCorrect={false}
+                  autoCapitalize="words"
+                  errorHint={errors.first_name}
+                  icon="user"
+                  placeholder="First Name"
+                  onChangeText={this.onChangeText("first_name")}
+                  fullWidth
+                  maxLength={50}
+                />
+              </View>
+              <View style={{ marginTop: 10, width: "100%" }}>
+                <RoundedTextInput
+                  getRef={(input) => { this.inputs.last_name = input; }}
+                  onSubmitEditing={this.focusNext('email')}
+                  returnKeyType="next"
+                  onValidate={(text: string) => text && !validator.isEmpty(text)}
+                  autoCorrect={false}
+                  autoCapitalize="words"
+                  errorHint={errors.last_name}
+                  icon="user"
+                  placeholder="Last Name"
+                  onChangeText={this.onChangeText("last_name")}
+                  fullWidth
+                  maxLength={50}
+                />
+              </View>
+              <View style={{ marginTop: 10, width: "100%" }}>
+                <RoundedTextInput
+                  getRef={(input) => { this.inputs.email = input; }}
+                  onSubmitEditing={this.focusNext('phone')}
+                  returnKeyType="next"
+                  onValidate={(text: string) => text && validator.isEmail(text)}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  errorHint={errors.email}
+                  icon="envelope-o"
+                  placeholder="Email"
+                  onChangeText={this.onChangeText("email")}
+                  fullWidth
+                  maxLength={50}
+                />
+              </View>
+              <View style={{ marginTop: 10, width: "100%" }}>
+                <RoundedTextInput
+                  getRef={(input) => { this.inputs.phone = input; }}
+                  onSubmitEditing={this.focusNext('password')}
+                  returnKeyType="next"
+                  onValidate={(text: string) => text && validator.isMobilePhone(text, "en-US")}
+                  keyboardType="phone-pad"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  errorHint={errors.phone}
+                  icon="phone"
+                  placeholder="Mobile Number"
+                  onChangeText={this.onChangeText("phone")}
+                  fullWidth
+                  maxLength={10}
+                />
+              </View>
+              <View style={{ marginTop: 10, width: "100%" }}>
+                <RoundedTextInput
+                  onValidate={(text: string) => text && text.length > 5}
+                  returnKeyType="done"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  errorHint={errors.password}
+                  icon="lock"
+                  placeholder="Password"
+                  onChangeText={this.onChangeText("password")}
+                  fullWidth
+                />
+              </View>
+            </View>
+          </KeyboardDismissView>
+          <View style={{ paddingVertical: 10, width: "50%", alignSelf: 'center' }}>
             <PrimaryButton
               title="Next"
               onPress={this.validate}
             />
           </View>
-        </View>
-      </Screen>
+        </KeyboardAvoidingView>
+      </Screen >
     );
   }
 
@@ -195,12 +231,11 @@ export default connect(mapState, mapDispatch)(Register1);
 const styles = StyleSheet.create({
   body: {
     alignItems: "center",
-    flex: 6,
+    flex: 1,
     flexDirection: "column",
     padding: 20
   },
   header: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center"
   },

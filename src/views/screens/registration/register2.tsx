@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Alert, Geolocation } from 'react-native';
+import { View, StyleSheet, Alert, Geolocation, KeyboardAvoidingView } from 'react-native';
 import { TextInput, Text, GenderPicker, PrimaryButton, DatePicker, Title } from '../../components/theme';
 import ShadowBox from '../../components/theme/shadow-box';
 import Screen from '../../components/screen';
@@ -13,6 +13,7 @@ import { Dispatch } from 'redux';
 import registration, { persistRegistrationInfo, RegistrationState } from '../../../store/reducers/registration';
 import googleMaps, { GoogleGeoLocation } from '../../../services/google-maps';
 import theme from '../../../assets/styles/theme';
+import { KeyboardDismissView } from '../../components/keyboard-dismiss-view';
 
 interface Props {
   registration: RegistrationState;
@@ -83,45 +84,51 @@ class Register2 extends React.Component<Props, State> {
 
     return (
       <Screen horizontalPadding={20}>
-        <Title style={{ color: theme.colors.primaryLight, textAlign: 'center' }}>Hello, {registration.first_name}</Title>
-        <Text style={styles.welcome}>Tell us a little more about yourself</Text>
-        <GenderPicker onChange={(gender: Gender) => this.onChangeText('gender')(gender)} />
-        <DatePicker
-          errorHint={errors.birthdate}
-          label="BIRTHDAY"
-          placeholder="Select Date"
-          onChange={this.onDateChange}
-          initialDate={birthdate}
-          minDate={new Date('1950-01-01')}
-          maxDate={this.eighteenYearsAgoToday.toDate()}
-        />
-        <TextInput
-          onValidate={(text: string) => text && !validator.isEmpty(text)}
-          label="EDUCATION"
-          errorHint={errors.education}
-          autoCorrect={false}
-          autoCapitalize="words"
-          onChangeText={this.onChangeText('education')}
-        />
-        <TextInput
-          onValidate={(text: string) => text && !validator.isEmpty(text)}
-          label="OCCUPATION"
-          errorHint={errors.occupation}
-          autoCorrect={false}
-          autoCapitalize="words"
-          onChangeText={this.onChangeText('occupation')}
-        />
-        <TextInput
-          onValidate={(text: string) => text && validator.isPostalCode(text, 'US')}
-          keyboardType="number-pad"
-          label={`ZIP CODE${this.formattedGeo()}`}
-          errorHint={errors.location}
-          autoCorrect={false}
-          autoCapitalize="words"
-          onChangeText={this.onChangeText('location')}
-          onBlur={this.lookupLocation}
-        />
-        <View style={{ marginTop: 10 }}>
+        <KeyboardAvoidingView contentContainerStyle={{ flex: 1 }} style={{ flex: 1 }} behavior="position">
+          <KeyboardDismissView style={{ flex: 1 }}>
+            <Title style={{ color: theme.colors.primaryLight, textAlign: 'center' }}>
+              Hello, {registration.first_name}
+            </Title>
+            <Text style={styles.welcome}>Tell us a little more about yourself</Text>
+            <GenderPicker onChange={(gender: Gender) => this.onChangeText('gender')(gender)} />
+            <DatePicker
+              errorHint={errors.birthdate}
+              label="BIRTHDAY"
+              placeholder="Select Date"
+              onChange={this.onDateChange}
+              initialDate={birthdate}
+              minDate={new Date('1950-01-01')}
+              maxDate={this.eighteenYearsAgoToday.toDate()}
+            />
+            <TextInput
+              onValidate={(text: string) => text && !validator.isEmpty(text)}
+              label="EDUCATION"
+              errorHint={errors.education}
+              autoCorrect={false}
+              autoCapitalize="words"
+              onChangeText={this.onChangeText('education')}
+            />
+            <TextInput
+              onValidate={(text: string) => text && !validator.isEmpty(text)}
+              label="OCCUPATION"
+              errorHint={errors.occupation}
+              autoCorrect={false}
+              autoCapitalize="words"
+              onChangeText={this.onChangeText('occupation')}
+            />
+            <TextInput
+              onValidate={(text: string) => text && validator.isPostalCode(text, 'US')}
+              keyboardType="number-pad"
+              label={`ZIP CODE${this.formattedGeo()}`}
+              errorHint={errors.location}
+              autoCorrect={false}
+              autoCapitalize="words"
+              onChangeText={this.onChangeText('location')}
+              onBlur={this.lookupLocation}
+            />
+          </KeyboardDismissView>
+        </KeyboardAvoidingView>
+        <View style={{ marginVertical: 10 }}>
           <PrimaryButton
             title="Next"
             onPress={this.validate}

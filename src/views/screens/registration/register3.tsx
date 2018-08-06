@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { PrimaryButton, TextArea } from '../../components/theme';
 import ShadowBox from '../../components/theme/shadow-box';
 import Screen from '../../components/screen';
@@ -11,6 +11,7 @@ import { Dispatch } from "redux";
 import WonderAppState from "../../../types/wonder-app-state";
 import { persistRegistrationInfo } from "../../../store/reducers/registration";
 import { Device } from '../../../assets/styles/theme';
+import { KeyboardDismissView } from '../../components/keyboard-dismiss-view';
 
 interface Props {
   navigation: NavigationScreenProp<any, NavigationParams>;
@@ -69,17 +70,25 @@ class Register3 extends React.Component<Props, State> {
   render() {
     return (
       <Screen horizontalPadding={20}>
-        <MediaGrid
-          width={Device.WIDTH - 40}
-          gutter={2}
-        />
-        <TextArea
-          label="About Me"
-          onChangeText={this.onAboutChangeText('about')}
-          // tslint:disable-next-line
-          placeholder={'Take this time to describe yourself, life experience, hobbies, and anything else that makes you wonderful...'}
-        />
-        <View style={{ marginTop: 10 }}>
+        <KeyboardAvoidingView
+          behavior="position"
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flex: 1 }}
+        >
+          <KeyboardDismissView>
+            <MediaGrid
+              width={Device.WIDTH - 40}
+              gutter={2}
+            />
+            <TextArea
+              label="About Me"
+              onChangeText={this.onAboutChangeText('about')}
+              // tslint:disable-next-line
+              placeholder={'Take this time to describe yourself, life experience, hobbies, and anything else that makes you wonderful...'}
+            />
+          </KeyboardDismissView>
+        </KeyboardAvoidingView>
+        <View style={{ marginVertical: 10 }}>
           <PrimaryButton title="Next" onPress={this.validate} />
         </View>
       </Screen>
