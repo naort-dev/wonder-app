@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, StyleProp } from "react-native";
+import { TouchableOpacity, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../../../assets/styles/theme';
 import TouchableOpacityOnPress from '../../../../types/touchable-on-press';
@@ -11,7 +11,8 @@ interface IconButtonProps {
   primary?: string;
   secondary?: string;
   onPress?: TouchableOpacityOnPress;
-  size: number;
+  size?: number;
+  iconSize?: number;
 }
 
 class IconButton extends React.Component<IconButtonProps> {
@@ -19,18 +20,24 @@ class IconButton extends React.Component<IconButtonProps> {
     primary: theme.colors.primary,
     secondary: theme.colors.primaryLight,
     size: 45,
-    disabled: false
+    disabled: false,
+    iconSize: undefined
   };
 
   render() {
-    const { size, icon, primary, secondary, circle, onPress, disabled } = this.props;
+    const { size, icon, primary, secondary, circle, onPress, disabled, iconSize } = this.props;
 
-    const btnStyle = {
+    const btnStyle: StyleProp<ViewStyle> = {
       backgroundColor: secondary,
-      borderRadius: circle ? (size / 2) : 3,
-      width: size,
-      height: size
     };
+
+    let computedIconSize = 18;
+    if (size) {
+      btnStyle.borderRadius = circle ? (size / 2) : 3;
+      btnStyle.width = size;
+      btnStyle.height = size;
+      computedIconSize = size * 0.4;
+    }
 
     return (
       <TouchableOpacity
@@ -38,7 +45,7 @@ class IconButton extends React.Component<IconButtonProps> {
         style={[styles.btnContainer, btnStyle]}
         onPress={onPress}
       >
-        <Icon name={icon} color={primary} size={size * 0.4} />
+        <Icon name={icon} color={primary} size={iconSize || computedIconSize} />
       </TouchableOpacity>
     );
   }

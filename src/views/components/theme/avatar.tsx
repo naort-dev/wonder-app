@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, StyleProp, ImageStyle, ViewStyle } from 'react-native';
 import { WonderImage } from '../theme';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -15,6 +15,8 @@ interface AvatarProps {
   circle?: boolean;
   uri?: string | null;
   size?: AvatarSize;
+  containerStyle?: StyleProp<ViewStyle>;
+  style?: StyleProp<ImageStyle>;
 }
 
 class Avatar extends React.Component<AvatarProps> {
@@ -49,15 +51,16 @@ class Avatar extends React.Component<AvatarProps> {
   }
 
   renderImage = () => {
-    const { uri } = this.props;
+    const { uri, style } = this.props;
     if (uri) {
       return (
         <WonderImage
-          style={{
+          style={[{
             ...this.getContainerStyles(),
             width: this.getDimensions(),
             height: this.getDimensions(),
-          }}
+
+          }, style]}
           uri={uri}
         />
       );
@@ -73,9 +76,9 @@ class Avatar extends React.Component<AvatarProps> {
   }
 
   render() {
-    const { uri } = this.props;
+    const { uri, containerStyle } = this.props;
     return (
-      <View style={[styles.avatarContainer, this.getContainerStyles()]}>
+      <View style={[styles.avatarContainer, this.getContainerStyles(), containerStyle]}>
         {this.renderImage()}
       </View>
     );

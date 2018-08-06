@@ -51,10 +51,10 @@ const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.textColor,
-    padding: 10,
+    padding: 15,
     flexDirection: 'row',
   },
   textContainer: {
-    justifyContent: 'space-between'
+    justifyContent: 'center'
   }
 });
