@@ -32,3 +32,6 @@ export { default as ActivityMap } from './activity/activity-map';
 
 // System Wide
 export { default as Feedback } from './system/feedback';
+
+// Appointment
+export { default as AppointmentView } from './appointment/appointment-view';

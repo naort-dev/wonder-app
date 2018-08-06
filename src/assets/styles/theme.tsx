@@ -1,4 +1,5 @@
 import { Dimensions } from 'react-native';
+import Color from 'color';
 
 const colors = {
   white: '#FFF',
@@ -9,6 +10,7 @@ const colors = {
   secondary: 'rgb(255, 238, 75)',
   backgroundPrimary: '#ECECEC',
   textColor: '#8E8EAA',
+  textColorLight: Color('#8E8EAA').lighten(0.5).toString(),
   cottonCandyPink: '#E7A4CA',
   cottonCandyBlue: '#84CCF1',
 };

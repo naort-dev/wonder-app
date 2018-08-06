@@ -1,24 +1,23 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { Text, Title, SubTitle, SmallText, Strong, IconButton } from '../theme';
+import { Text, Title, SubTitle, SmallText, Strong, IconButton, TextButton } from '../theme';
 import { DecoratedAppointment } from '../../../types/appointment';
 import moment from 'moment-timezone';
 import Avatar, { AvatarSize } from '../theme/avatar';
 import theme from '../../../assets/styles/theme';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import TouchableOpacityOnPress from '../../../types/touchable-on-press';
 
 interface Props {
   item: DecoratedAppointment;
+  onPress?: Function;
 }
 
 class AppointmentItem extends React.Component<Props> {
-  getMatchedUser = () => {
-    const { item } = this.props;
-
-  }
-
   renderTitle = () => {
     const { item } = this.props;
-    const { name, users, event_at, match } = item;
+    const { name, users, event_at, match = {} } = item;
+
     const now = moment();
     if (moment(event_at).isSameOrAfter(now)) {
       return (
@@ -31,22 +30,33 @@ class AppointmentItem extends React.Component<Props> {
   }
 
   render() {
-    const { item } = this.props;
+    const { item, onPress } = this.props;
     return (
-      <TouchableOpacity style={styles.container}>
+      <TouchableOpacity style={styles.container} onPress={() => { if (onPress) { onPress(item); } }}>
         <View style={styles.imageContainer}>
           <Avatar
             circle
             uri={item.match.images.length ? item.match.images[0].url : null}
             size={AvatarSize.md}
           />
-          <SmallText style={{ marginTop: 10 }}>Leave Review</SmallText>
+          <TextButton text="Leave Review" style={{ marginTop: 10, fontSize: 10 }} />
         </View>
         <View style={styles.contentContainer}>
           {this.renderTitle()}
           <SubTitle>{moment(item.event_at).format('Do, MMMM YYYY')}</SubTitle>
-          <SmallText>{item.location}</SmallText>
-          <IconButton icon="comments" size={24} iconSize={24} primary={theme.colors.primaryLight} secondary="transparent" />
+          <View style={styles.locationRow}>
+            <Icon name="map-marker" size={24} color={theme.colors.textColorLight} />
+            <SmallText style={styles.locationText}>{item.location}</SmallText>
+          </View>
+          <View style={{ alignItems: 'flex-end' }}>
+            <IconButton
+              icon="comments"
+              size={24}
+              iconSize={24}
+              primary={theme.colors.primaryLight}
+              secondary="transparent"
+            />
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -57,7 +67,7 @@ export default AppointmentItem;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    padding: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between'
@@ -71,5 +81,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 2,
     justifyContent: 'center'
-  }
+  },
+  locationRow: { flexDirection: 'row', alignItems: 'center' },
+  locationText: { marginLeft: 10 }
 });

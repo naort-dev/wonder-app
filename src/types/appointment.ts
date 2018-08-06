@@ -25,5 +25,5 @@ export default interface Appointment {
 
 export interface DecoratedAppointment extends Appointment {
   me: AppoinmentUser;
-  match?: AppoinmentUser;
+  match: AppoinmentUser;
 }

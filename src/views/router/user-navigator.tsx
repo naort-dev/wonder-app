@@ -8,6 +8,7 @@ import {
 } from 'react-navigation';
 
 import {
+  AppointmentView,
   ProfileView,
   ProfileEdit,
   ProfileMedia,
@@ -91,19 +92,45 @@ const ProfileNavigator = createStackNavigator({
 },
   {});
 
+const UpcomingAppointmentsNavigator = createStackNavigator({
+  UpcomingAppointments: {
+    screen: UpcomingAppointments,
+    navigationOptions: { header: null }
+  },
+  UpcomingAppointmentView: {
+    screen: AppointmentView,
+    navigationOptions: {
+      ...theme.NavBar.transparent
+    }
+  }
+}, );
+
+const PastAppointmentsNavigator = createStackNavigator({
+  PastAppointments: {
+    screen: PastAppointments,
+    navigationOptions: { header: null }
+  },
+  PastAppointmentView: {
+    screen: AppointmentView,
+    navigationOptions: {
+      ...theme.NavBar.transparent
+    }
+  }
+});
+
 const UserNavigator = createMaterialTopTabNavigator({
   Profile: {
     screen: ProfileNavigator,
     navigationOptions: hideTabsForNestedRoutes
   },
   Past: {
-    screen: PastAppointments,
+    screen: PastAppointmentsNavigator,
     navigationOptions: hideTabsForNestedRoutes
   },
   Upcoming: {
-    screen: UpcomingAppointments,
+    screen: UpcomingAppointmentsNavigator,
     navigationOptions: hideTabsForNestedRoutes
-  }
+  },
 }, {
     swipeEnabled: false,
     tabBarPosition: 'top',
