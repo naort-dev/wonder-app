@@ -115,8 +115,8 @@ class ActivityMapScreen extends React.Component<Props, State> {
           //   longitudeDelta: 0.05,
           // }}
           region={{
-            latitude: position.lat,
-            longitude: position.lng,
+            latitude: GENEVA.latitude,//position.lat,
+            longitude: GENEVA.longitude,//position.lng,
             latitudeDelta: 0.08,
             longitudeDelta: 0.08,
           }}
