@@ -96,7 +96,7 @@ class ActivityMapScreen extends React.Component<Props, State> {
         coordinate={{ latitude, longitude }}
       >
         <Marker title={topic.name} />
-        <Callout>
+        <Callout style={{ padding: 0 }}>
           <ActivityCallout
             activity={activity}
             onPress={() => onGetActivity(id)}

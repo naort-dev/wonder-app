@@ -11,18 +11,26 @@ interface Props {
 }
 
 class ActivityCallout extends React.Component<Props> {
+  renderImage = () => {
+    const { activity } = this.props;
+    if (activity.image_url && activity.image_url.length) {
+      return (
+        <View flex={2}>
+          {<Image source={{ uri: activity.image_url }} style={{ flex: 1 }} />}
+        </View>
+      );
+    }
+  }
   render() {
     const { activity, onPress } = this.props;
     return (
       <TouchableOpacity style={styles.container} onPress={onPress}>
-        <View flex={2}>
-          {activity.image_url && <Image source={{ uri: activity.image_url }} style={{ width: '100%' }} />}
-        </View>
-        <View flex={3}>
+        {this.renderImage()}
+        <View flex={3} style={styles.body}>
           <Text style={styles.title}>{activity.name}</Text>
           <Text style={styles.address}>{activity.location.join('\n')}</Text>
           <Text style={styles.address}>{activity.price_level}</Text>
-          <Text style={styles.address}>{activity.distance.toFixed(2)}</Text>
+          {/* <Text style={styles.address}>{activity.distance.toFixed(2)}</Text> */}
           <PricingIndicator rating={activity.price_level} />
         </View>
       </TouchableOpacity>
@@ -35,7 +43,11 @@ export default ActivityCallout;
 const styles = StyleSheet.create({
   container: {
     width: 250,
+    maxHeight: 100,
     flexDirection: 'row'
+  },
+  body: {
+    paddingHorizontal: 10
   },
   title: {
     fontSize: 12

@@ -15,7 +15,7 @@ interface ActivityDetailsModalProps extends ModalProps {
 class ActivityDetailsModal extends React.Component<ActivityDetailsModalProps> {
 
   renderHeaderImage = (images: string[]) => {
-    if (images && images.length) {
+    if (images && images.length && images[0]) {
       return (
         <View>
           <Image source={{ uri: images[0] }} style={{ width: '100%', height: 150 }} />
@@ -38,26 +38,28 @@ class ActivityDetailsModal extends React.Component<ActivityDetailsModalProps> {
       } = details;
 
       return (
-        <View style={styles.container}>
-          {this.renderHeaderImage(images)}
-          <View style={styles.body}>
-            <View style={styles.row}>
-              <View>
-                <Title>{name}</Title>
-                <SmallText>{location.join(' ')}</SmallText>
-                <PricingIndicator rating={price_level} />
+        <View style={styles.modal}>
+          <View style={styles.container}>
+            {this.renderHeaderImage(images)}
+            <View style={styles.body}>
+              <View style={styles.row}>
+                <View>
+                  <Title>{name}</Title>
+                  <SmallText>{location.join(' ')}</SmallText>
+                  <PricingIndicator rating={price_level} />
+                </View>
+                <View style={{ alignItems: 'flex-end' }}>
+                  <RatingIndicator
+                    rating={rating}
+                  />
+                  <SmallText>({review_count} Reviews)</SmallText>
+                </View>
               </View>
-              <View style={{ alignItems: 'flex-end' }}>
-                <RatingIndicator
-                  rating={rating}
-                />
-                <SmallText>({review_count} Reviews)</SmallText>
-              </View>
-            </View>
 
-          </View>
-          <View style={{ paddingHorizontal: 10, marginVertical: 10 }}>
-            <PrimaryButton title="Invite" onPress={onConfirm} />
+            </View>
+            <View style={{ paddingHorizontal: 10, marginVertical: 10 }}>
+              <PrimaryButton title="Invite" onPress={onConfirm} />
+            </View>
           </View>
         </View>
       );
@@ -82,10 +84,13 @@ class ActivityDetailsModal extends React.Component<ActivityDetailsModalProps> {
 export default ActivityDetailsModal;
 
 const styles = StyleSheet.create({
+  modal: {
+    flex: 1,
+    justifyContent: 'flex-end'
+  },
   container: {
     borderRadius: 10,
     backgroundColor: '#FFF',
-    flex: 1,
     marginTop: 60,
     marginHorizontal: 20,
     marginBottom: 20,
@@ -98,7 +103,6 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   body: {
-    flex: 1,
     padding: 10
   },
   row: {
