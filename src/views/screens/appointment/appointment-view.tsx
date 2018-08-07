@@ -4,7 +4,6 @@ import Screen from '../../components/screen';
 import { DecoratedAppointment } from '../../../types/appointment';
 import { Title, Text } from '../../components/theme';
 import { ScrollView } from 'react-native';
-import appointmentSchedule from '../../../../mocks/appointment-schedule';
 import { NavigationScreenProp, NavigationParams } from 'react-navigation';
 
 interface AppointmentViewProps {
