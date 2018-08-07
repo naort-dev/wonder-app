@@ -13,7 +13,7 @@ import { NavigationScreenProp, NavigationParams } from '../../../../node_modules
 import ActivityDetailsModal from '../../components/modals/activity-details-modal';
 import ActivityDetails from '../../../types/activity-details';
 import { persistActivity } from '../../../store/reducers/chat';
-import { GeolocationReturnType, Alert } from '../../../../node_modules/@types/react-native';
+import { GeolocationReturnType, Alert } from 'react-native';
 
 const GENEVA = {
   latitude: 41.8875,
@@ -62,13 +62,20 @@ class ActivityMapScreen extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    // navigator.geolocation.requestAuthorization();
+    navigator.geolocation.getCurrentPosition(
+      this.updatePosition,
+      (error) => Alert.alert(error.message),
+      // { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 }
+    );
 
     navigator.geolocation.watchPosition(
       this.updatePosition,
-      (error) => alert(JSON.stringify(error)),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      (error) => alert(JSON.stringify(error))
     );
+  }
+
+  componentWillUnmount() {
+
   }
 
   updatePosition = (position: GeolocationReturnType) => {
@@ -115,8 +122,8 @@ class ActivityMapScreen extends React.Component<Props, State> {
           //   longitudeDelta: 0.05,
           // }}
           region={{
-            latitude: GENEVA.latitude,//position.lat,
-            longitude: GENEVA.longitude,//position.lng,
+            latitude: position.lat,
+            longitude: position.lng,
             latitudeDelta: 0.08,
             longitudeDelta: 0.08,
           }}

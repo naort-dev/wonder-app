@@ -44,16 +44,20 @@
     |-- `containers` - Specific redux-connected components that are needed in a mid-level
     |-- `screens` - The Top level redux-connected components
 
+## Contributing
+
+Please make all contributions based off the `develop` branch. The `develop` branch is where new features or implementations will be built from. After making an appropriate branch and completing your work. Please make a pull request to merge to develop from your branch, adding *Miguel* `mcabs3` as the reviewer.
 
 ## Beta Release
 We use fastlane for automated releases to hockeyapp where our Android and iOS beta apps are released.
 
 - Ruby (>= 2.3.6)
+- bundler (gem install bundler)
 - fastlane (gem install fastlane)
 
 ## Outstanding Issues
-- Past/Upcoming
-- Proposal Swiper styling
-- Match popup modal not popping up
-- Photo Upload/Video Upload
+- Proposal Swiper styling (Miguel)
+- Match popup modal not popping up (Miguel)
+- Photo Upload/Video Upload (John)
+- Chat API Implementation (John)
 - SVG not loading for wonders

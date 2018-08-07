@@ -48,6 +48,10 @@
 	<string>Use your location to find matches and activities near you</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Use your location to find activities near you</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Use your location to find activities near you</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Use your location to find activities near you</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Access your camera mic to upload for your profile</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

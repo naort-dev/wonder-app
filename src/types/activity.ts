@@ -9,4 +9,5 @@ export default interface Activity {
   longitude: number;
   distance: number;
   price_level: number;
+  image_url: string;
 }

@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Text } from '../theme';
 import Activity from '../../../types/activity';
 import PricingIndicator from '../pricing-indicator';
 import ActivityDetails from '../../../types/activity-details';
 
 interface Props {
-  activity: ActivityDetails;
+  activity: Activity;
   onPress: Function;
 }
 
@@ -15,7 +15,9 @@ class ActivityCallout extends React.Component<Props> {
     const { activity, onPress } = this.props;
     return (
       <TouchableOpacity style={styles.container} onPress={onPress}>
-        <View flex={2} />
+        <View flex={2}>
+          {activity.image_url && <Image source={{ uri: activity.image_url }} style={{ width: '100%' }} />}
+        </View>
         <View flex={3}>
           <Text style={styles.title}>{activity.name}</Text>
           <Text style={styles.address}>{activity.location.join('\n')}</Text>
