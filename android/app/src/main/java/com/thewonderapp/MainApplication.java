@@ -1,4 +1,4 @@
-package com.wonderapp;
+package com.thewonderapp;
 
 import android.app.Application;
 

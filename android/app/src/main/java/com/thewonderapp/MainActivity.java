@@ -1,4 +1,4 @@
-package com.wonderapp;
+package com.thewonderapp;
 
 import com.facebook.react.ReactActivity;
 
