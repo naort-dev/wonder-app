@@ -35,3 +35,4 @@ export { default as Feedback } from './system/feedback';
 
 // Appointment
 export { default as AppointmentView } from './appointment/appointment-view';
+export { default as AppointmentInvite } from './appointment/appointment-invite';
