@@ -13,7 +13,7 @@ const mapDispatch = (dispatch: Dispatch) => ({
 
 interface Props {
   navigation: any;
-  token?: string;
+  token?: string | null;
 }
 
 class AppLoadingScreen extends React.Component<Props> {

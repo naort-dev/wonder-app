@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     marginLeft: 20
   },
   label: {
-    marginBottom: 5
+    marginBottom: 0
   },
   inputContainer: {
     flexDirection: 'row',
@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     borderBottomColor: Color(theme.colors.textColor).lighten(0.5),
   },
   input: {
+    height: 40,
     flex: 10,
     fontFamily: theme.fonts.primary,
     color: theme.colors.black,

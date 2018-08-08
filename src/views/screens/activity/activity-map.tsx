@@ -13,12 +13,8 @@ import { NavigationScreenProp, NavigationParams } from '../../../../node_modules
 import ActivityDetailsModal from '../../components/modals/activity-details-modal';
 import ActivityDetails from '../../../types/activity-details';
 import { persistActivity } from '../../../store/reducers/chat';
-import { GeolocationReturnType, Alert } from 'react-native';
-
-const GENEVA = {
-  latitude: 41.8875,
-  longitude: -88.3054,
-};
+import { GeolocationReturnType, Alert, PermissionsAndroid, Platform } from 'react-native';
+import { persistAppointmentData, AppointmentState } from '../../../store/reducers/appointment';
 
 const mapState = (state: WonderAppState) => ({
   currentUser: state.user.profile,
@@ -29,6 +25,7 @@ const mapState = (state: WonderAppState) => ({
 const mapDispatch = (dispatch: Dispatch) => ({
   onGetActivities: (id: number) => dispatch(getPartnerActivities({ id })),
   onGetActivity: (id: string) => dispatch(getActivityDetails({ id })),
+  onUpdateAppointment: (data: AppointmentState) => dispatch(persistAppointmentData(data)),
   clearActivity: () => dispatch(persistActivity(null))
 });
 
@@ -40,6 +37,7 @@ interface Props {
   onGetActivities: Function;
   onGetActivity: Function;
   clearActivity: Function;
+  onUpdateAppointment: Function;
 }
 
 interface State {
@@ -55,27 +53,46 @@ class ActivityMapScreen extends React.Component<Props, State> {
   };
 
   componentWillMount() {
-    const { navigation, onGetActivities, clearActivity, currentUser } = this.props;
+    const { navigation, onGetActivities, clearActivity } = this.props;
     const partnerId: number = navigation.getParam('id', 0);
     onGetActivities(partnerId);
     clearActivity();
   }
 
   componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      this.updatePosition,
-      (error) => Alert.alert(error.message),
-      // { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 }
-    );
+    if (Platform.OS === 'android') {
+      PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Wonder would like your location',
+          message: 'Use your location to find activities near you'
+        }
+      ).then((granted) => {
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          navigator.geolocation.getCurrentPosition(
+            this.updatePosition,
+            (error) => Alert.alert(error.message),
+            // { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 }
+          );
 
-    navigator.geolocation.watchPosition(
-      this.updatePosition,
-      (error) => alert(JSON.stringify(error))
-    );
-  }
+          navigator.geolocation.watchPosition(
+            this.updatePosition,
+            (error) => alert(JSON.stringify(error))
+          );
+        }
+      });
+    } else {
+      navigator.geolocation.getCurrentPosition(
+        this.updatePosition,
+        (error) => Alert.alert(error.message),
+        // { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 }
+      );
 
-  componentWillUnmount() {
-
+      navigator.geolocation.watchPosition(
+        this.updatePosition,
+        (error) => alert(JSON.stringify(error))
+      );
+    }
   }
 
   updatePosition = (position: GeolocationReturnType) => {
@@ -87,6 +104,15 @@ class ActivityMapScreen extends React.Component<Props, State> {
     });
   }
 
+  onInviteMatch = () => {
+    const { details, navigation, clearActivity, onUpdateAppointment } = this.props;
+    const partnerId: number = navigation.getParam('id', 0);
+    clearActivity();
+
+    onUpdateAppointment({ activity: details, matchId: partnerId });
+    navigation.navigate('AppointmentInvite');
+  }
+
   renderMarker = (activity: Activity) => {
     const { onGetActivity } = this.props;
     const { name, latitude, longitude, location, topic, id } = activity;
@@ -94,12 +120,16 @@ class ActivityMapScreen extends React.Component<Props, State> {
       <MarkerContainer
         key={`${name} - ${latitude},${longitude}`}
         coordinate={{ latitude, longitude }}
+      // onPress={() => onGetActivity(id)}
       >
-        <Marker title={topic.name} />
-        <Callout>
+        <Marker
+          title={topic.name}
+        />
+        <Callout
+          onPress={() => onGetActivity(id)}
+        >
           <ActivityCallout
             activity={activity}
-            onPress={() => onGetActivity(id)}
           />
         </Callout>
       </MarkerContainer>
@@ -112,6 +142,10 @@ class ActivityMapScreen extends React.Component<Props, State> {
     return (
       <Screen>
         <MapView
+          showsUserLocation
+          followsUserLocation
+          showsMyLocationButton
+          rotateEnabled={false}
           // provider={PROVIDER_GOOGLE}
           // customMapStyle={MapTheme}
           style={{ flex: 1 }}
@@ -134,7 +168,7 @@ class ActivityMapScreen extends React.Component<Props, State> {
           onRequestClose={() => clearActivity()}
           details={details}
           onCancel={clearActivity}
-          onConfirm={() => clearActivity()}
+          onConfirm={this.onInviteMatch}
         />
       </Screen>
     );

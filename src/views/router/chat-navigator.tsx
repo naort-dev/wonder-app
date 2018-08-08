@@ -2,7 +2,8 @@ import { createStackNavigator } from "react-navigation";
 import {
   ChatList,
   ChatScreen,
-  ActivityMap
+  ActivityMap,
+  AppointmentInvite
 } from '../screens';
 import theme from "../../assets/styles/theme";
 
@@ -24,6 +25,12 @@ const ChatNavigator = createStackNavigator({
     navigationOptions: {
       // header: null
       title: 'FIND A WONDER',
+      ...theme.NavBar.transparent
+    }
+  },
+  AppointmentInvite: {
+    screen: AppointmentInvite,
+    navigationOptions: {
       ...theme.NavBar.transparent
     }
   }

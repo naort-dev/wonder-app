@@ -1,13 +1,14 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, WebView } from 'react-native';
 import { Text } from '../theme';
 import Activity from '../../../types/activity';
 import PricingIndicator from '../pricing-indicator';
 import ActivityDetails from '../../../types/activity-details';
+import TouchableOpacityOnPress from '../../../types/touchable-on-press';
 
 interface Props {
   activity: Activity;
-  onPress: Function;
+  // onPress: TouchableOpacityOnPress;
 }
 
 class ActivityCallout extends React.Component<Props> {
@@ -22,9 +23,9 @@ class ActivityCallout extends React.Component<Props> {
     }
   }
   render() {
-    const { activity, onPress } = this.props;
+    const { activity } = this.props;
     return (
-      <TouchableOpacity style={styles.container} onPress={onPress}>
+      <View style={styles.container}>
         {this.renderImage()}
         <View flex={3} style={styles.body}>
           <Text style={styles.title}>{activity.name}</Text>
@@ -33,7 +34,7 @@ class ActivityCallout extends React.Component<Props> {
           {/* <Text style={styles.address}>{activity.distance.toFixed(2)}</Text> */}
           <PricingIndicator rating={activity.price_level} />
         </View>
-      </TouchableOpacity>
+      </View>
     );
   }
 }
@@ -42,6 +43,7 @@ export default ActivityCallout;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     width: 250,
     maxHeight: 100,
     flexDirection: 'row'

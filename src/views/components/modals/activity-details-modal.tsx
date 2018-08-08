@@ -18,7 +18,7 @@ class ActivityDetailsModal extends React.Component<ActivityDetailsModalProps> {
     if (images && images.length && images[0]) {
       return (
         <View>
-          <Image source={{ uri: images[0] }} style={{ width: '100%', height: 150 }} />
+          <Image source={{ uri: images[0] }} style={styles.headerImage} />
         </View>
       );
     }
@@ -86,7 +86,7 @@ export default ActivityDetailsModal;
 const styles = StyleSheet.create({
   modal: {
     flex: 1,
-    justifyContent: 'flex-end'
+    justifyContent: 'center'
   },
   container: {
     borderRadius: 10,
@@ -101,6 +101,12 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.4,
     elevation: 5
+  },
+  headerImage: {
+    width: '100%',
+    height: 150,
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10
   },
   body: {
     padding: 10
