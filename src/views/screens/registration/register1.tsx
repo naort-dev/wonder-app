@@ -1,14 +1,24 @@
 import React from "react";
-import { View, StyleSheet, Image, KeyboardAvoidingView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView
+} from "react-native";
 import { RoundedTextInput, PrimaryButton } from "../../components/theme";
 import Screen from "../../components/screen";
 import { Logo } from "../../../assets/images";
 import { NavigationScreenProp, NavigationParams } from "react-navigation";
 import validator from "validator";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import WonderAppState from "../../../types/wonder-app-state";
-import { persistRegistrationInfo, resetRegistration } from "../../../store/reducers/registration";
+import {
+  persistRegistrationInfo,
+  resetRegistration
+} from "../../../store/reducers/registration";
 import { KeyboardDismissView } from "../../components/keyboard-dismiss-view";
 
 interface Props {
@@ -34,9 +44,7 @@ interface StateErrors {
   password?: string;
 }
 
-const mapState = (state: WonderAppState) => ({
-
-});
+const mapState = (state: WonderAppState) => ({});
 
 const mapDispatch = (dispatch: Dispatch) => ({
   onSave: (data: State) => dispatch(persistRegistrationInfo(data)),
@@ -69,29 +77,39 @@ class Register1 extends React.Component<Props, State> {
     if (this.inputs[key]) {
       this.inputs[key].focus();
     }
-  }
+  };
 
   render() {
     const { errors } = this.state;
     return (
       <Screen>
-        <KeyboardAvoidingView
-          behavior="position"
-          contentContainerStyle={{ flex: 1 }}
-          // style={styles.body}
-          style={{ flex: 1, justifyContent: 'space-between' }}
-        >
-          <KeyboardDismissView style={{ flex: 1 }}>
+        <ScrollView>
+          <KeyboardAvoidingView
+            keyboardVerticalOffset={Platform.select({ android: -40, ios: 0 })}
+            behavior="position"
+            contentContainerStyle={{ flex: 1 }}
+            // style={styles.body}
+            style={{ flex: 1 }}
+          >
+            {/* <KeyboardDismissView style={{ flex: 1 }}> */}
             <View style={styles.header}>
-              <Image style={{ width: "80%" }} source={Logo.DARK} resizeMode="contain" />
+              <Image
+                style={{ width: "80%", maxHeight: 100 }}
+                source={Logo.DARK}
+                resizeMode="contain"
+              />
             </View>
             <View style={styles.body}>
               <View style={{ width: "100%" }}>
                 <RoundedTextInput
-                  getRef={(input) => { this.inputs.first_name = input; }}
-                  onSubmitEditing={this.focusNext('last_name')}
+                  getRef={input => {
+                    this.inputs.first_name = input;
+                  }}
+                  onSubmitEditing={this.focusNext("last_name")}
                   returnKeyType="next"
-                  onValidate={(text: string) => text && !validator.isEmpty(text)}
+                  onValidate={(text: string) =>
+                    text && !validator.isEmpty(text)
+                  }
                   autoCorrect={false}
                   autoCapitalize="words"
                   errorHint={errors.first_name}
@@ -104,10 +122,14 @@ class Register1 extends React.Component<Props, State> {
               </View>
               <View style={{ marginTop: 10, width: "100%" }}>
                 <RoundedTextInput
-                  getRef={(input) => { this.inputs.last_name = input; }}
-                  onSubmitEditing={this.focusNext('email')}
+                  getRef={input => {
+                    this.inputs.last_name = input;
+                  }}
+                  onSubmitEditing={this.focusNext("email")}
                   returnKeyType="next"
-                  onValidate={(text: string) => text && !validator.isEmpty(text)}
+                  onValidate={(text: string) =>
+                    text && !validator.isEmpty(text)
+                  }
                   autoCorrect={false}
                   autoCapitalize="words"
                   errorHint={errors.last_name}
@@ -120,8 +142,10 @@ class Register1 extends React.Component<Props, State> {
               </View>
               <View style={{ marginTop: 10, width: "100%" }}>
                 <RoundedTextInput
-                  getRef={(input) => { this.inputs.email = input; }}
-                  onSubmitEditing={this.focusNext('phone')}
+                  getRef={input => {
+                    this.inputs.email = input;
+                  }}
+                  onSubmitEditing={this.focusNext("phone")}
                   returnKeyType="next"
                   onValidate={(text: string) => text && validator.isEmail(text)}
                   autoCapitalize="none"
@@ -136,10 +160,14 @@ class Register1 extends React.Component<Props, State> {
               </View>
               <View style={{ marginTop: 10, width: "100%" }}>
                 <RoundedTextInput
-                  getRef={(input) => { this.inputs.phone = input; }}
-                  onSubmitEditing={this.focusNext('password')}
+                  getRef={input => {
+                    this.inputs.phone = input;
+                  }}
+                  onSubmitEditing={this.focusNext("password")}
                   returnKeyType="next"
-                  onValidate={(text: string) => text && validator.isMobilePhone(text, "en-US")}
+                  onValidate={(text: string) =>
+                    text && validator.isMobilePhone(text, "en-US")
+                  }
                   keyboardType="phone-pad"
                   autoCapitalize="none"
                   autoCorrect={false}
@@ -164,16 +192,20 @@ class Register1 extends React.Component<Props, State> {
                   fullWidth
                 />
               </View>
+              <View
+                style={{
+                  paddingVertical: 10,
+                  width: "50%",
+                  alignSelf: "center"
+                }}
+              >
+                <PrimaryButton title="Next" onPress={this.validate} />
+              </View>
             </View>
-          </KeyboardDismissView>
-          <View style={{ paddingVertical: 10, width: "50%", alignSelf: 'center' }}>
-            <PrimaryButton
-              title="Next"
-              onPress={this.validate}
-            />
-          </View>
-        </KeyboardAvoidingView>
-      </Screen >
+            {/* </KeyboardDismissView> */}
+          </KeyboardAvoidingView>
+        </ScrollView>
+      </Screen>
     );
   }
 
@@ -210,7 +242,7 @@ class Register1 extends React.Component<Props, State> {
     }
     onSave({ first_name, last_name, email, phone, password });
     navigation.navigate("Register2");
-  }
+  };
 
   private onChangeText = (key: string) => {
     const { errors } = this.state;
@@ -222,11 +254,14 @@ class Register1 extends React.Component<Props, State> {
           [key]: undefined
         }
       });
-    }
-  }
+    };
+  };
 }
 
-export default connect(mapState, mapDispatch)(Register1);
+export default connect(
+  mapState,
+  mapDispatch
+)(Register1);
 
 const styles = StyleSheet.create({
   body: {
@@ -236,8 +271,8 @@ const styles = StyleSheet.create({
     padding: 20
   },
   header: {
-    alignItems: "center",
-    justifyContent: "center"
-  },
-
+    maxHeight: 125,
+    flex: 0,
+    alignItems: "center"
+  }
 });
