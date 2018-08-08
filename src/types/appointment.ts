@@ -27,3 +27,16 @@ export interface DecoratedAppointment extends Appointment {
   me: AppoinmentUser;
   match: AppoinmentUser;
 }
+
+// POST body for the Create Appointment
+export interface AppointmentPayload {
+  invited_user_id?: number | null;
+  appointment?: {
+    name?: string | null;
+    location?: string | null;
+    latitude?: number | null;
+    longitude?: number | null;
+    event_at?: string | null;
+    topic_id?: number | null;
+  };
+}

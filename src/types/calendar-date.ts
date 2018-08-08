@@ -5,3 +5,5 @@ export default interface CalendarDate {
   timestamp: number;   // UTC timestamp representing 00:00 AM of this date
   dateString: string; // '2016-05-13' // date formatted as 'YYYY-MM-DD' string
 }
+
+export const DATE_STRING_FORMAT = 'YYYY-MM-DD';
