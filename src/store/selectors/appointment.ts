@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector, OutputSelector } from 'reselect';
 import WonderAppState from '../../types/wonder-app-state';
 import Appointment, { DecoratedAppointment } from '../../types/appointment';
 import { selectCurrentUser } from './user';
@@ -21,14 +21,15 @@ const decorateAppointment = (appointment: Appointment, me: User): DecoratedAppoi
   return undefined;
 };
 
-export const selectUpcomingAppointments = createSelector(
-  [selectCurrentUser, allAppointments],
-  (currentUser, appointments) => {
-    return appointments
-      .map((a: Appointment) => decorateAppointment(a, currentUser))
-      .filter(isAppointmentAfterToday);
-  }
-);
+export const selectUpcomingAppointments:
+  OutputSelector<WonderAppState, Array<DecoratedAppointment | undefined>, Function> = createSelector(
+    [selectCurrentUser, allAppointments],
+    (currentUser, appointments) => {
+      return appointments
+        .map((a: Appointment) => decorateAppointment(a, currentUser))
+        .filter(isAppointmentAfterToday);
+    }
+  );
 
 export const selectPastAppointments = createSelector(
   [selectCurrentUser, allAppointments],
