@@ -37,7 +37,7 @@ interface Props {
   onGetActivities: Function;
   onGetActivity: Function;
   clearActivity: Function;
-  onUpdateAppointment: Function;
+  onUpdateAppointment: (data: AppointmentState) => any;
 }
 
 interface State {
@@ -106,15 +106,14 @@ class ActivityMapScreen extends React.Component<Props, State> {
 
   onInviteMatch = () => {
     const { details, navigation, clearActivity, onUpdateAppointment } = this.props;
-    const partnerId: number = navigation.getParam('id', 0);
     clearActivity();
 
-    onUpdateAppointment({ activity: details, matchId: partnerId });
+    onUpdateAppointment({ activity: details });
     navigation.navigate('AppointmentInvite');
   }
 
   renderMarker = (activity: Activity) => {
-    const { onGetActivity } = this.props;
+    const { onGetActivity, onUpdateAppointment } = this.props;
     const { name, latitude, longitude, location, topic, id } = activity;
     return (
       <MarkerContainer
@@ -126,7 +125,10 @@ class ActivityMapScreen extends React.Component<Props, State> {
           title={topic.name}
         />
         <Callout
-          onPress={() => onGetActivity(id)}
+          onPress={() => {
+            onGetActivity(id);
+            onUpdateAppointment({ topic: activity.topic });
+          }}
         >
           <ActivityCallout
             activity={activity}

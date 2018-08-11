@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Screen from "../../components/screen";
-import { Text, Strong } from "../../components/theme";
+import { Text, Strong, PrimaryButton } from "../../components/theme";
 import { Dispatch } from "redux";
 import { Calendar } from "react-native-calendars";
 import moment from "moment-timezone";
@@ -13,6 +13,8 @@ import {
   AppointmentState,
   persistAppointmentData
 } from "../../../store/reducers/appointment";
+import TimePicker from "../../components/theme/pickers/time-picker";
+import { NavigationScreenProp, NavigationParams } from "react-navigation";
 
 const mapState = (state: WonderAppState) => ({
   appointment: state.appointment
@@ -24,11 +26,14 @@ const mapDispatch = (dispatch: Dispatch) => ({
 });
 
 interface AppointmentInviteProps {
+  navigation: NavigationScreenProp<any, NavigationParams>;
   appointment: AppointmentState;
+  onUpdateAppointment: (data: AppointmentState) => any;
 }
 
 interface State {
   selected: CalendarDate;
+  selectedTime: Date;
 }
 
 // markedDates={{
@@ -57,15 +62,19 @@ class AppointmentInviteScreen extends React.Component<
   }
 
   state: State = {
-    selected: this.init()
+    selected: this.init(),
+    selectedTime: moment().add(15, 'minutes').toDate()
   };
 
   today = () => moment().startOf("day");
 
   onDateChange = (date: any) => {
     const selected: CalendarDate = date as CalendarDate;
-    // alert(JSON.stringify(selected));
     this.setState({ selected });
+  }
+
+  onTimeChange = (selectedTime: Date) => {
+    this.setState({ selectedTime });
   }
 
   getMarkedDates = () => ({
@@ -75,17 +84,34 @@ class AppointmentInviteScreen extends React.Component<
     }
   })
 
+  onComplete = () => {
+    const { onUpdateAppointment, navigation } = this.props;
+    const result = this.getCombinedMoment();
+    // const dateTime = result.format('YYYY-MM-DD[T]HH:mm:ssZ');
+
+    onUpdateAppointment({ eventAt: result.toDate() });
+    navigation.navigate('AppointmentConfirm');
+  }
+
   renderTitle = () => {
     const { activity } = this.props.appointment;
     if (activity) {
       return (
         <View style={styles.header}>
-          <Text style={{ textAlign: 'center' }}>
-            Please select a date for your trip to <Strong>{activity.name}</Strong>
-          </Text>
+          <Strong style={{ textAlign: 'center' }}>{activity.name}</Strong>
         </View>
       );
     }
+  }
+
+  getCombinedMoment = () => {
+    const { selected, selectedTime } = this.state;
+    const timeMoment = moment(selectedTime);
+    const dateMoment = moment(selected.dateString, DATE_STRING_FORMAT);
+
+    dateMoment.hour(timeMoment.hour()).minutes(timeMoment.minutes()).seconds(0);
+    return dateMoment;
+
   }
 
   render() {
@@ -100,9 +126,6 @@ class AppointmentInviteScreen extends React.Component<
             .add(1, "month")
             .format(DATE_STRING_FORMAT)}
           onDayPress={this.onDateChange}
-          onDayLongPress={day => {
-            console.log("selected day", day);
-          }}
           monthFormat="MMMM '('yyyy')'" // http://arshaw.com/xdate/#Formatting
           // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
           firstDay={1}
@@ -116,6 +139,17 @@ class AppointmentInviteScreen extends React.Component<
           // onPressArrowRight={addMonth => addMonth()}
           markedDates={this.getMarkedDates()}
         />
+        <View flex={1} style={{ paddingHorizontal: 20 }}>
+          <TimePicker
+            label="Select a time"
+            minDate={moment().add(15, 'minutes').toDate()}
+            initialDate={moment().add(15, 'minutes').toDate()}
+            onChange={this.onTimeChange}
+          />
+        </View>
+        <View flex={1} style={{ justifyContent: 'flex-end', margin: 10 }}>
+          <PrimaryButton title={this.getCombinedMoment().format('MMMM Do [@] h:mma')} onPress={this.onComplete} />
+        </View>
       </Screen>
     );
   }
@@ -128,6 +162,6 @@ export default connect(
 
 const styles = StyleSheet.create({
   header: {
-    padding: 20
+    padding: 10
   }
 });

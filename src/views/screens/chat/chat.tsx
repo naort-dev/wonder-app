@@ -11,13 +11,14 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import WonderAppState from '../../../types/wonder-app-state';
 import User from '../../../types/user';
+import { persistAppointmentData, AppointmentState } from '../../../store/reducers/appointment';
 
 interface Props {
   navigation: NavigationScreenProp<any, NavigationParams>;
   currentUser: User;
   messages: ChatMessage[];
   onSendMessage: Function;
-  onScheduleWonder: Function;
+  onUpdateAppointment: Function;
 }
 
 interface State {
@@ -30,6 +31,8 @@ const mapState = (state: WonderAppState) => ({
 
 const mapDispatch = (dispatch: Dispatch) => ({
   onSendMessage: (message: string) => { },
+  onUpdateAppointment: (data: AppointmentState) =>
+    dispatch(persistAppointmentData(data)),
   onScheduleWonder: (match: Partial<User>) => { }
 });
 
@@ -119,8 +122,10 @@ class ChatScreen extends React.Component<Props, State> {
   }
 
   scheduleWonder = () => {
-    const { onScheduleWonder, navigation } = this.props;
-    navigation.navigate('WonderMap', { id: this.getChat().partner.id });
+    const { onUpdateAppointment, navigation } = this.props;
+    const partner = this.getChat().partner;
+    onUpdateAppointment({ match: partner });
+    navigation.navigate('WonderMap', { id: partner.id });
   }
 
   renderBubble(props: any) {

@@ -89,10 +89,8 @@ class FoundMatchModal extends React.Component<FoundMatchModalProps> {
     return null;
   }
   render() {
-    const { visible } = this.props;
     return (
       <Modal
-        visible={visible}
         animationType="fade"
         transparent
         {...this.props}

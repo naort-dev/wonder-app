@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Alert } from 'react-native';
+import { View } from 'react-native';
 import Screen from '../../components/screen';
 import ProposalSwiper from '../../components/proposal-swiper/proposal-swiper';
 import Proposal from '../../../types/proposal';
@@ -100,7 +100,7 @@ class ProposalViewScreen extends React.Component<Props, State> {
           currentUser={currentUser}
           onSuccess={this.goToChat}
           onRequestClose={this.clearCurrentMatch}
-          visible={!!(currentMatch && currentMatch.has_match)}
+          visible={Object.keys(currentMatch).length > 0}
           proposal={currentMatch}
         />
       </Screen>

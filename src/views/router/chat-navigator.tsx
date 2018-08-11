@@ -3,7 +3,8 @@ import {
   ChatList,
   ChatScreen,
   ActivityMap,
-  AppointmentInvite
+  AppointmentInvite,
+  AppointmentConfirm
 } from '../screens';
 import theme from "../../assets/styles/theme";
 
@@ -31,6 +32,13 @@ const ChatNavigator = createStackNavigator({
   AppointmentInvite: {
     screen: AppointmentInvite,
     navigationOptions: {
+      ...theme.NavBar.transparent
+    }
+  },
+  AppointmentConfirm: {
+    screen: AppointmentConfirm,
+    navigationOptions: {
+      title: 'Confirm Your Wonder',
       ...theme.NavBar.transparent
     }
   }

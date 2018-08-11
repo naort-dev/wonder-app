@@ -1,3 +1,5 @@
+
+
 export { default as AppLoading } from './app-loading';
 export { default as Onboarding } from './onboarding';
 export { default as Welcome } from './welcome';
@@ -36,3 +38,4 @@ export { default as Feedback } from './system/feedback';
 // Appointment
 export { default as AppointmentView } from './appointment/appointment-view';
 export { default as AppointmentInvite } from './appointment/appointment-invite';
+export { default as AppointmentConfirm } from './appointment/appointment-confirm';
