@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { createSelector, OutputSelector } from 'reselect';
 import WonderAppState from '../../types/wonder-app-state';
 import Appointment, { DecoratedAppointment } from '../../types/appointment';
@@ -25,9 +26,10 @@ export const selectUpcomingAppointments:
   OutputSelector<WonderAppState, Array<DecoratedAppointment | undefined>, Function> = createSelector(
     [selectCurrentUser, allAppointments],
     (currentUser, appointments) => {
-      return appointments
+      return _.sortBy(appointments, 'event_at')
         .map((a: Appointment) => decorateAppointment(a, currentUser))
         .filter(isAppointmentAfterToday);
+
     }
   );
 
