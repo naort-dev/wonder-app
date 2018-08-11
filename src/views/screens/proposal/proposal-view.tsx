@@ -73,7 +73,8 @@ class ProposalViewScreen extends React.Component<Props, State> {
 
   goToChat = (proposal: Proposal) => {
     const { navigation } = this.props;
-
+    this.props.onClearCurrentMatch();
+    navigation.navigate('ChatList');
   }
 
   render() {

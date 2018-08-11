@@ -19,12 +19,6 @@ import RegistrationNavigator from './registration-navigator';
 import theme from '../../assets/styles/theme';
 import ChatNavigator from './chat-navigator';
 
-// Manages Onboarding and Registration
-const OnboardingNavigator = createStackNavigator({
-  Onboarding: { screen: Onboarding },
-  Register: { screen: RegistrationNavigator }
-}, { headerMode: 'none' });
-
 // Manages the Matches and Scheduling flow
 const HomeNavigator = createStackNavigator({
   Activity: {
@@ -78,12 +72,20 @@ const AuthenticatedNavigator = createMaterialTopTabNavigator({
     initialRouteName: 'User'
   });
 
+
+// Manages Onboarding and Registration
+const OnboardingNavigator = createStackNavigator({
+  Onboarding: { screen: Onboarding },
+  Register: { screen: RegistrationNavigator },
+  Main: { screen: AuthenticatedNavigator }
+}, { headerMode: 'none' });
+
+
 const MainNavigator = createSwitchNavigator({
   AppLoading: {
     screen: AppLoading
   },
   onboarding: OnboardingNavigator,
-  Main: AuthenticatedNavigator
 }, {
     initialRouteName: 'AppLoading',
   });

@@ -60,7 +60,7 @@ export function* loginUserSaga(action: Action<UserCredentials>) {
 
       yield put(persistAuth(response.data));
       yield put(resetRegistration());
-      setTimeout(() => NavigatorService.navigate('Main'), 1500);
+      NavigatorService.reset('Main', null);
     }
   } catch (error) {
     if (error.response) {
@@ -82,7 +82,7 @@ export const logoutUser = createAction(LOGOUT_USER);
 export function* logoutUserSaga() {
   yield put(persistAuth({}));
   yield put(persistUser({}));
-  NavigatorService.navigate('onboarding');
+  NavigatorService.reset('Onboarding', null);
 }
 
 export function* watchLogoutUser() {

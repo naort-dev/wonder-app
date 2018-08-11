@@ -67,14 +67,13 @@ export function* createAppointmentSaga(action: Action<any>) {
     }, state.user);
 
     yield put(resetAppointment());
-    // yield put(persistUser(data));
-    // yield put(resetRegistration());
-    NavigatorService.navigate('Home');
+    yield put(getAppointments());
+    NavigatorService.popToTop();
   } catch (error) {
     if (error.response) {
       Alert.alert('ERROR', JSON.stringify(error.response.data));
     } else {
-      console.warn(error);
+      console.warn(error.message);
     }
   } finally {
     // yield put(getUser());

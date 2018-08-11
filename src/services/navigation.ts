@@ -1,20 +1,26 @@
-import { NavigationActions, NavigationParams, NavigationRoute } from 'react-navigation';
+import { NavigationActions, StackActions, NavigationParams, NavigationRoute } from 'react-navigation';
 
 let navigatorRef: any;
 
-function setContainer(container: Object) {
+function setContainer(container: any) {
   navigatorRef = container;
 }
 
-function reset(routeName: string, params?: NavigationParams) {
+function goBack(routeName?: string) {
+  navigatorRef.goBack(routeName);
+}
+
+function popToTop() {
+  navigatorRef.dispatch(StackActions.popToTop({}));
+}
+
+function reset(routeName: string, keyValue?: string | null) {
   navigatorRef.dispatch(
-    NavigationActions.reset({
+    StackActions.reset({
+      key: keyValue,
       index: 0,
       actions: [
-        NavigationActions.navigate({
-          routeName,
-          params,
-        }),
+        NavigationActions.navigate({ routeName }),
       ],
     }),
   );
@@ -52,9 +58,11 @@ function getCurrentRoute(): NavigationRoute | null {
 }
 
 export default {
+  goBack,
   setContainer,
   navigateDeep,
   navigate,
   reset,
   getCurrentRoute,
+  popToTop
 };

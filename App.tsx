@@ -32,11 +32,6 @@ const isIphoneX = () => {
 };
 
 export default class App extends Component {
-  navigatorRef: any;
-
-  componentDidMount() {
-    navigatorRef = this.navigatorRef;
-  }
 
   renderContent = () => {
     if (isIphoneX()) {
