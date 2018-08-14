@@ -15,8 +15,8 @@ Reactotron
 //   Reactotron.connect({enabled: __DEV__})
 // }, 5000);
 
-// console.tron = Reactotron;
-//console log
+console.tron = Reactotron;
+// console log
 const oldeConsoleLog = console.log
 console.log  = (...args) => {
   oldeConsoleLog(...args)

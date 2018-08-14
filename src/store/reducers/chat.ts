@@ -1,5 +1,3 @@
-import { initialState } from './chat';
-import { initialState } from './config';
 
 import { handleActions, createAction, Action } from 'redux-actions';
 import Conversation from '../../types/conversation';
@@ -15,7 +13,6 @@ export interface ChatState {
 }
 
 export const initialState: ChatState = {
-  conversations: [],
   conversation: null,
   activities: [],
   activity: null

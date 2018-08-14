@@ -45,8 +45,7 @@ class ChatScreen extends React.Component<Props, State> {
   static navigationOptions = ({ navigation }: { navigation: NavigationScreenProp<any, NavigationParams> }) => ({
     title: (navigation.getParam('chat') as Chat).partner ? (navigation.getParam('chat') as Chat).partner.first_name : 'Chat',
   })
-  componentWillReceiveProps(nextProps: any) {
-    console.log("test",nextProps);
+  componentWillReceiveProps(nextProps: Props) {
     const arrSelected  = nextProps.conversation.messages.map((item: ChatResponseMessage) => {
       let o: ChatMessage = {
         _id: item.id,
@@ -75,77 +74,6 @@ class ChatScreen extends React.Component<Props, State> {
     this.setState({
       messages: []
     });
-    // this.setState({
-    //   messages: [
-    //     {
-    //       _id: 7,
-    //       text: `Chat started with ${this.getChat().partner.first_name}`,
-    //       createdAt: new Date(Date.UTC(2016, 5, 11, 17, 20, 0)),
-    //       system: true,
-    //       // Any additional custom parameters are passed through
-    //     },
-    //     {
-    //       _id: 6,
-    //       text: '1',
-    //       createdAt: new Date(),
-    //       user: {
-    //         _id: 1,
-    //         name: this.getChat().partner.first_name || 'User',
-    //         avatar: 'https://placeimg.com/140/140/any',
-    //       },
-    //     },
-    //     {
-    //       _id: 5,
-    //       text: '2',
-    //       createdAt: new Date(),
-    //       user: {
-    //         _id: currentUser.id,
-    //         name: currentUser.first_name,
-    //         avatar: 'https://placeimg.com/140/140/any',
-    //       },
-    //     },
-    //     {
-    //       _id: 4,
-    //       text: '3',
-    //       createdAt: new Date(),
-    //       user: {
-    //         _id: 1,
-    //         name: this.getChat().partner.first_name || 'User',
-    //         avatar: 'https://placeimg.com/140/140/any',
-    //       },
-    //     },
-    //     {
-    //       _id: 3,
-    //       text: '4',
-    //       createdAt: new Date(),
-    //       user: {
-    //         _id: currentUser.id,
-    //         name: currentUser.first_name,
-    //         avatar: 'https://placeimg.com/140/140/any',
-    //       },
-    //     },
-    //     {
-    //       _id: 2,
-    //       text: '5',
-    //       createdAt: new Date(),
-    //       user: {
-    //         _id: 1,
-    //         name: this.getChat().partner.first_name || 'User',
-    //         avatar: 'https://placeimg.com/140/140/any',
-    //       },
-    //     },
-    //     {
-    //       _id: 1,
-    //       text: '6',
-    //       createdAt: new Date(),
-    //       user: {
-    //         _id: currentUser.id,
-    //         name: currentUser.first_name,
-    //         avatar: 'https://placeimg.com/140/140/any',
-    //       },
-    //     }
-    //   ],
-    // });
   }
 
   scheduleWonder = () => {
@@ -193,7 +121,7 @@ class ChatScreen extends React.Component<Props, State> {
           renderBubble={this.renderBubble}
           messages={messages}
           renderFooter={this.renderFooter}
-          onSend={messages => this.onSend(messages)}
+          onSend={messages => this.onSend}
         />
       </Screen>
     );
