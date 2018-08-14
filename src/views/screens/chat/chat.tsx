@@ -121,7 +121,7 @@ class ChatScreen extends React.Component<Props, State> {
           renderBubble={this.renderBubble}
           messages={messages}
           renderFooter={this.renderFooter}
-          onSend={messages => this.onSend}
+          onSend={this.onSend}
         />
       </Screen>
     );
